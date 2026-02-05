@@ -219,7 +219,7 @@ export default function Features() {
                         <span className="not-italic text-white/90">Businesses Deliver Better</span>
                     </h2>
                     <p className="text-gray-400 max-w-xl text-sm md:text-base font-medium">
-                        Whether it's hyperlocal express delivery or intercity fleet operations, QWQER provides the right solution to keep your business moving.
+                        Whether it&apos;s hyperlocal express delivery or intercity fleet operations, QWQER provides the right solution to keep your business moving.
                     </p>
                 </div>
 
