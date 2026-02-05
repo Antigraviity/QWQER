@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import ScrollProgress from "@/components/ScrollProgress";
 import Hero from "@/components/Hero";
-import Services from "@/components/Services";
+import CustomSplitServices from "@/components/CustomSplitServices";
 import WhyQwqer from "@/components/WhyQwqer";
 import Features from "@/components/Features";
 import Trusted from "@/components/Trusted";
@@ -16,7 +16,7 @@ export default function Home() {
       <ScrollProgress />
       <Navbar />
       <Hero />
-      <Services />
+      <CustomSplitServices />
       <WhyQwqer />
       <Features />
       <Trusted />

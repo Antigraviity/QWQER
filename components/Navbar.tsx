@@ -34,9 +34,9 @@ export default function Navbar() {
             width: "75%",
             y: 20, // Use transform instead of marginTop for better performance
             borderRadius: "9999px",
-            backgroundColor: "rgba(0,0,0,0.6)",
-            border: "1px solid rgba(255,255,255,0.1)",
-            boxShadow: "0 10px 40px -10px rgba(0,0,0,0.5)",
+            backgroundColor: "rgba(5,5,5,0.8)", // Darker & more opaque for better contrast
+            border: "1px solid rgba(255,255,255,0.15)", // Slightly crisper border
+            boxShadow: "0 0 20px rgba(255, 255, 255, 0.03), 0 10px 40px -10px rgba(0,0,0,0.8)", // Added subtle outer glow + deep shadow
             ease: "none" // Linear ease for direct control
         }, 0);
 
@@ -59,7 +59,7 @@ export default function Navbar() {
 
                 // If scrolling down AND past hero section
                 if (self.direction === 1 && currentScrollY > heroHeight) {
-                    gsap.to(wrapperRef.current, { yPercent: -100, duration: 0.3, ease: "power3.out", overwrite: true });
+                    gsap.to(wrapperRef.current, { yPercent: -150, duration: 0.3, ease: "power3.out", overwrite: true });
                 }
                 // If scrolling up OR (scrolling down but within hero section)
                 else if (self.direction === -1 || currentScrollY <= heroHeight) {

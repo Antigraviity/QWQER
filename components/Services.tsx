@@ -7,6 +7,7 @@ import { FaMotorcycle, FaTruck } from "react-icons/fa6";
 export default function Services() {
     const sectionRef = useRef<HTMLDivElement>(null);
     const cardsRef = useRef<HTMLDivElement>(null);
+    const truckRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
@@ -23,16 +24,44 @@ export default function Services() {
             }
         });
 
+        // Truck animation along the bottom path
+        if (truckRef.current && sectionRef.current) {
+            // Set initial state explicitly with full opacity
+            gsap.set(truckRef.current, { left: "0%", opacity: 1 });
+
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "bottom 80%", // Start when section bottom reaches 80% of viewport
+                    end: "bottom 20%",   // End when section bottom reaches 20% of viewport
+                    scrub: 1,
+                    id: "services-truck-animation",
+                }
+            });
+
+            // Animate truck from left to right
+            tl.to(truckRef.current, {
+                left: "100%",
+                ease: "none",
+            });
+
+            // Refresh ScrollTrigger to account for any layout changes
+            ScrollTrigger.refresh()
+        }
+
+        // Cleanup on unmount
+        return () => {
+            ScrollTrigger.getAll().forEach(trigger => {
+                if (trigger.vars.id === "services-truck-animation") {
+                    trigger.kill();
+                }
+            });
+        };
+
     }, []);
 
     return (
         <section ref={sectionRef} className="py-10 pb-32 bg-black relative">
-            {/* Vertical Path Line (Simulated for this section) */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1 h-32 bg-[#ee3425]"></div>
-
-            {/* Line splits into two (Visual only using borders/pseudo elements or SVG path) */}
-            <div className="absolute top-32 left-1/2 transform -translate-x-1/2 w-[80%] h-20 border-t-4 border-l-4 border-r-4 border-[#ee3425]/20 rounded-t-[3rem] hidden md:block"></div>
-
             <div className="max-w-6xl mx-auto px-6 relative z-10 pt-20">
                 <div ref={cardsRef} className="grid md:grid-cols-2 gap-8 md:gap-20">
                     {/* Express Card */}
@@ -81,8 +110,47 @@ export default function Services() {
                 </div>
             </div>
 
-            {/* Lines converge back */}
+            {/* Lines converge back with animated truck */}
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-20 bg-gradient-to-t from-[#ee3425] to-transparent"></div>
+
+            {/* Animated truck container with horizontal dashed line */}
+            <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 w-[60%] hidden md:block">
+                {/* Animated horizontal dashed line using SVG */}
+                <svg className="absolute top-0 left-0 w-full h-[4px]" preserveAspectRatio="none" viewBox="0 0 1000 4">
+                    <path
+                        d="M0,2 L1000,2"
+                        fill="none"
+                        stroke="#ee3425"
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                        strokeDasharray="14 10"
+                        className="opacity-100 drop-shadow-[0_0_10px_rgba(238,52,37,0.8)] animate-dash"
+                    />
+                </svg>
+
+                {/* Animated truck */}
+                <div
+                    ref={truckRef}
+                    className="absolute -top-6 left-0 transform -translate-x-1/2 text-[#ee3425] text-3xl opacity-100"
+                    style={{
+                        filter: "drop-shadow(0 0 10px rgba(238, 52, 37, 0.8))"
+                    }}
+                >
+                    <FaTruck />
+                </div>
+            </div>
+
+            {/* CSS animation for dashed line */}
+            <style jsx>{`
+                @keyframes dash {
+                    to {
+                        stroke-dashoffset: -1200;
+                    }
+                }
+                .animate-dash {
+                    animation: dash 10s linear infinite;
+                }
+            `}</style>
         </section>
     );
 }

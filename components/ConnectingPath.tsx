@@ -12,11 +12,9 @@ export default function ConnectingPath() {
 
         // Animate the path drawing
         if (pathRef.current && svgRef.current) {
-            const length = pathRef.current.getTotalLength();
-            gsap.set(pathRef.current, { strokeDasharray: length, strokeDashoffset: length });
-
-            gsap.to(pathRef.current, {
-                strokeDashoffset: 0,
+            // Animate the mask to reveal the path on scroll
+            gsap.to(".path-mask-rect", {
+                height: "3000px", // Total height of the SVG viewbox
                 ease: "none",
                 scrollTrigger: {
                     trigger: "body",
@@ -25,6 +23,17 @@ export default function ConnectingPath() {
                     scrub: 1,
                 }
             });
+
+            // Running effect (infinite loop for dashes)
+            gsap.fromTo(pathRef.current,
+                { strokeDashoffset: 0 },
+                {
+                    strokeDashoffset: -1200, // Seamless loop (multiple of 24)
+                    duration: 10,
+                    repeat: -1,
+                    ease: "none"
+                }
+            );
         }
     }, []);
 
@@ -37,14 +46,22 @@ export default function ConnectingPath() {
                 2. curves right to Services (approx x=50%, y=1200) - splits or goes between
                 3. curves back to center for WhyQWQER (approx x=50%, y=1800)
             */}
+                <defs>
+                    <mask id="path-mask">
+                        <rect x="0" y="0" width="1440" height="0" fill="white" className="path-mask-rect" />
+                    </mask>
+                </defs>
+
                 <path
                     ref={pathRef}
-                    d="M720,600 C720,900 720,1100 720,1300 C720,1500 720,1700 720,2000"
+                    d="M720,600 C720,800 720,900 720,1100"
                     fill="none"
                     stroke="#ee3425"
                     strokeWidth="4"
                     strokeLinecap="round"
-                    className="opacity-50 drop-shadow-[0_0_10px_rgba(238,52,37,0.5)]"
+                    strokeDasharray="14 10"
+                    mask="url(#path-mask)"
+                    className="opacity-100 drop-shadow-[0_0_10px_rgba(238,52,37,0.5)]"
                 />
             </svg>
         </div>

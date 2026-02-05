@@ -25,5 +25,5 @@ export default function ScrollProgress() {
             anim.kill();
         };
     }, []);
-    return <div ref={ref} className="fixed top-0 left-0 w-full h-1 bg-[#ee3425] z-[100] scale-x-0" />;
+    return <div ref={ref} className="fixed top-0 left-0 w-full h-[3px] bg-[#ee3425] z-[100] scale-x-0" />;
 }

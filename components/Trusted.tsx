@@ -1,48 +1,74 @@
 "use client";
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 
 export default function Trusted() {
-    const containerRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.from(containerRef.current?.children ? Array.from(containerRef.current.children) : [], {
-            opacity: 0,
-            y: 20,
-            stagger: 0.1,
-            duration: 1,
-            scrollTrigger: {
-                trigger: containerRef.current,
-                start: "top 90%",
-            }
-        });
-    }, []);
-
-    const companies = [
-        { name: "KFC", color: "#e4002b" },
-        { name: "BigBasket", color: "#84c225" },
-        { name: "Zepto", color: "#36013f" },
-        { name: "Magicpin", color: "#d51b5e" }
+    const clients = [
+        { name: "McDonalds", src: "/clients/mcd.webp" },
+        { name: "Apollo", src: "/clients/apollo-phar.webp" },
+        { name: "Pidilite", src: "/clients/pidilite.webp" },
+        { name: "Zepto", src: "/clients/zepto.webp" },
+        { name: "Zomato", src: "/clients/zomato.webp" },
+        // Duplicate for seamless loop if needed, or we just map twice
     ];
 
     return (
-        <section className="py-20 bg-black border-y border-white/5">
-            <div className="max-w-7xl mx-auto px-6 text-center">
-                <p className="text-gray-500 text-sm mb-12 uppercase tracking-widest font-bold">Trusted by top companies</p>
-                <div ref={containerRef} className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-80">
-                    {companies.map((c, i) => (
-                        <div key={i} className="flex items-center gap-2 grayscale hover:grayscale-0 transition-all duration-300 hover:scale-110 cursor-pointer group">
-                            {/* Placeholder Icon simulating logo */}
-                            <div className="w-8 h-8 rounded bg-current opacity-80" style={{ color: c.color }}></div>
-                            <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-500" >
-                                {c.name}
-                            </span>
+        <section className="py-16 bg-black border-y border-white/5 overflow-hidden">
+            <div className="max-w-7xl mx-auto px-6 text-center mb-10">
+                <p className="text-gray-500 text-sm uppercase tracking-widest font-bold">Trusted by top companies</p>
+            </div>
+
+            <div className="relative w-full overflow-hidden mask-linear-fade">
+                {/* Marquee Track */}
+                <div className="flex w-max animate-scroll items-center gap-2 md:gap-3 hover:[animation-play-state:paused]">
+                    {/* First Set */}
+                    {clients.map((c, i) => (
+                        <div key={`a-${i}`} className="relative w-48 h-28 md:w-[200px] md:h-32 transition-transform duration-300 hover:scale-105 cursor-pointer flex items-center justify-center">
+                            <Image
+                                src={c.src}
+                                alt={c.name}
+                                fill
+                                className="object-contain"
+                            />
+                        </div>
+                    ))}
+                    {/* Duplicate Set for Loop */}
+                    {clients.map((c, i) => (
+                        <div key={`b-${i}`} className="relative w-48 h-28 md:w-[200px] md:h-32 transition-transform duration-300 hover:scale-105 cursor-pointer flex items-center justify-center">
+                            <Image
+                                src={c.src}
+                                alt={c.name}
+                                fill
+                                className="object-contain"
+                            />
+                        </div>
+                    ))}
+                    {/* Triplicate Set for Loop smoothness on wide screens */}
+                    {clients.map((c, i) => (
+                        <div key={`c-${i}`} className="relative w-48 h-28 md:w-[200px] md:h-32 transition-transform duration-300 hover:scale-105 cursor-pointer flex items-center justify-center">
+                            <Image
+                                src={c.src}
+                                alt={c.name}
+                                fill
+                                className="object-contain"
+                            />
                         </div>
                     ))}
                 </div>
             </div>
+
+            <style jsx>{`
+                @keyframes scroll {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(-33.33%); } 
+                }
+                .animate-scroll {
+                    animation: scroll 30s linear infinite;
+                }
+                .mask-linear-fade {
+                    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+                }
+            `}</style>
         </section>
     );
 }
