@@ -55,7 +55,7 @@ export default function CityAnimation() {
             // BG Scrolling Animation (Seamless Loop)
             gsap.to(scrollingCityRef.current, {
                 x: "-50%", // Move left by half the total width (one full city width)
-                duration: 60, // Slow continuous pan
+                duration: 15, // Faster continuous pan
                 ease: "none",
                 repeat: -1
             });
@@ -91,13 +91,21 @@ export default function CityAnimation() {
                 defaults: { ease: "none" } // Linear movement
             });
 
-            // Wheel Rotation - Restored GSAP control for better stability
-            gsap.to([".truck-wheel", ".scooter-wheel"], {
+            // Wheel Rotation - Simple transformOrigin for SVG elements
+            gsap.to(".truck-wheel", {
                 rotation: 360,
                 duration: 1,
                 repeat: -1,
                 ease: "none",
-                transformOrigin: "center"
+                transformOrigin: "50% 50%"
+            });
+
+            gsap.to(".scooter-wheel", {
+                rotation: -360,
+                duration: 1,
+                repeat: -1,
+                ease: "none",
+                transformOrigin: "50% 50%"
             });
 
         }, cityRef);
@@ -125,8 +133,8 @@ export default function CityAnimation() {
             {/* Vehicles Container - positioned on the "road" */}
             <div className="absolute bottom-4 w-full h-48 pointer-events-none">
                 {/* Truck */}
-                <div ref={truckRef} className="absolute bottom-0 text-[#ee3425] text-[14rem] leading-none z-10">
-                    <div className="scale-x-[-1]"> {/* scale-x-[-1] to flip only, no stress / translate needed due to tight svg */}
+                <div ref={truckRef} className="absolute bottom-0 text-[#ee3425] leading-none z-10" style={{ fontSize: "8rem" }}>
+                    <div className="scale-x-[-1]">
                         <CustomFleetTruck />
                     </div>
                 </div>

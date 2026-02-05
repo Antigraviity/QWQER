@@ -2,16 +2,12 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import CustomScooter from "./CustomScooter";
-import CustomFleetTruck from "./CustomFleetTruck";
-import { FaTruck } from "react-icons/fa6";
 
 export default function CustomSplitServices() {
     const sectionRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const leftCardRef = useRef<HTMLDivElement>(null);
     const rightCardRef = useRef<HTMLDivElement>(null);
-    const truckRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
@@ -39,28 +35,6 @@ export default function CustomSplitServices() {
                 ease: "power4.inOut"
             }
         );
-
-        // Truck animation along the bottom path
-        if (truckRef.current && sectionRef.current) {
-            // Set initial state explicitly with full opacity
-            gsap.set(truckRef.current, { left: "0%", opacity: 1 });
-
-            const truckTl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "bottom 80%",
-                    end: "bottom 20%",
-                    scrub: 1,
-                    id: "custom-services-truck-animation",
-                }
-            });
-
-            // Animate truck from left to right
-            truckTl.to(truckRef.current, {
-                left: "100%",
-                ease: "none",
-            });
-        }
 
     }, []);
 
@@ -156,45 +130,6 @@ export default function CustomSplitServices() {
 
             {/* Connecting line down to next section */}
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-20 bg-gradient-to-t from-[#ee3425] to-transparent"></div>
-
-            {/* Animated truck container with horizontal dashed line */}
-            <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 w-[60%] hidden md:block">
-                {/* Animated horizontal dashed line using SVG */}
-                <svg className="absolute top-0 left-0 w-full h-[4px]" preserveAspectRatio="none" viewBox="0 0 1000 4">
-                    <path
-                        d="M0,2 L1000,2"
-                        fill="none"
-                        stroke="#ee3425"
-                        strokeWidth="4"
-                        strokeLinecap="round"
-                        strokeDasharray="14 10"
-                        className="opacity-100 drop-shadow-[0_0_10px_rgba(238,52,37,0.8)] animate-dash"
-                    />
-                </svg>
-
-                {/* Animated truck */}
-                <div
-                    ref={truckRef}
-                    className="absolute -top-6 left-0 transform -translate-x-1/2 text-[#ee3425] text-3xl opacity-100"
-                    style={{
-                        filter: "drop-shadow(0 0 10px rgba(238, 52, 37, 0.8))"
-                    }}
-                >
-                    <FaTruck />
-                </div>
-            </div>
-
-            {/* CSS animation for dashed line */}
-            <style jsx>{`
-                @keyframes dash {
-                    to {
-                        stroke-dashoffset: -1200;
-                    }
-                }
-                .animate-dash {
-                    animation: dash 10s linear infinite;
-                }
-            `}</style>
 
         </section>
     );
