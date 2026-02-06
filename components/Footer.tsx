@@ -19,7 +19,7 @@ export default function Footer() {
                 ease: "power4.out",
                 scrollTrigger: {
                     trigger: footerRef.current,
-                    start: "top 85%",
+                    start: "top 90%",
                 }
             });
 
@@ -32,18 +32,19 @@ export default function Footer() {
                 ease: "power3.out",
                 scrollTrigger: {
                     trigger: footerRef.current,
-                    start: "top 75%",
+                    start: "top 85%",
                 }
             });
 
             // Copyright Animation
             gsap.from(".footer-copyright", {
                 opacity: 0,
+                y: 20,
                 duration: 1,
-                delay: 0.8,
+                delay: 0.5,
                 scrollTrigger: {
                     trigger: footerRef.current,
-                    start: "top 90%",
+                    start: "top 95%",
                 }
             });
 
@@ -53,16 +54,9 @@ export default function Footer() {
     }, []);
 
     return (
-        <footer ref={footerRef} className="bg-[#ee3425] text-white pt-12 pb-24 relative overflow-hidden">
-            {/* Unique Watermark Background */}
-            <div className="footer-watermark absolute -bottom-10 -right-20 opacity-20 pointer-events-none select-none">
-                <h1 className="text-[15rem] font-black leading-none text-white tracking-tighter">
-                    QWQER
-                </h1>
-            </div>
-
+        <footer ref={footerRef} className="bg-[#ee3425] text-white pt-12 pb-32 relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 relative z-10">
-                <div className="grid md:grid-cols-3 gap-12 lg:gap-24 mb-12 border-b border-white/20 pb-8">
+                <div className="grid md:grid-cols-3 gap-12 lg:gap-24 mb-8 border-b border-white/20 pb-12">
                     {/* Column 1: Brand Info */}
                     <div className="footer-col space-y-4">
                         <div className="inline-block">
@@ -99,7 +93,10 @@ export default function Footer() {
                     <div className="footer-col space-y-8">
                         {/* Locations */}
                         <div>
-                            <h4 className="text-2xl font-bold mb-3">Our Locations</h4>
+                            <h4 className="text-2xl font-bold mb-4 relative inline-block">
+                                Our Locations
+                                <span className="absolute -bottom-1.5 left-0 w-1/2 h-0.5 bg-white rounded-full"></span>
+                            </h4>
                             <p className="text-white/80 leading-relaxed font-medium text-lg">
                                 Karnataka, Kerala, Tamilnadu, Telangana
                             </p>
@@ -107,7 +104,10 @@ export default function Footer() {
 
                         {/* Quick Links - Vertical Alignment */}
                         <div>
-                            <h4 className="text-2xl font-bold mb-3">Quick Links</h4>
+                            <h4 className="text-2xl font-bold mb-4 relative inline-block">
+                                Quick Links
+                                <span className="absolute -bottom-1.5 left-0 w-1/2 h-0.5 bg-white rounded-full"></span>
+                            </h4>
                             <ul className="flex flex-col gap-2.5 text-base font-medium text-white/80">
                                 {["Contact Us", "Blog", "PR Perks", "Case Studies", "FAQs", "Terms"].map((link) => (
                                     <li key={link}>
@@ -121,9 +121,17 @@ export default function Footer() {
                     </div>
                 </div>
 
-                <div className="footer-copyright text-center md:text-left text-base text-white/60 font-medium">
+                {/* Copyright positioned below the line */}
+                <div className="footer-copyright text-center text-sm text-white/50 font-medium relative z-10">
                     © {new Date().getFullYear()} QWQER. All rights reserved.
                 </div>
+            </div>
+
+            {/* Centered Watermark - maintain 20% bottom clipping */}
+            <div className="footer-watermark absolute -bottom-12 left-1/2 -translate-x-1/2 w-full flex flex-col items-center pointer-events-none select-none z-0">
+                <h1 className="text-[15rem] font-black leading-none text-white opacity-20 tracking-tighter">
+                    QWQER
+                </h1>
             </div>
         </footer>
     );
