@@ -1,6 +1,8 @@
 import { db } from '@/lib/db';
 import { FaEnvelope } from 'react-icons/fa';
 
+export const dynamic = 'force-dynamic';
+
 export default async function EnquiriesPage() {
     const enquiries = await db.enquiry.findMany({
         orderBy: { createdAt: 'desc' },

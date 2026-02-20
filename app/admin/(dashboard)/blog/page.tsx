@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { deletePost } from '@/lib/data-actions';
 import { FaTrash, FaPlus } from 'react-icons/fa';
 
+export const dynamic = 'force-dynamic';
+
 export default async function BlogAdminPage() {
     const posts = await db.post.findMany({
         orderBy: { createdAt: 'desc' },
@@ -32,7 +34,7 @@ export default async function BlogAdminPage() {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
-                        {posts.map((post) => (
+                        {posts.map((post: any) => (
                             <tr key={post.id} className="hover:bg-gray-50 transition-colors text-gray-800">
                                 <td className="p-4 max-w-xs truncate">{post.title}</td>
                                 <td className="p-4 hidden md:table-cell text-gray-500">{post.slug}</td>

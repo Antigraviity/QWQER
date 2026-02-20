@@ -2,6 +2,8 @@ import { db } from '@/lib/db';
 import Link from 'next/link';
 import { FaPlus } from 'react-icons/fa';
 
+export const dynamic = 'force-dynamic';
+
 export default async function UsersAdminPage() {
     const users = await db.user.findMany({
         orderBy: { createdAt: 'desc' },

@@ -1,6 +1,8 @@
 import { db } from '@/lib/db';
 import { FaNewspaper, FaEnvelope } from 'react-icons/fa';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminPage() {
     const postCount = await db.post.count();
     const enquiryCount = await db.enquiry.count();
