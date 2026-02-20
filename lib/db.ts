@@ -1,6 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import { Pool } from 'pg';
-import { PrismaPg } from '@prisma/adapter-pg';
+import { Pool, neonConfig } from '@neondatabase/serverless';
+import { PrismaNeon } from '@prisma/adapter-neon';
+import ws from 'ws';
+
+neonConfig.webSocketConstructor = ws;
 
 declare global {
     var prisma: PrismaClient | undefined;
@@ -23,7 +26,7 @@ if (connectionString?.startsWith('prisma+postgres://')) {
 }
 
 const pool = new Pool({ connectionString });
-const adapter = new PrismaPg(pool);
+const adapter = new PrismaNeon(pool as any); // temporary bypass for type mismatch between Pool and adapter
 
 export const db = globalThis.prisma || new PrismaClient({ adapter });
 
