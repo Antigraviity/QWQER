@@ -41,12 +41,10 @@ export default async function BlogAdminPage() {
                                 <td className="p-4 hidden md:table-cell text-gray-500">{post.date}</td>
                                 <td className="p-4 text-right">
                                     <div className="flex justify-end gap-3">
-                                        <form action={deletePost.bind(null, post.id)}>
-                                            <button className="text-red-500 hover:text-red-600 p-2 rounded hover:bg-red-50">
-                                                <span className="sr-only">Delete</span>
-                                                <FaTrash className="w-4 h-4" />
-                                            </button>
-                                        </form>
+                                        <button disabled className="text-gray-300 p-2 rounded cursor-not-allowed" title="Delete disabled">
+                                            <span className="sr-only">Delete (disabled)</span>
+                                            <FaTrash className="w-4 h-4" />
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
