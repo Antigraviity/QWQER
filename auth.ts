@@ -2,38 +2,11 @@ import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { z } from 'zod';
-import { PrismaClient } from '@prisma/client';
-import { Pool, neonConfig } from '@neondatabase/serverless';
-import { PrismaNeon } from '@prisma/adapter-neon';
-import ws from 'ws';
+import { db } from '@/lib/db';
 import bcrypt from 'bcryptjs';
 import type { User } from '@/lib/definitions';
 
-neonConfig.webSocketConstructor = ws;
-
 async function getUser(email: string): Promise<User | undefined> {
-    let connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL;
-    if (!connectionString) throw new Error("Missing DATABASE_URL");
-
-    // Standardize Vercel's Edge Prisma connection string for raw Neon Serverless Pool
-    if (connectionString.startsWith('prisma+postgres://')) {
-        try {
-            const url = new URL(connectionString);
-            const apiKey = url.searchParams.get('api_key');
-            if (apiKey) {
-                const decoded = Buffer.from(apiKey, 'base64').toString('utf-8');
-                const parsed = JSON.parse(decoded);
-                if (parsed.databaseUrl) connectionString = parsed.databaseUrl;
-            }
-        } catch (e) {
-            console.error("Failed to parse Prisma Postgres DB URL", e);
-        }
-    }
-
-    const pool = new Pool({ connectionString });
-    const adapter = new PrismaNeon(pool as any);
-    const db = new PrismaClient({ adapter });
-
     try {
         const user = await db.user.findUnique({
             where: { email },
@@ -42,8 +15,6 @@ async function getUser(email: string): Promise<User | undefined> {
     } catch (error) {
         console.error('Failed to fetch user:', error);
         throw new Error('Failed to fetch user.');
-    } finally {
-        await db.$disconnect(); // Clean up connection
     }
 }
 
@@ -51,8 +22,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     ...authConfig,
     trustHost: true,
     session: { strategy: 'jwt' },
-    secret: process.env.AUTH_SECRET,
-    debug: true,
     providers: [
         Credentials({
             async authorize(credentials) {
