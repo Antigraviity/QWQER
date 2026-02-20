@@ -29,8 +29,10 @@ const getConnectionString = () => {
                 const decoded = Buffer.from(apiKey, 'base64').toString('utf-8');
                 const parsed = JSON.parse(decoded);
                 if (parsed.databaseUrl) {
-                    connectionString = parsed.databaseUrl;
-                    console.log("Direct database URL decoded. Protocol:", connectionString.split(':')[0]);
+                    connectionString = parsed.databaseUrl as string;
+                    if (connectionString) {
+                        console.log("Direct database URL decoded. Protocol:", connectionString.split(':')[0]);
+                    }
                 }
             } else {
                 console.warn("Prisma Accelerate URL detected but no api_key found.");
