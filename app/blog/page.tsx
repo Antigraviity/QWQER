@@ -33,7 +33,7 @@ export default async function BlogPage() {
             <section className="pb-20 px-6">
                 <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {posts.length > 0 ? (
-                        posts.map((post) => (
+                        posts.map((post: any) => (
                             <Link key={post.id} href={`/blog/${post.slug}`} className="group relative bg-[#111] rounded-3xl overflow-hidden border border-white/10 hover:border-[#ee3425]/50 transition-colors duration-300">
                                 <div className="relative h-60 w-full overflow-hidden">
                                     {post.image ? (
