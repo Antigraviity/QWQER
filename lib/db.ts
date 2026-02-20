@@ -9,49 +9,58 @@ declare global {
     var prisma: PrismaClient | undefined;
 }
 
-// Read connection string from environment, prioritizing standard Vercel variable names
 const getConnectionString = () => {
     let connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL;
 
     if (!connectionString) {
-        console.warn("Prisma: No DATABASE_URL or POSTGRES_URL found.");
+        console.error("DB_INIT: No connection string found! Env keys:", Object.keys(process.env).filter(k => k.includes('URL') || k.includes('POSTGRES')));
         return '';
     }
 
-    console.log("Database connection string detected. Protocol:", connectionString.split(':')[0]);
+    console.log("DB_INIT: Connection string protocol:", connectionString.split(':')[0]);
 
     if (connectionString.startsWith('prisma+postgres://')) {
         try {
             const url = new URL(connectionString);
             const apiKey = url.searchParams.get('api_key');
             if (apiKey) {
-                console.log("Prisma Accelerate URL detected, attempting to decode direct database URL...");
                 const decoded = Buffer.from(apiKey, 'base64').toString('utf-8');
                 const parsed = JSON.parse(decoded);
                 if (parsed.databaseUrl) {
-                    connectionString = parsed.databaseUrl as string;
-                    if (connectionString) {
-                        console.log("Direct database URL decoded. Protocol:", connectionString.split(':')[0]);
-                    }
+                    console.log("DB_INIT: Successfully decoded Accelerate URL to direct URL.");
+                    connectionString = parsed.databaseUrl;
                 }
-            } else {
-                console.warn("Prisma Accelerate URL detected but no api_key found.");
             }
         } catch (e) {
-            console.error("Failed to parse Prisma Postgres DB URL", e);
+            console.error("DB_INIT: Error parsing Accelerate URL:", e);
         }
     }
+
     return connectionString;
 };
 
-// Create the Prisma client using a factory function to ensure env vars are read at invocation
-const prismaClientSingleton = () => {
+const createPrismaClient = () => {
+    console.log("DB_INIT: Creating new PrismaClient instance...");
     const connectionString = getConnectionString();
-    const pool = new Pool({ connectionString });
-    const adapter = new PrismaNeon(pool as any);
-    return new PrismaClient({ adapter });
+
+    if (!connectionString) {
+        console.error("DB_INIT: Cannot create PrismaClient because connectionString is empty.");
+        // We still return a client, but it will likely fail on first query with a helpful error
+        return new PrismaClient();
+    }
+
+    try {
+        const pool = new Pool({ connectionString });
+        const adapter = new PrismaNeon(pool as any);
+        return new PrismaClient({ adapter });
+    } catch (error) {
+        console.error("DB_INIT: Error during PrismaClient initialization:", error);
+        return new PrismaClient();
+    }
 };
 
-export const db = globalThis.prisma || prismaClientSingleton();
+// Use globalThis to cache the instance in development to prevent hot-reload connection leaks
+// In production, this will effectively be a singleton for the lifecycle of the lambda
+export const db = globalThis.prisma || createPrismaClient();
 
 if (process.env.NODE_ENV !== "production") globalThis.prisma = db;
