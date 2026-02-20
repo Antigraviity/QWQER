@@ -49,9 +49,9 @@ export default async function AdminPage() {
                                     <th className="p-4 font-medium text-sm">Status</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {recentEnquiries.map((enquiry) => (
-                                    <tr key={enquiry.id} className="border-b border-gray-100 hover:bg-gray-50 text-gray-800">
+                            <tbody className="divide-y divide-gray-100">
+                                {recentEnquiries.map((enquiry: any) => (
+                                    <tr key={enquiry.id} className="border-b border-gray-100 hover:bg-gray-50 text-gray-800 transition-colors">
                                         <td className="p-4">{enquiry.name}</td>
                                         <td className="p-4">{enquiry.email}</td>
                                         <td className="p-4 text-gray-500">{enquiry.createdAt.toLocaleDateString()}</td>
