@@ -126,15 +126,15 @@ export default function Navbar() {
                         </div>
 
                         {/* Resources */}
-                        <Link href="#" className="relative px-5 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors rounded-full hover:bg-white/10 group">
+                        <Link href="/resources" className="relative px-5 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors rounded-full hover:bg-white/10 group">
                             Resources
                         </Link>
                     </div>
 
-                    <button className="relative overflow-hidden group bg-white text-black px-6 py-2.5 rounded-full text-sm font-bold border border-white hover:border-[#ee3425] transition-all duration-300">
+                    <Link href="/contact" className="relative overflow-hidden group bg-white text-black px-6 py-2.5 rounded-full text-sm font-bold border border-white hover:border-[#ee3425] transition-all duration-300">
                         <span className="relative z-10 group-hover:text-white transition-colors">Contact Us</span>
                         <div className="absolute inset-0 bg-[#ee3425] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 ease-out"></div>
-                    </button>
+                    </Link>
                 </div>
             </nav>
         </div>
