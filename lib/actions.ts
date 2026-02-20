@@ -8,6 +8,11 @@ export async function authenticate(
     formData: FormData,
 ) {
     try {
+        console.log("Vercel Database Env Check:");
+        console.log("DATABASE_URL exists:", !!process.env.DATABASE_URL);
+        console.log("POSTGRES_URL exists:", !!process.env.POSTGRES_URL);
+        console.log("POSTGRES_PRISMA_URL exists:", !!process.env.POSTGRES_PRISMA_URL);
+
         await signIn('credentials', formData);
     } catch (error) {
         if (error instanceof AuthError) {
