@@ -2,11 +2,23 @@ import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { z } from 'zod';
-import { db } from '@/lib/db';
+import { PrismaClient } from '@prisma/client';
+import { Pool, neonConfig } from '@neondatabase/serverless';
+import { PrismaNeon } from '@prisma/adapter-neon';
+import ws from 'ws';
 import bcrypt from 'bcryptjs';
 import type { User } from '@/lib/definitions';
 
+neonConfig.webSocketConstructor = ws;
+
 async function getUser(email: string): Promise<User | undefined> {
+    const connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+    if (!connectionString) throw new Error("Missing DATABASE_URL");
+
+    const pool = new Pool({ connectionString });
+    const adapter = new PrismaNeon(pool as any);
+    const db = new PrismaClient({ adapter });
+
     try {
         const user = await db.user.findUnique({
             where: { email },
@@ -15,6 +27,8 @@ async function getUser(email: string): Promise<User | undefined> {
     } catch (error) {
         console.error('Failed to fetch user:', error);
         throw new Error('Failed to fetch user.');
+    } finally {
+        await db.$disconnect(); // Clean up connection
     }
 }
 
