@@ -18,37 +18,36 @@ const createPrismaClient = () => {
 
     if (!connectionString) {
         console.error("DB_INIT: No connection string found in environment variables.");
-        return new PrismaClient();
+        return new PrismaClient({ log: ['query', 'info', 'warn', 'error'] });
     }
 
-    console.log(`DB_INIT: Initializing Prisma with connection string (length: ${connectionString.length})`);
+    // Force set the environment variable to ensure Prisma picks it up during pre-rendering/build steps
+    process.env.DATABASE_URL = connectionString;
 
-    // If using Prisma Accelerate (prisma+postgres://), we don't need a driver adapter.
+    console.log(`DB_INIT: Initializing Prisma (string length: ${connectionString.length})`);
+
+    // If using Prisma Accelerate (prisma+postgres://), use accelerateUrl property
     if (connectionString.startsWith('prisma://') || connectionString.startsWith('prisma+postgres://')) {
-        console.log("DB_INIT: Prisma Accelerate protocol detected. Using direct connection.");
+        console.log("DB_INIT: Prisma Accelerate protocol detected. Using accelerateUrl option.");
         return new PrismaClient({
-            datasources: {
-                db: {
-                    url: connectionString,
-                },
-            },
-        } as any);
+            accelerateUrl: connectionString,
+            log: ['info', 'warn', 'error'],
+        });
     }
 
     console.log("DB_INIT: Standard PostgreSQL URL detected. Using Neon Serverless adapter.");
     try {
         const pool = new Pool({ connectionString });
         const adapter = new PrismaNeon(pool as any);
-        return new PrismaClient({ adapter } as any);
+        return new PrismaClient({
+            adapter,
+            log: ['info', 'warn', 'error']
+        } as any);
     } catch (error) {
         console.error("DB_INIT: Failed to initialize Neon adapter, falling back to direct connection:", error);
         return new PrismaClient({
-            datasources: {
-                db: {
-                    url: connectionString,
-                },
-            },
-        } as any);
+            log: ['info', 'warn', 'error']
+        });
     }
 };
 
