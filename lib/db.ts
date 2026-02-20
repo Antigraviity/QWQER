@@ -10,57 +10,37 @@ declare global {
 }
 
 const getConnectionString = () => {
-    let connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL;
-
-    if (!connectionString) {
-        console.error("DB_INIT: No connection string found! Env keys:", Object.keys(process.env).filter(k => k.includes('URL') || k.includes('POSTGRES')));
-        return '';
-    }
-
-    console.log("DB_INIT: Connection string protocol:", connectionString.split(':')[0]);
-
-    if (connectionString.startsWith('prisma+postgres://')) {
-        try {
-            const url = new URL(connectionString);
-            const apiKey = url.searchParams.get('api_key');
-            if (apiKey) {
-                const decoded = Buffer.from(apiKey, 'base64').toString('utf-8');
-                const parsed = JSON.parse(decoded);
-                if (parsed.databaseUrl) {
-                    console.log("DB_INIT: Successfully decoded Accelerate URL to direct URL.");
-                    connectionString = parsed.databaseUrl;
-                }
-            }
-        } catch (e) {
-            console.error("DB_INIT: Error parsing Accelerate URL:", e);
-        }
-    }
-
-    return connectionString;
+    return process.env.DATABASE_URL || process.env.POSTGRES_URL;
 };
 
 const createPrismaClient = () => {
-    console.log("DB_INIT: Creating new PrismaClient instance...");
     const connectionString = getConnectionString();
 
     if (!connectionString) {
-        console.error("DB_INIT: Cannot create PrismaClient because connectionString is empty.");
-        // We still return a client, but it will likely fail on first query with a helpful error
+        console.error("DB_INIT: No connection string found in environment variables.");
         return new PrismaClient();
     }
 
+    // If using Prisma Accelerate (prisma+postgres://), we don't need a driver adapter.
+    // Accelerate is a proxy that handles connection pooling and edge routing natively.
+    if (connectionString.startsWith('prisma://') || connectionString.startsWith('prisma+postgres://')) {
+        console.log("DB_INIT: Prisma Accelerate/Data Proxy detected. Using direct connection strategy.");
+        return new PrismaClient();
+    }
+
+    console.log("DB_INIT: Standard PostgreSQL URL detected. Using Neon Serverless adapter over WebSockets for Vercel compatibility.");
     try {
+        // Use Neon's serverless driver for standard postgres:// URLs to bypass Vercel's TCP limits
         const pool = new Pool({ connectionString });
         const adapter = new PrismaNeon(pool as any);
         return new PrismaClient({ adapter });
     } catch (error) {
-        console.error("DB_INIT: Error during PrismaClient initialization:", error);
+        console.error("DB_INIT: Failed to initialize Neon adapter, falling back to standard client:", error);
         return new PrismaClient();
     }
 };
 
-// Use globalThis to cache the instance in development to prevent hot-reload connection leaks
-// In production, this will effectively be a singleton for the lifecycle of the lambda
+// Use globalThis to cache the client instance in development to prevent hot-reloading connection leaks.
 export const db = globalThis.prisma || createPrismaClient();
 
 if (process.env.NODE_ENV !== "production") globalThis.prisma = db;
