@@ -43,6 +43,10 @@ const createPrismaClient = () => {
         const urlObj = new URL(connectionString);
         console.log(`DB_INIT: Connection target host: ${urlObj.host}`);
 
+        // IMPORTANT: Re-inject the connection string into the environment. 
+        // Prisma Client and its internal engines often require this even when using a driver adapter.
+        process.env.DATABASE_URL = connectionString;
+
         // For standard PostgreSQL URLs (or decoded ones), use the Neon adapter on Vercel.
         // This is much more reliable in serverless environments as it uses WebSockets.
         if (connectionString.startsWith('postgresql://') || connectionString.startsWith('postgres://')) {
@@ -55,7 +59,7 @@ const createPrismaClient = () => {
             } as any);
         }
     } catch (error) {
-        console.error("DB_INIT: Failed during robust initialization:", error);
+        console.error("DB_INIT: Error during connection string parsing or adapter setup:", error);
     }
 
     console.log("DB_INIT: Falling back to standard PrismaClient initialization.");
