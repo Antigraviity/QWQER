@@ -33,7 +33,7 @@ export default async function UsersAdminPage() {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
-                        {users.map((user) => (
+                        {users.map((user: any) => (
                             <tr key={user.id} className="hover:bg-gray-50 transition-colors text-gray-800">
                                 <td className="p-4 font-medium">{user.name}</td>
                                 <td className="p-4 text-gray-500">{user.email}</td>

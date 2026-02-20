@@ -27,7 +27,7 @@ export default async function EnquiriesPage() {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
-                        {enquiries.map((enquiry) => (
+                        {enquiries.map((enquiry: any) => (
                             <tr key={enquiry.id} className="hover:bg-gray-50 transition-colors text-gray-800">
                                 <td className="p-4 font-medium">{enquiry.name}</td>
                                 <td className="p-4 text-gray-500">{enquiry.email}</td>
