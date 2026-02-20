@@ -5,7 +5,7 @@ export const authConfig = {
         signIn: '/admin/login',
     },
     callbacks: {
-        authorized({ auth, request: { nextUrl } }) {
+        authorized({ auth, request: { nextUrl, url } }) {
             const isLoggedIn = !!auth?.user;
             const isAdminPage = nextUrl.pathname.startsWith('/admin');
 
@@ -18,7 +18,10 @@ export const authConfig = {
             // Protect /admin routes
             if (isAdminPage) {
                 if (isLoggedIn) return true;
-                return false; // Redirect unauthenticated users to login page
+
+                // Redirect unauthenticated users to login page without the callbackUrl query param
+                const loginUrl = new URL('/admin/login', nextUrl);
+                return Response.redirect(loginUrl);
             }
             return true;
         },
