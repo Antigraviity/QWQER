@@ -14,21 +14,26 @@ const getConnectionString = () => {
     let connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL;
 
     if (!connectionString) {
-        // Only warn in development, avoid crashing the Edge runtime immediately
-        if (process.env.NODE_ENV !== 'production') {
-            console.warn("Prisma: No DATABASE_URL or POSTGRES_URL found in environment variables.");
-        }
+        console.warn("Prisma: No DATABASE_URL or POSTGRES_URL found.");
         return '';
     }
+
+    console.log("Database connection string detected. Protocol:", connectionString.split(':')[0]);
 
     if (connectionString.startsWith('prisma+postgres://')) {
         try {
             const url = new URL(connectionString);
             const apiKey = url.searchParams.get('api_key');
             if (apiKey) {
+                console.log("Prisma Accelerate URL detected, attempting to decode direct database URL...");
                 const decoded = Buffer.from(apiKey, 'base64').toString('utf-8');
                 const parsed = JSON.parse(decoded);
-                if (parsed.databaseUrl) connectionString = parsed.databaseUrl;
+                if (parsed.databaseUrl) {
+                    connectionString = parsed.databaseUrl;
+                    console.log("Direct database URL decoded. Protocol:", connectionString.split(':')[0]);
+                }
+            } else {
+                console.warn("Prisma Accelerate URL detected but no api_key found.");
             }
         } catch (e) {
             console.error("Failed to parse Prisma Postgres DB URL", e);
