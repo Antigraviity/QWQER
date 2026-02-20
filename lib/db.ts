@@ -1,74 +1,43 @@
 import { PrismaClient } from "@prisma/client";
-import { Pool, neonConfig } from '@neondatabase/serverless';
-import { PrismaNeon } from '@prisma/adapter-neon';
-import ws from 'ws';
+import { Pool } from 'pg';
+import { PrismaPg } from '@prisma/adapter-pg';
+import * as dotenv from 'dotenv';
 
-neonConfig.webSocketConstructor = ws;
+// Load environment variables
+dotenv.config();
 
 declare global {
     var prisma: PrismaClient | undefined;
 }
 
-const getConnectionString = () => {
-    return process.env.DATABASE_URL || process.env.POSTGRES_URL || '';
-};
-
 const createPrismaClient = () => {
-    let connectionString = getConnectionString();
+    const connectionString = process.env.DATABASE_URL;
 
     if (!connectionString) {
-        console.error("DB_INIT: No connection string found! Env keys:", Object.keys(process.env).filter(k => k.includes('URL') || k.includes('POSTGRES')));
+        console.error("DB_INIT: No DATABASE_URL found");
         return new PrismaClient();
     }
 
-    // Attempt to decode Prisma Accelerate/Postgres URL to skip the problematic proxy layer on Vercel
-    if (connectionString.startsWith('prisma+postgres://')) {
-        try {
-            const url = new URL(connectionString);
-            const apiKey = url.searchParams.get('api_key');
-            if (apiKey) {
-                const decoded = Buffer.from(apiKey, 'base64').toString('utf-8');
-                const parsed = JSON.parse(decoded);
-                if (parsed.databaseUrl) {
-                    console.log("DB_INIT: Successfully decoded Prisma Accelerate URL to direct database URL.");
-                    connectionString = parsed.databaseUrl;
-                }
-            }
-        } catch (e) {
-            console.error("DB_INIT: Accelerate URL decoding failed:", e);
-        }
-    }
-
     try {
-        const urlObj = new URL(connectionString);
-        console.log(`DB_INIT: Connection target host: ${urlObj.host}`);
-
-        // IMPORTANT: Re-inject the connection string into the environment. 
-        // Prisma Client and its internal engines often require this even when using a driver adapter.
-        process.env.DATABASE_URL = connectionString;
-
-        // For standard PostgreSQL URLs (or decoded ones), use the Neon adapter on Vercel.
-        // This is much more reliable in serverless environments as it uses WebSockets.
-        if (connectionString.startsWith('postgresql://') || connectionString.startsWith('postgres://')) {
-            console.log("DB_INIT: Initializing Neon Serverless adapter over WebSockets.");
-            const pool = new Pool({ connectionString });
-            const adapter = new PrismaNeon(pool as any);
-            return new PrismaClient({
-                adapter,
-                log: ['info', 'warn', 'error']
-            } as any);
-        }
+        console.log("DB_INIT: Initializing PG adapter (TCP)");
+        const pool = new Pool({
+            connectionString: connectionString.trim(),
+            ssl: { rejectUnauthorized: false }
+        });
+        const adapter = new PrismaPg(pool);
+        return new PrismaClient({
+            adapter,
+            log: ['query', 'info', 'warn', 'error'],
+        } as any);
     } catch (error) {
-        console.error("DB_INIT: Error during connection string parsing or adapter setup:", error);
+        console.error("DB_INIT: PG adapter initialization failed:", error);
     }
 
-    console.log("DB_INIT: Falling back to standard PrismaClient initialization.");
     return new PrismaClient({
-        log: ['info', 'warn', 'error']
+        log: ['query', 'info', 'warn', 'error'],
     });
 };
 
-// Use globalThis to cache the client instance in development to prevent hot-reloading connection leaks.
 export const db = globalThis.prisma || createPrismaClient();
 
 if (process.env.NODE_ENV !== "production") globalThis.prisma = db;

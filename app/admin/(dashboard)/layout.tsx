@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { FaChartBar, FaNewspaper, FaEnvelope, FaSignOutAlt, FaUsers } from 'react-icons/fa';
-import { signOut } from '@/auth';
 
 export default function AdminLayout({
     children,
@@ -49,17 +48,10 @@ export default function AdminLayout({
                             <p className="hidden md:block">Users</p>
                         </Link>
                         <div className="hidden h-auto w-full grow md:block"></div>
-                        <form
-                            action={async () => {
-                                'use server';
-                                await signOut();
-                            }}
-                        >
-                            <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-transparent hover:bg-gray-100 p-3 text-sm font-medium text-gray-700 hover:text-gray-900 md:flex-none md:justify-start md:p-2 md:px-3 transition-colors">
-                                <FaSignOutAlt className="w-6" />
-                                <div className="hidden md:block">Sign Out</div>
-                            </button>
-                        </form>
+                        <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-transparent hover:bg-gray-100 p-3 text-sm font-medium text-gray-700 hover:text-gray-900 md:flex-none md:justify-start md:p-2 md:px-3 transition-colors cursor-default">
+                            <FaSignOutAlt className="w-6" />
+                            <div className="hidden md:block">Sign Out</div>
+                        </button>
                     </div>
                 </div>
             </div>
