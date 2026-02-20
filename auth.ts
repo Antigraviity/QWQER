@@ -12,8 +12,23 @@ import type { User } from '@/lib/definitions';
 neonConfig.webSocketConstructor = ws;
 
 async function getUser(email: string): Promise<User | undefined> {
-    const connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+    let connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL;
     if (!connectionString) throw new Error("Missing DATABASE_URL");
+
+    // Standardize Vercel's Edge Prisma connection string for raw Neon Serverless Pool
+    if (connectionString.startsWith('prisma+postgres://')) {
+        try {
+            const url = new URL(connectionString);
+            const apiKey = url.searchParams.get('api_key');
+            if (apiKey) {
+                const decoded = Buffer.from(apiKey, 'base64').toString('utf-8');
+                const parsed = JSON.parse(decoded);
+                if (parsed.databaseUrl) connectionString = parsed.databaseUrl;
+            }
+        } catch (e) {
+            console.error("Failed to parse Prisma Postgres DB URL", e);
+        }
+    }
 
     const pool = new Pool({ connectionString });
     const adapter = new PrismaNeon(pool as any);
