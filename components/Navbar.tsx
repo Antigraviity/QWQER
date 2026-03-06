@@ -24,21 +24,33 @@ export default function Navbar() {
         const tl = gsap.timeline({
             scrollTrigger: {
                 start: "top top",
-                end: "+=100", // Shorter distance for faster completion
-                scrub: true, // Direct 1:1 mapping to scroll, no "catch up" lag
+                end: "+=100",
+                scrub: true,
             }
         });
 
-        // 1. Shrink Width
-        tl.to(navRef.current, {
-            width: "75%",
-            y: 20, // Use transform instead of marginTop for better performance
-            borderRadius: "9999px",
-            backgroundColor: "rgba(5,5,5,0.8)", // Darker & more opaque for better contrast
-            border: "1px solid rgba(255,255,255,0.15)", // Slightly crisper border
-            boxShadow: "0 0 20px rgba(255, 255, 255, 0.03), 0 10px 40px -10px rgba(0,0,0,0.8)", // Added subtle outer glow + deep shadow
-            ease: "none" // Linear ease for direct control
-        }, 0);
+        // Shrink from full width to pill
+        tl.fromTo(navRef.current, 
+            {
+                width: "100%",
+                maxWidth: "100%",
+                y: 0,
+                borderRadius: "0px",
+                backgroundColor: "rgba(0,0,0,0.1)",
+                border: "none",
+                boxShadow: "none",
+            },
+            {
+                width: "75%",
+                maxWidth: "75%",
+                y: 20,
+                borderRadius: "9999px",
+                backgroundColor: "rgba(5,5,5,0.8)",
+                border: "1px solid rgba(255,255,255,0.15)",
+                boxShadow: "0 0 20px rgba(255, 255, 255, 0.03), 0 10px 40px -10px rgba(0,0,0,0.8)",
+                ease: "none"
+            }, 0
+        );
 
         // 2. Animate Shine Effect (wipes across as it shrinks)
         if (shineRef.current) {
@@ -49,21 +61,29 @@ export default function Navbar() {
             );
         }
 
-        // --- Smart Header Logic (Hide on scroll down, Show on scroll up) ---
+        // --- Header: hide after hero, show on scroll up ---
+        let isHidden = false;
         const st = ScrollTrigger.create({
             start: "top top",
             end: "bottom bottom",
             onUpdate: (self) => {
-                const currentScrollY = self.scroll();
-                const heroHeight = window.innerHeight * 0.9;
+                const scrollY = self.scroll();
+                const heroEnd = window.innerHeight * 0.85;
 
-                // If scrolling down AND past hero section
-                if (self.direction === 1 && currentScrollY > heroHeight) {
-                    gsap.to(wrapperRef.current, { yPercent: -150, duration: 0.3, ease: "power3.out", overwrite: true });
+                // Scrolling down past hero → hide
+                if (self.direction === 1 && scrollY > heroEnd && !isHidden) {
+                    isHidden = true;
+                    gsap.to(wrapperRef.current, { y: -120, duration: 0.35, ease: "power3.inOut", overwrite: "auto" });
                 }
-                // If scrolling up OR (scrolling down but within hero section)
-                else if (self.direction === -1 || currentScrollY <= heroHeight) {
-                    gsap.to(wrapperRef.current, { yPercent: 0, duration: 0.3, ease: "power3.out", overwrite: true });
+                // Scrolling up → show
+                else if (self.direction === -1 && isHidden) {
+                    isHidden = false;
+                    gsap.to(wrapperRef.current, { y: 0, duration: 0.35, ease: "power3.out", overwrite: "auto" });
+                }
+
+                // At top of page → ensure scrub is at start
+                if (scrollY <= 5) {
+                    tl.progress(0);
                 }
             }
         });
@@ -81,7 +101,7 @@ export default function Navbar() {
         <div ref={wrapperRef} className="fixed top-0 left-0 w-full z-50 flex justify-center pt-0 pointer-events-none">
             <nav
                 ref={navRef}
-                className="pointer-events-auto will-change-transform backdrop-blur-xl bg-black/10 border-b border-white/5 w-full max-w-7xl mx-auto px-6 h-16 md:h-20 flex items-center justify-between relative"
+                className="pointer-events-auto will-change-transform backdrop-blur-xl bg-black/10 border-b border-white/5 w-full mx-auto px-6 h-16 md:h-20 flex items-center justify-between relative"
             >
                 {/* Background & Clipping Container for Shine Effect */}
                 <div className="absolute inset-0 rounded-[inherit] overflow-hidden pointer-events-none">
@@ -103,7 +123,7 @@ export default function Navbar() {
                 <div className="flex items-center gap-6">
                     <div className="hidden md:flex items-center gap-1 bg-white/5 p-1.5 rounded-full border border-white/5 backdrop-blur-md">
                         {/* About Us */}
-                        <Link href="#" className="relative px-5 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors rounded-full hover:bg-white/10 group">
+                        <Link href="/about" className="relative px-5 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors rounded-full hover:bg-white/10 group">
                             About us
                         </Link>
 
