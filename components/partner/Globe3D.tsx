@@ -80,7 +80,7 @@ export default function Globe3D() {
       // === LONGITUDE LINES ===
       const longitudes = [0, 30, 60, 90, 120, 150];
       longitudes.forEach((lon) => {
-        const points: THREE.Vector3[] = [];
+        const points: InstanceType<typeof THREE.Vector3>[] = [];
         for (let i = 0; i <= 100; i++) {
           const phi = (i / 100) * Math.PI;
           const theta = (lon * Math.PI) / 180;
