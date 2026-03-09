@@ -36,7 +36,7 @@ export default function Navbar() {
                 maxWidth: "100%",
                 y: 0,
                 borderRadius: "0px",
-                backgroundColor: "rgba(0,0,0,0.1)",
+                backgroundColor: "rgba(0,0,0,0.85)",
                 border: "none",
                 boxShadow: "none",
             },
@@ -63,12 +63,13 @@ export default function Navbar() {
 
         // --- Header: hide after hero, show on scroll up ---
         let isHidden = false;
+        const isBlogDetail = !!document.querySelector('[data-blog-detail]');
         const st = ScrollTrigger.create({
             start: "top top",
             end: "bottom bottom",
             onUpdate: (self) => {
                 const scrollY = self.scroll();
-                const heroEnd = window.innerHeight * 0.85;
+                const heroEnd = isBlogDetail ? window.innerHeight * 0.1 : window.innerHeight * 0.85;
 
                 // Scrolling down past hero → hide
                 if (self.direction === 1 && scrollY > heroEnd && !isHidden) {
@@ -101,7 +102,7 @@ export default function Navbar() {
         <div ref={wrapperRef} className="fixed top-0 left-0 w-full z-50 flex justify-center pt-0 pointer-events-none">
             <nav
                 ref={navRef}
-                className="pointer-events-auto will-change-transform backdrop-blur-xl bg-black/10 border-b border-white/5 w-full mx-auto px-6 h-16 md:h-20 flex items-center justify-between relative"
+                className="pointer-events-auto will-change-transform backdrop-blur-xl bg-black/10 border-b border-white/5 w-full mx-auto px-6 h-14 md:h-16 flex items-center justify-between relative"
             >
                 {/* Background & Clipping Container for Shine Effect */}
                 <div className="absolute inset-0 rounded-[inherit] overflow-hidden pointer-events-none">
@@ -136,10 +137,10 @@ export default function Navbar() {
 
                             {/* Dropdown Menu */}
                             <div className="absolute top-full left-0 mt-2 w-48 bg-white/90 backdrop-blur-xl rounded-2xl p-2 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 text-black">
-                                <Link href="#" className="block px-4 py-2.5 text-sm font-medium hover:bg-[#ee3425] hover:text-white rounded-xl transition-colors">
+                                <Link href="/#qwqer-express" className="block px-4 py-2.5 text-sm font-medium hover:bg-[#ee3425] hover:text-white rounded-xl transition-colors">
                                     Express
                                 </Link>
-                                <Link href="#" className="block px-4 py-2.5 text-sm font-medium hover:bg-[#ee3425] hover:text-white rounded-xl transition-colors">
+                                <Link href="/#qwqer-fleet" className="block px-4 py-2.5 text-sm font-medium hover:bg-[#ee3425] hover:text-white rounded-xl transition-colors">
                                     Fleet
                                 </Link>
                             </div>
@@ -149,10 +150,20 @@ export default function Navbar() {
                         <Link href="/resources" className="relative px-5 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors rounded-full hover:bg-white/10 group">
                             Resources
                         </Link>
+
+                        {/* Careers */}
+                        <Link href="/careers" className="relative px-5 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors rounded-full hover:bg-white/10 group">
+                            Careers
+                        </Link>
+
+                        {/* Contact */}
+                        <Link href="/contact" className="relative px-5 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors rounded-full hover:bg-white/10 group">
+                            Contact
+                        </Link>
                     </div>
 
-                    <Link href="/contact" className="relative overflow-hidden group bg-white text-black px-6 py-2.5 rounded-full text-sm font-bold border border-white hover:border-[#ee3425] transition-all duration-300">
-                        <span className="relative z-10 group-hover:text-white transition-colors">Contact Us</span>
+                    <Link href="/partner" className="relative overflow-hidden group bg-white text-black px-6 py-2.5 rounded-full text-sm font-bold border border-white hover:border-[#ee3425] transition-all duration-300">
+                        <span className="relative z-10 group-hover:text-white transition-colors">Join Us</span>
                         <div className="absolute inset-0 bg-[#ee3425] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 ease-out"></div>
                     </Link>
                 </div>

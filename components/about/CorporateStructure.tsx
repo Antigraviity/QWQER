@@ -54,31 +54,23 @@ export default function CorporateStructure() {
       });
 
       // 1. Label
-      tl.to(".cs-label", { opacity: 1, y: 0, duration: 0.4 });
-
+      tl.to(".cs-label", { opacity: 1, y: 0, duration: 0.2 });
       // 2. Heading
-      tl.to(".cs-heading", { opacity: 1, y: 0, duration: 0.5 }, "-=0.2");
-
+      tl.to(".cs-heading", { opacity: 1, y: 0, duration: 0.25 }, "-=0.1");
       // 3. Parent card scales in
-      tl.to(".cs-parent", { opacity: 1, y: 0, scale: 1, duration: 0.6 }, "-=0.1");
-
+      tl.to(".cs-parent", { opacity: 1, y: 0, scale: 1, duration: 0.3 }, "-=0.1");
       // 4. Vertical line draws down
-      tl.to(".cs-line-v", { scaleY: 1, duration: 0.5, ease: "power2.inOut" }, "+=0.1");
-
+      tl.to(".cs-line-v", { scaleY: 1, duration: 0.25, ease: "power2.inOut" });
       // 5. Center node pops
-      tl.to(".cs-node", { scale: 1, duration: 0.25, stagger: 0.08, ease: "back.out(3)" }, "-=0.1");
-
+      tl.to(".cs-node", { scale: 1, duration: 0.15, stagger: 0.04, ease: "back.out(3)" }, "-=0.1");
       // 6. Horizontal line draws
-      tl.to(".cs-line-h", { scaleX: 1, duration: 0.6, ease: "power2.inOut" }, "-=0.15");
-
+      tl.to(".cs-line-h", { scaleX: 1, duration: 0.3, ease: "power2.inOut" }, "-=0.1");
       // 7. Branch lines drop
-      tl.to(".cs-line-branch", { scaleY: 1, duration: 0.4, stagger: 0.1, ease: "power2.inOut" }, "-=0.1");
-
-      // 8. Child cards appear one by one
-      tl.to(".cs-child", { opacity: 1, y: 0, duration: 0.5, stagger: 0.2 }, "+=0");
-
+      tl.to(".cs-line-branch", { scaleY: 1, duration: 0.2, stagger: 0.05, ease: "power2.inOut" }, "-=0.1");
+      // 8. Child cards appear
+      tl.to(".cs-child", { opacity: 1, y: 0, duration: 0.3, stagger: 0.08 });
       // 9. Body text
-      tl.to(".cs-body", { opacity: 1, y: 0, duration: 0.5 }, "+=0.1");
+      tl.to(".cs-body", { opacity: 1, y: 0, duration: 0.25 });
 
     }, sectionRef);
 

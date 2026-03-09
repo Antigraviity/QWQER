@@ -462,24 +462,24 @@ export default function AboutHero() {
           100% { left: -340px; }
         }
         @keyframes cloudDrift2 {
-          0%   { left: 110%; }
-          100% { left: -260px; }
+          0%   { left: -260px; }
+          100% { left: 110%; }
         }
         @keyframes cloudDrift3 {
           0%   { left: 110%; }
           100% { left: -200px; }
         }
         @keyframes cloudDrift4 {
-          0%   { left: 110%; }
-          100% { left: -420px; }
+          0%   { left: -420px; }
+          100% { left: 110%; }
         }
         @keyframes cloudDrift5 {
           0%   { left: 110%; }
           100% { left: -220px; }
         }
         @keyframes cloudDrift6 {
-          0%   { left: 110%; }
-          100% { left: -150px; }
+          0%   { left: -150px; }
+          100% { left: 110%; }
         }
         @keyframes cloudDrift7 {
           0%   { left: 110%; }
