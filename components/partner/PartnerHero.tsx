@@ -93,7 +93,7 @@ export default function PartnerHero() {
       />
 
       {/* ══ 3D WIREFRAME GLOBE ══ */}
-      <div className="hidden md:block" style={{ position: "absolute", inset: 0, zIndex: 1, overflow: "hidden" }}>
+      <div className="hidden md:block" style={{ position: "absolute", top: "64px", left: 0, right: 0, bottom: 0, zIndex: 1, overflow: "hidden" }}>
         <Globe3D />
       </div>
 
@@ -163,7 +163,7 @@ export default function PartnerHero() {
       </div>
 
       {/* Content — above globe */}
-      <div className="relative max-w-[1300px] mx-auto px-6 md:px-14 lg:px-20 pt-36 md:pt-44 pb-20 md:pb-28" style={{ zIndex: 10 }}>
+      <div className="relative max-w-[1300px] mx-auto px-6 md:px-14 lg:px-20 pt-44 md:pt-56 pb-24 md:pb-32" style={{ zIndex: 10 }}>
         {/* Badge */}
         <div className="ph-badge mb-5 flex justify-center" style={{ opacity: 0 }}>
           <div
