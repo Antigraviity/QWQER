@@ -125,7 +125,7 @@ export default function HeroExpress() {
                             <span className="text-[#ee3425]">Business Fulfilment.</span>
                         </h1>
                         <p className="text-base md:text-lg text-gray-300 max-w-xl drop-shadow-md">
-                            Free up the hassle and resources by allowing the customer's full-scale QWQER Express model to manage end-to-end delivery operations for a glowing business.
+                            Free up the hassle and resources by allowing the customer&apos;s full-scale QWQER Express model to manage end-to-end delivery operations for a glowing business.
                         </p>
                     </motion.div>
                 </div>

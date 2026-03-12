@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 
 const FRAME_COUNT = 55;
@@ -16,28 +16,6 @@ export default function HeroScroll() {
     const imagesRef = useRef<HTMLImageElement[]>([]);
     const [imagesLoaded, setImagesLoaded] = useState(false);
 
-    useEffect(() => {
-        let loadedCount = 0;
-        const images: HTMLImageElement[] = [];
-
-        for (let i = 0; i < FRAME_COUNT; i++) {
-            const img = new Image();
-            const paddedNumber = i.toString().padStart(2, '0');
-            img.src = `${FOLDER_PATH}/${FILE_PREFIX}${paddedNumber}.${FILE_EXTENSION}`;
-
-            img.onload = () => {
-                loadedCount++;
-                if (loadedCount === FRAME_COUNT) {
-                    imagesRef.current = images;
-                    setImagesLoaded(true);
-                    // Trigger first render
-                    renderFrame(0);
-                }
-            };
-            images.push(img);
-        }
-    }, []);
-
     // Set up Scroll Tracking using Framer Motion
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -51,7 +29,7 @@ export default function HeroScroll() {
     // Fade the video to black over the last 5 frames (from frame 49 to 54)
     const fadeOpacity = useTransform(frameIndex, [FRAME_COUNT - 6, FRAME_COUNT - 1], [0, 1]);
 
-    const renderFrame = (index: number) => {
+    const renderFrame = useCallback((index: number) => {
         if (!imagesLoaded) return;
         const canvas = canvasRef.current;
         const context = canvas?.getContext("2d");
@@ -78,7 +56,29 @@ export default function HeroScroll() {
             0, 0, img.width, img.height,
             centerShift_x, centerShift_y, img.width * ratio, img.height * ratio
         );
-    };
+    }, [imagesLoaded]);
+
+    useEffect(() => {
+        let loadedCount = 0;
+        const images: HTMLImageElement[] = [];
+
+        for (let i = 0; i < FRAME_COUNT; i++) {
+            const img = new Image();
+            const paddedNumber = i.toString().padStart(2, '0');
+            img.src = `${FOLDER_PATH}/${FILE_PREFIX}${paddedNumber}.${FILE_EXTENSION}`;
+
+            img.onload = () => {
+                loadedCount++;
+                if (loadedCount === FRAME_COUNT) {
+                    imagesRef.current = images;
+                    setImagesLoaded(true);
+                    // Trigger first render
+                    renderFrame(0);
+                }
+            };
+            images.push(img);
+        }
+    }, [renderFrame]);
 
     useMotionValueEvent(frameIndex, "change", (latest) => {
         renderFrame(latest);
@@ -89,7 +89,7 @@ export default function HeroScroll() {
         const handleResize = () => renderFrame(frameIndex.get());
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
-    }, [imagesLoaded, frameIndex]);
+    }, [imagesLoaded, frameIndex, renderFrame]);
 
     return (
         <section ref={containerRef} className="relative w-full h-[400vh] bg-black">

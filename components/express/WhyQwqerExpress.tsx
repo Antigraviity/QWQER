@@ -73,7 +73,7 @@ export default function WhyQwqerExpress() {
                     <p className="text-gray-400 text-lg md:text-xl max-w-2xl leading-relaxed">
                         Built to Support Daily Operations, QWQER Express has proven to be a reliable
                         solution for hyperlocal deliveries.{" "}
-                        <span className="text-white font-medium">Here's how:</span>
+                        <span className="text-white font-medium">Here&apos;s how:</span>
                     </p>
                 </motion.div>
 
