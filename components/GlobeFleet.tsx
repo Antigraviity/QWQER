@@ -121,9 +121,9 @@ export default function GlobeFleet() {
     gsap.to(revealObj, {
       val: 1,
       opacity: 1,
-      duration: 3,
-      ease: "power1.out",
-      delay: 0.5,
+      duration: 1.2,
+      ease: "power2.out",
+      delay: 0,
       scrollTrigger: {
         trigger: sec,
         start: "top 70%",
