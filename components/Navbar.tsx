@@ -30,7 +30,7 @@ export default function Navbar() {
         });
 
         // Shrink from full width to pill
-        tl.fromTo(navRef.current, 
+        tl.fromTo(navRef.current,
             {
                 width: "100%",
                 maxWidth: "100%",
@@ -137,10 +137,10 @@ export default function Navbar() {
 
                             {/* Dropdown Menu */}
                             <div className="absolute top-full left-0 mt-2 w-48 bg-white/90 backdrop-blur-xl rounded-2xl p-2 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 text-black">
-                                <Link href="/#qwqer-express" className="block px-4 py-2.5 text-sm font-medium hover:bg-[#ee3425] hover:text-white rounded-xl transition-colors">
+                                <Link href="/express" className="block px-4 py-2.5 text-sm font-medium hover:bg-[#ee3425] hover:text-white rounded-xl transition-colors">
                                     Express
                                 </Link>
-                                <Link href="/#qwqer-fleet" className="block px-4 py-2.5 text-sm font-medium hover:bg-[#ee3425] hover:text-white rounded-xl transition-colors">
+                                <Link href="/fleet" className="block px-4 py-2.5 text-sm font-medium hover:bg-[#ee3425] hover:text-white rounded-xl transition-colors">
                                     Fleet
                                 </Link>
                             </div>

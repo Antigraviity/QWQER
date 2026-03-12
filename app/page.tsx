@@ -3,6 +3,7 @@ import ScrollProgress from "@/components/ScrollProgress";
 import Hero from "@/components/Hero";
 import CustomSplitServices from "@/components/CustomSplitServices";
 import WhyQwqer from "@/components/WhyQwqer";
+import GlobeFleet from "@/components/GlobeFleet";
 import Features from "@/components/Features";
 import Trusted from "@/components/Trusted";
 import Stats from "@/components/Stats";
@@ -18,6 +19,7 @@ export default function Home() {
       <Hero />
       <CustomSplitServices />
       <WhyQwqer />
+      <GlobeFleet />
       <Features />
       <Trusted />
       <Stats />

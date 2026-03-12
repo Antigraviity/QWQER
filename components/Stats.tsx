@@ -22,16 +22,44 @@ export default function Stats() {
                     }
                 });
             });
+
+            // Counter animations
+            const counters = gsap.utils.toArray(".stat-counter");
+            counters.forEach((el: any) => {
+                const target = parseFloat(el.dataset.target);
+                const decimals = parseInt(el.dataset.decimals) || 0;
+                const suffix = el.dataset.suffix || "";
+                const isStatic = el.dataset.static;
+                if (isNaN(target) || isStatic) return;
+
+                gsap.fromTo(el,
+                    { innerText: "0" },
+                    {
+                        innerText: target,
+                        duration: 2,
+                        ease: "power2.out",
+                        snap: decimals === 0 ? { innerText: 1 } : {},
+                        scrollTrigger: {
+                            trigger: el,
+                            start: "top 85%",
+                        },
+                        onUpdate: function () {
+                            const current = parseFloat(el.innerText);
+                            el.innerText = (decimals > 0 ? current.toFixed(decimals) : Math.round(current).toString()) + suffix;
+                        }
+                    }
+                );
+            });
         }, containerRef); // Scope to container
 
         return () => ctx.revert(); // Clean up on unmount
     }, []);
 
     const metrics = [
-        { value: "99.6%", label: "On-Time Delivery Rate" },
-        { value: "5000+", label: "Successful Deliveries Completed" },
-        { value: "120+", label: "Active Fleet Vehicles" },
-        { value: "24/7", label: "Operations & Tracking Support" },
+        { num: 99.6, suffix: "%", decimals: 1, label: "On-Time Delivery Rate" },
+        { num: 5000, suffix: "+", decimals: 0, label: "Successful Deliveries Completed" },
+        { num: 120, suffix: "+", decimals: 0, label: "Active Fleet Vehicles" },
+        { num: 0, suffix: "", decimals: 0, label: "Operations & Tracking Support", static: "24/7" },
     ];
 
     return (
@@ -69,8 +97,14 @@ export default function Stats() {
                                     className="stat-item group relative p-8 rounded-[2rem] bg-white/[0.03] border border-white/5 backdrop-blur-sm hover:bg-white/[0.08] hover:border-[#ee3425]/30 transition-all duration-500 hover:-translate-y-2"
                                 >
                                     <div className="flex flex-col items-center justify-center text-center h-full min-h-[160px]">
-                                        <span className="text-5xl md:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-b from-white to-white/40 group-hover:from-white group-hover:to-[#ee3425] transition-all duration-500 mb-4 block italic pr-2">
-                                            {m.value}
+                                        <span
+                                            className="stat-counter text-5xl md:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-b from-white to-white/40 group-hover:from-white group-hover:to-[#ee3425] transition-all duration-500 mb-4 block italic pr-2"
+                                            data-target={m.num}
+                                            data-decimals={m.decimals}
+                                            data-suffix={m.suffix}
+                                            {...(m.static ? { 'data-static': 'true' } : {})}
+                                        >
+                                            {m.static || `0${m.suffix}`}
                                         </span>
                                         <span className="text-gray-500 text-[10px] md:text-xs font-bold uppercase tracking-[0.15em] group-hover:text-white transition-colors duration-300">
                                             {m.label}

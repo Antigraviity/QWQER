@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --primary: #ee3425;
+  --primary: #625ea5;
   --black: #000000;
   --dark-gray: #111111;
 }
@@ -16,10 +16,10 @@
 
 @layer utilities {
   .text-glow {
-    text-shadow: 0 0 20px rgba(238, 52, 37, 0.5);
+    text-shadow: 0 0 20px rgba(98, 94, 165, 0.5);
   }
   .border-glow {
-    box-shadow: 0 0 10px rgba(238, 52, 37, 0.3);
+    box-shadow: 0 0 10px rgba(98, 94, 165, 0.3);
   }
 }
 

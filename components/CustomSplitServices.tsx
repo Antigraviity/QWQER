@@ -62,13 +62,13 @@ export default function CustomSplitServices() {
 
 
                     {/* QWQER Express Card (Purple Theme) */}
-                    <div ref={leftCardRef} className="flex-1 bg-gradient-to-br from-[#5D5CDE] to-[#3A3997] p-8 md:p-12 lg:p-16 relative group">
+                    <div ref={leftCardRef} className="flex-1 bg-gradient-to-br from-[#6B6BAD] to-[#4A4A8A] p-8 md:p-12 lg:p-16 relative group">
                         {/* Decorative Circles */}
                         <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
 
                         <div className="relative z-10 flex flex-col h-full items-start">
                             <h3 className="text-4xl md:text-5xl font-semibold text-white mb-2">QWQER Express</h3>
-                            <div className="text-[#3A3997] bg-white px-4 py-1.5 rounded-full text-sm font-bold mb-8 shadow-lg">
+                            <div className="text-[#4A4A8A] bg-white px-4 py-1.5 rounded-full text-sm font-bold mb-8 shadow-lg">
                                 Hyperlocal Delivery, On-Demand
                             </div>
 

@@ -86,16 +86,16 @@ export default function PartnerExpress() {
     return () => ctx.revert();
   }, []);
 
-  const A = "#ee3425";
+  const P = "#7c5cbf"; // purple accent
 
   return (
     <section ref={sectionRef} className="relative py-24 md:py-32 overflow-hidden">
-      {/* Subtle background */}
+      {/* Dark background */}
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, #000 0%, #0a0a0a 50%, #000 100%)" }} />
 
       {/* Accent glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] pointer-events-none" style={{
-        background: "radial-gradient(ellipse, rgba(238,52,37,0.06) 0%, transparent 70%)",
+        background: "radial-gradient(ellipse, rgba(124,92,191,0.1) 0%, transparent 70%)",
         filter: "blur(60px)",
       }} />
 
@@ -103,11 +103,11 @@ export default function PartnerExpress() {
         {/* Badge */}
         <div className="pe-badge mb-4 flex justify-center" style={{ opacity: 0 }}>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full" style={{
-            border: "1px solid rgba(238,52,37,0.25)",
-            background: "rgba(238,52,37,0.06)",
+            border: "1px solid rgba(124,92,191,0.35)",
+            background: "rgba(124,92,191,0.1)",
           }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill={A}><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-            <span className="text-[11px] uppercase tracking-[0.18em] font-semibold" style={{ color: "rgba(238,52,37,0.85)" }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#9b7de0"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <span className="text-[11px] uppercase tracking-[0.18em] font-semibold" style={{ color: "rgba(155,125,224,0.9)" }}>
               For Riders
             </span>
           </div>
@@ -115,42 +115,59 @@ export default function PartnerExpress() {
 
         {/* Title */}
         <h2 className="pe-title text-center text-3xl md:text-5xl font-extrabold tracking-tight mb-4" style={{ opacity: 0 }}>
-          QWQER Express <span style={{ color: A }}>for Riders</span>
+          QWQER Express <span style={{ color: "#9b7de0" }}>for Riders</span>
         </h2>
         <p className="pe-title text-center text-white/40 text-sm md:text-base max-w-xl mx-auto mb-14" style={{ opacity: 0 }}>
           Your ride, your rules. Join thousands of riders earning on their own schedule.
         </p>
 
-        {/* Cards Grid */}
-        <div className="pe-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* Cards Grid — Creative numbered layout */}
+        <div className="pe-grid grid grid-cols-1 md:grid-cols-2 gap-4">
           {EXPRESS_FEATURES.map((f, i) => (
             <div
               key={i}
-              className="pe-card group relative rounded-2xl p-6 transition-all duration-500 hover:-translate-y-1 cursor-default"
-              style={{
-                background: "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                opacity: 0,
-              }}
+              className="pe-card group relative rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-1 cursor-default"
+              style={{ opacity: 0 }}
             >
-              {/* Hover glow */}
-              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{
-                background: "radial-gradient(circle at 50% 0%, rgba(238,52,37,0.08) 0%, transparent 60%)",
-              }} />
-              {/* Top accent line */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-12 h-[2px] rounded-full transition-all duration-500" style={{ background: A }} />
+              {/* Animated gradient border wrapper */}
+              <div
+                className="absolute inset-0 rounded-2xl opacity-30 group-hover:opacity-100 transition-opacity duration-700"
+                style={{
+                  background: `conic-gradient(from ${i * 90}deg, rgba(124,92,191,0.4), rgba(155,125,224,0.1), rgba(124,92,191,0.4))`,
+                  padding: "1px",
+                }}
+              />
+              {/* Inner card */}
+              <div
+                className="relative rounded-2xl m-[1px] flex items-start gap-5 p-6 md:p-7"
+                style={{ background: "linear-gradient(135deg, rgba(15,12,25,0.95) 0%, rgba(10,8,18,0.98) 100%)" }}
+              >
+                {/* Icon */}
+                <div
+                  className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(124,92,191,0.3)]"
+                  style={{
+                    background: "rgba(124,92,191,0.1)",
+                    border: "1px solid rgba(124,92,191,0.2)",
+                    color: "#9b7de0",
+                  }}
+                >
+                  {f.icon}
+                </div>
 
-              {/* Icon */}
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-colors duration-300" style={{
-                background: "rgba(238,52,37,0.08)",
-                color: A,
-              }}>
-                {f.icon}
+                {/* Text content */}
+                <div className="flex-1 min-w-0 pt-1">
+                  <h3 className="text-white font-bold text-[15px] mb-2 leading-snug group-hover:text-[#c4b0f0] transition-colors duration-300">{f.title}</h3>
+                  <p className="text-white/35 text-[13px] leading-relaxed group-hover:text-white/50 transition-colors duration-300">{f.desc}</p>
+                </div>
+
+                {/* Corner accent */}
+                <div
+                  className="absolute top-0 right-0 w-16 h-16 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                  style={{
+                    background: "radial-gradient(circle at 100% 0%, rgba(124,92,191,0.15) 0%, transparent 70%)",
+                  }}
+                />
               </div>
-
-              {/* Text */}
-              <h3 className="text-white font-bold text-[15px] mb-2 leading-snug">{f.title}</h3>
-              <p className="text-white/35 text-[13px] leading-relaxed">{f.desc}</p>
             </div>
           ))}
         </div>

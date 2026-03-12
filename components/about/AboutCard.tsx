@@ -37,22 +37,23 @@ export default function AboutCard() {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      // ── Hide all content initially ──
-      gsap.set(".ac-label", { opacity: 0, y: 25 });
-      gsap.set(".ac-accent", { scaleX: 0, transformOrigin: "left center" });
-      gsap.set(".ac-heading", { opacity: 0, y: 30 });
-      gsap.set(".ac-body", { opacity: 0, y: 25 });
-      gsap.set(".ac-stat", { opacity: 0, y: 20, scale: 0.85 });
-      gsap.set(".ac-line-h", { scaleX: 0, transformOrigin: "left center" });
-      gsap.set(".ac-pillar", { opacity: 0, y: 30 });
+      // ── Initial state: everything off-screen right ──
+      gsap.set(".ac-mascot-wrap", { opacity: 0 });
+      // Hide content elements individually — they’ll slide in like train carriages
+      gsap.set(".ac-label", { x: "-100vw", opacity: 0 });
+      gsap.set(".ac-accent", { x: "-100vw", opacity: 0 });
+      gsap.set(".ac-heading", { x: "-100vw", opacity: 0 });
+      gsap.set(".ac-body", { x: "-100vw", opacity: 0 });
+      gsap.set(".ac-stat", { x: "-100vw", opacity: 0 });
+      gsap.set(".ac-line-h", { x: "-100vw", opacity: 0 });
+      gsap.set(".ac-pillar", { x: "-100vw", opacity: 0 });
+      // Mascot starts off-screen left
+      gsap.set(".ac-flying-mascot", { x: "-100vw", opacity: 1 });
 
-      // Mascot starts off-screen right, hidden
-      gsap.set(mascotRef.current, { x: 500, y: -100, opacity: 0, scale: 0.6, rotation: -15 });
-
-      // ── Master timeline — plays once when section enters viewport ──
+      // ── Master timeline ──
       const tl = gsap.timeline({
         paused: true,
-        defaults: { ease: "power2.inOut" },
+        defaults: { ease: "power3.out" },
       });
 
       ScrollTrigger.create({
@@ -62,64 +63,35 @@ export default function AboutCard() {
         onEnter: () => tl.play(),
       });
 
-      // ── Mascot flies in ──
-      tl.to(mascotRef.current, {
-        x: 40, y: 0, opacity: 1, scale: 1, rotation: 0,
-        duration: 0.5, ease: "power3.out",
-      });
+      // Everything lands at t=3.5s
+      const LAND = 3.5;
 
-      // ── Swoops left → reveals label ──
-      tl.to(mascotRef.current, {
-        x: -480, y: -40, rotation: 10, scale: 1.05,
-        duration: 0.35, ease: "power3.inOut",
-      });
-      tl.to(".ac-label", { opacity: 1, y: 0, duration: 0.15 }, "<+=0.1");
-      tl.to(".ac-accent", { scaleX: 1, duration: 0.15 }, "<");
+      // ── Mascot is the engine — flies the full duration and arrives at LAND ──
+      tl.to(".ac-flying-mascot", { x: 0, duration: LAND, ease: "power2.out" }, 0);
 
-      // ── Dips down → reveals heading ──
-      tl.to(mascotRef.current, {
-        x: -380, y: 60, rotation: -5, scale: 1,
-        duration: 0.3, ease: "power3.inOut",
-      });
-      tl.to(".ac-heading", { opacity: 1, y: 0, duration: 0.2 }, "<+=0.1");
+      // ── Content follows like train carriages, last pillar lands at LAND ──
+      tl.to(".ac-label", { x: 0, opacity: 1, duration: 1.4 }, 0.3);
+      tl.to(".ac-accent", { x: 0, opacity: 1, duration: 1.4 }, 0.5);
+      tl.to(".ac-heading", { x: 0, opacity: 1, duration: 1.6 }, 0.7);
+      tl.to(".ac-body", { x: 0, opacity: 1, duration: 1.6 }, 1.0);
+      tl.to(".ac-stat", { x: 0, opacity: 1, duration: 1.4, stagger: 0.2 }, 1.4);
+      tl.to(".ac-line-h", { x: 0, opacity: 1, duration: 1.4 }, 2.0);
+      // 3 pillars with 0.25 stagger: starts at 2.1, last one starts at 2.6, + 0.9 duration = lands at 3.5
+      tl.to(".ac-pillar", { x: 0, opacity: 1, duration: 0.9, stagger: 0.25 }, 2.1);
 
-      // ── Sweeps down → reveals body ──
-      tl.to(mascotRef.current, {
-        x: -440, y: 180, rotation: 6, scale: 0.98,
-        duration: 0.3, ease: "power3.inOut",
-      });
-      tl.to(".ac-body", { opacity: 1, y: 0, duration: 0.2 }, "<+=0.1");
+      // ── Mascot wobbles gently during flight ──
+      tl.to(".ac-flying-mascot-img", { rotation: -8, duration: 0.6, ease: "power1.out" }, 0);
+      tl.to(".ac-flying-mascot-img", { rotation: 5, duration: 0.8, ease: "sine.inOut" }, 0.6);
+      tl.to(".ac-flying-mascot-img", { rotation: -3, duration: 0.8, ease: "sine.inOut" }, 1.4);
+      tl.to(".ac-flying-mascot-img", { rotation: 2, duration: 0.7, ease: "sine.inOut" }, 2.2);
+      tl.to(".ac-flying-mascot-img", { rotation: 0, duration: 0.6, ease: "power2.out" }, 2.9);
 
-      // ── Mascot slides back to resting position ──
-      tl.to(mascotRef.current, {
-        x: 40, y: 50, rotation: 0, scale: 1,
-        duration: 0.6, ease: "power3.inOut",
-      });
-
-      // ── While mascot returns, stats + timeline fade in ──
-      tl.to(".ac-stat", {
-        opacity: 1, y: 0, scale: 1, duration: 0.3, stagger: 0.06,
-      }, "<+=0.1");
-      tl.to(".ac-line-h", { scaleX: 1, duration: 0.4 }, "<+=0.1");
-      tl.to(".ac-pillar", {
-        opacity: 1, y: 0, duration: 0.25, stagger: 0.08,
-      }, "<+=0.1");
-
-      // ── After mascot returns, start idle float + ring spin ──
+      // ── Mascot settles and starts idle float (at LAND) ──
       tl.call(() => {
-        gsap.to(mascotRef.current, {
-          y: "-=30", duration: 1.8, repeat: -1, yoyo: true, ease: "sine.inOut",
+        gsap.to(".ac-flying-mascot", {
+          y: "-=20", duration: 1.8, repeat: -1, yoyo: true, ease: "sine.inOut",
         });
-        gsap.to(".ac-shadow", {
-          scale: 0.6, opacity: 0.1, duration: 1.8, repeat: -1, yoyo: true, ease: "sine.inOut",
-        });
-        gsap.to(".ac-ring-outer", {
-          rotation: 360, duration: 20, repeat: -1, ease: "none",
-        });
-        gsap.to(".ac-ring-inner", {
-          rotation: -360, duration: 25, repeat: -1, ease: "none",
-        });
-      });
+      }, [], LAND);
 
     }, sectionRef);
 
@@ -140,8 +112,111 @@ export default function AboutCard() {
         }}
       />
 
+      {/* ── Flying mascot (engine of the train) ── */}
+      <div className="ac-curtain-wrap absolute inset-0 z-30 pointer-events-none overflow-hidden">
+        <div className="ac-flying-mascot absolute top-1/2 -translate-y-1/2 right-[5%] z-20">
+
+          {/* ── BG: Radial pulse waves ── */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+            <div className="ac-wave" style={{ width: "200px", height: "200px", animationDelay: "0s" }} />
+            <div className="ac-wave" style={{ width: "200px", height: "200px", animationDelay: "1s" }} />
+            <div className="ac-wave" style={{ width: "200px", height: "200px", animationDelay: "2s" }} />
+          </div>
+
+          {/* ── BG: Warm glow ── */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] rounded-full pointer-events-none ac-mglow" />
+
+          {/* ── BG: Speed lines (motion trail) ── */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[350px] pointer-events-none">
+            <div className="ac-speedline" style={{ top: "15%", left: "5%", width: "60px", animationDelay: "0s" }} />
+            <div className="ac-speedline" style={{ top: "30%", left: "0%", width: "80px", animationDelay: "0.4s" }} />
+            <div className="ac-speedline" style={{ top: "45%", left: "3%", width: "50px", animationDelay: "0.8s" }} />
+            <div className="ac-speedline" style={{ top: "60%", left: "8%", width: "70px", animationDelay: "0.2s" }} />
+            <div className="ac-speedline" style={{ top: "75%", left: "2%", width: "55px", animationDelay: "0.6s" }} />
+            <div className="ac-speedline" style={{ top: "22%", left: "80%", width: "45px", animationDelay: "1.0s" }} />
+            <div className="ac-speedline" style={{ top: "50%", left: "85%", width: "60px", animationDelay: "0.3s" }} />
+            <div className="ac-speedline" style={{ top: "70%", left: "78%", width: "50px", animationDelay: "0.7s" }} />
+          </div>
+
+          {/* ── BG: Sparkle dots ── */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] pointer-events-none">
+            <div className="ac-sparkle" style={{ top: "10%", left: "50%", animationDelay: "0s" }} />
+            <div className="ac-sparkle" style={{ top: "25%", left: "80%", animationDelay: "0.5s" }} />
+            <div className="ac-sparkle" style={{ top: "50%", left: "90%", animationDelay: "1.0s" }} />
+            <div className="ac-sparkle" style={{ top: "80%", left: "70%", animationDelay: "1.5s" }} />
+            <div className="ac-sparkle" style={{ top: "85%", left: "30%", animationDelay: "0.8s" }} />
+            <div className="ac-sparkle" style={{ top: "20%", left: "15%", animationDelay: "1.3s" }} />
+          </div>
+
+          {/* ── Mascot image ── */}
+          <div className="ac-flying-mascot-img relative z-10">
+            <Image
+              src="/mascot-img.png"
+              alt="QWQER Mascot"
+              width={280}
+              height={350}
+              className="h-[220px] md:h-[300px] w-auto object-contain"
+              style={{
+                filter: "drop-shadow(-20px 0 40px rgba(0,0,0,0.5)) drop-shadow(0 0 30px rgba(223,213,75,0.3))",
+                transform: "scaleX(-1)",
+              }}
+              onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+            />
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        .ac-wave {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          border-radius: 50%;
+          border: 1.5px solid rgba(223,213,75,0.2);
+          transform: translate(-50%, -50%) scale(0.3);
+          opacity: 0;
+          animation: mWave 3s ease-out infinite;
+        }
+        .ac-mglow {
+          background: radial-gradient(circle, rgba(223,213,75,0.12) 0%, rgba(223,213,75,0.04) 40%, transparent 70%);
+          animation: mGlow 3s ease-in-out infinite;
+        }
+        .ac-speedline {
+          position: absolute;
+          height: 2px;
+          border-radius: 2px;
+          background: linear-gradient(90deg, transparent, rgba(223,213,75,0.3), transparent);
+          animation: mSpeed 1.5s ease-in-out infinite;
+        }
+        .ac-sparkle {
+          position: absolute;
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background-color: rgba(223,213,75,0.6);
+          box-shadow: 0 0 8px rgba(223,213,75,0.4);
+          animation: mSparkle 2s ease-in-out infinite;
+        }
+        @keyframes mWave {
+          0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0.6; }
+          100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+        }
+        @keyframes mGlow {
+          0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+          50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.9; }
+        }
+        @keyframes mSpeed {
+          0%, 100% { opacity: 0; transform: scaleX(0.3); }
+          50% { opacity: 1; transform: scaleX(1); }
+        }
+        @keyframes mSparkle {
+          0%, 100% { transform: scale(0); opacity: 0; }
+          50% { transform: scale(1); opacity: 1; }
+        }
+      `}</style>
+
       <div className="max-w-[1200px] mx-auto relative z-10">
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-14">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-14 relative min-h-[500px]">
 
           {/* ── Left Column: Content ─────────────────────────── */}
           <div ref={contentRef} className="flex-1 order-2 lg:order-1">
@@ -222,7 +297,7 @@ export default function AboutCard() {
           </div>
 
           {/* ── Right Column: Mascot ──────────────────────── */}
-          <div className="flex-shrink-0 order-1 lg:order-2 relative self-center">
+          <div className="ac-mascot-wrap flex-shrink-0 order-1 lg:order-2 relative self-center hidden">
 
             {/* Large glow reflection behind mascot */}
             <div
@@ -316,21 +391,7 @@ export default function AboutCard() {
               }}
             />
 
-            {/* Ring rotation keyframes */}
-            <style jsx>{`
-              @keyframes spinRing1 {
-                from { transform: translate(-50%, -50%) rotate(0deg); }
-                to { transform: translate(-50%, -50%) rotate(360deg); }
-              }
-              @keyframes spinRing2 {
-                from { transform: translate(-50%, -50%) rotate(0deg); }
-                to { transform: translate(-50%, -50%) rotate(-360deg); }
-              }
-              @keyframes spinRing3 {
-                from { transform: translate(-50%, -50%) rotate(0deg); }
-                to { transform: translate(-50%, -50%) rotate(360deg); }
-              }
-            `}</style>
+
           </div>
 
         </div>

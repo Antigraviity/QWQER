@@ -6,83 +6,110 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 export default function CareersHero() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
+  // Mouse-reactive floating elements
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = section.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      const floaters = section.querySelectorAll<HTMLElement>(".ch-floater");
+      floaters.forEach((el) => {
+        const elRect = el.getBoundingClientRect();
+        const elX = elRect.left - rect.left + elRect.width / 2;
+        const elY = elRect.top - rect.top + elRect.height / 2;
+
+        const dx = elX - mouseX;
+        const dy = elY - mouseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const maxDist = 200;
+
+        if (dist < maxDist) {
+          const force = (1 - dist / maxDist) * 30;
+          const angle = Math.atan2(dy, dx);
+          gsap.to(el, {
+            x: Math.cos(angle) * force,
+            y: Math.sin(angle) * force,
+            duration: 0.3,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
+        } else {
+          gsap.to(el, {
+            x: 0,
+            y: 0,
+            duration: 1.2,
+            ease: "elastic.out(1, 0.4)",
+            overwrite: "auto",
+          });
+        }
+      });
+    };
+
+    section.addEventListener("mousemove", handleMouseMove);
+    return () => section.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      gsap.fromTo(".ch-badge", { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out", delay: 0.25 });
-      gsap.fromTo(".ch-line", { y: 55, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", stagger: 0.13, delay: 0.35 });
-      gsap.fromTo(".ch-sub", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", delay: 0.85 });
+      // Content starts off-screen right (will follow the dart like a train)
+      gsap.set(".ch-badge", { opacity: 0, x: "100vw" });
+      gsap.set(".ch-line", { opacity: 0, x: "100vw" });
+      gsap.set(".ch-sub", { opacity: 0, x: "100vw" });
 
-      // Floating icons
-      gsap.utils.toArray<HTMLElement>(".ch-float").forEach((el, i) => {
-        gsap.to(el, {
-          y: -10 - i * 4,
-          duration: 2.8 + i * 0.3,
-          ease: "sine.inOut",
-          repeat: -1,
-          yoyo: true,
-          delay: i * 0.5,
-        });
+      // Dart starts off-screen right
+      gsap.set(".ch-dart-flying", { x: "100vw", opacity: 1 });
+      gsap.set(".ch-impact", { scale: 0, opacity: 0 });
+
+      // Target board visible on the left from the start
+      gsap.set(".ch-target-board", { opacity: 1 });
+      gsap.set(".ch-target-ring", { scale: 0, opacity: 0 });
+
+      const tl = gsap.timeline({ delay: 0.2 });
+
+      // Phase 1: Target rings appear on the left (faster)
+      tl.to(".ch-target-ring", {
+        scale: 1, opacity: 1, duration: 0.3, stagger: 0.05, ease: "back.out(1.5)",
       });
+
+      // Phase 2: Dart flies from right to left FAST, content follows
+      tl.to(".ch-dart-flying", { x: 0, duration: 0.5, ease: "power4.in" }, "+=0.1");
+
+      // Content follows the dart with staggered delays
+      tl.to(".ch-badge", { x: 0, opacity: 1, duration: 0.6 }, "-=0.35");
+      tl.to(".ch-line", { x: 0, opacity: 1, duration: 0.6, stagger: 0.05 }, "-=0.45");
+      tl.to(".ch-sub", { x: 0, opacity: 1, duration: 0.6 }, "-=0.4");
+
+      // Phase 3: Impact — dart hits the bullseye
+      tl.to(".ch-impact", { scale: 2, opacity: 1, duration: 0.1, ease: "power2.out" }, "-=0.05");
+      tl.to(".ch-impact", { scale: 4, opacity: 0, duration: 0.5, ease: "power2.out" });
+
+      // Board shakes on impact
+      tl.to(".ch-target-board", { x: -5, duration: 0.04, ease: "none" }, "-=0.55");
+      tl.to(".ch-target-board", { x: 5, duration: 0.04, ease: "none" });
+      tl.to(".ch-target-board", { x: -3, duration: 0.04, ease: "none" });
+      tl.to(".ch-target-board", { x: 1, duration: 0.04, ease: "none" });
+      tl.to(".ch-target-board", { x: 0, duration: 0.06, ease: "power2.out" });
+
+      // Dart sticks — slight recoil bounce
+      tl.to(".ch-dart-flying", { x: 8, duration: 0.08, ease: "power2.out" }, "-=0.4");
+      tl.to(".ch-dart-flying", { x: 0, duration: 0.15, ease: "elastic.out(1, 0.5)" });
+
+      // Phase 4: After a pause, fade out board and dart
+      tl.to([".ch-target-board", ".ch-dart-flying"], {
+        opacity: 0, scale: 0.9, duration: 0.6, ease: "power2.in",
+      }, "+=0.8");
 
       // Blob parallax
       gsap.to(".ch-blob-1", { yPercent: 18, ease: "none", scrollTrigger: { trigger: sectionRef.current, start: "top top", end: "bottom top", scrub: true } });
       gsap.to(".ch-blob-2", { yPercent: -12, ease: "none", scrollTrigger: { trigger: sectionRef.current, start: "top top", end: "bottom top", scrub: true } });
 
-      // Particles drifting upward
-      gsap.utils.toArray<HTMLElement>(".ch-particle").forEach((el, i) => {
-        gsap.to(el, {
-          y: -(120 + i * 25),
-          x: (i % 2 === 0 ? 1 : -1) * (15 + i * 4),
-          opacity: 0,
-          duration: 4.5 + i * 0.4,
-          ease: "none",
-          repeat: -1,
-          delay: i * 0.35,
-        });
-      });
 
-      // Network lines drawing in
-      gsap.utils.toArray<HTMLElement>(".ch-net-line").forEach((line, i) => {
-        const el = line as unknown as SVGLineElement;
-        const length = Math.sqrt(
-          Math.pow(parseFloat(el.getAttribute("x2") || "0") - parseFloat(el.getAttribute("x1") || "0"), 2) +
-          Math.pow(parseFloat(el.getAttribute("y2") || "0") - parseFloat(el.getAttribute("y1") || "0"), 2)
-        );
-        gsap.set(el, { strokeDasharray: 1000, strokeDashoffset: 1000 });
-        gsap.to(el, {
-          strokeDashoffset: 0,
-          duration: 1.5,
-          ease: "power2.out",
-          delay: 0.8 + i * 0.15,
-        });
-      });
-
-      // Network nodes popping in
-      gsap.fromTo(".ch-net-node",
-        { scale: 0, opacity: 0 },
-        {
-          scale: 1, opacity: 1,
-          duration: 0.5,
-          stagger: 0.12,
-          ease: "back.out(2)",
-          delay: 1.2,
-        }
-      );
-
-      // Nodes pulsing after appearing
-      gsap.utils.toArray<HTMLElement>(".ch-net-node").forEach((node, i) => {
-        gsap.to(node, {
-          scale: 1.4,
-          opacity: 0.6,
-          duration: 1.5 + i * 0.2,
-          ease: "sine.inOut",
-          repeat: -1,
-          yoyo: true,
-          delay: 2 + i * 0.2,
-        });
-      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -123,106 +150,81 @@ export default function CareersHero() {
         }}
       />
 
-      {/* Animated orbit rings — centered behind content */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-        {/* Outer orbit */}
-        <div className="absolute w-[550px] h-[550px] -top-[275px] -left-[275px] rounded-full" style={{
-          border: "1px solid rgba(238,52,37,0.07)",
-          animation: "ch-orbit 28s linear infinite",
-        }}>
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full" style={{ background: "rgba(238,52,37,0.35)", boxShadow: "0 0 10px rgba(238,52,37,0.25)" }} />
-        </div>
-        {/* Middle orbit */}
-        <div className="absolute w-[380px] h-[380px] -top-[190px] -left-[190px] rounded-full" style={{
-          border: "1px dashed rgba(255,255,255,0.04)",
-          animation: "ch-orbit 20s linear infinite reverse",
-        }}>
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-1.5 h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.25)", boxShadow: "0 0 8px rgba(255,255,255,0.12)" }} />
-        </div>
-        {/* Inner orbit */}
-        <div className="absolute w-[220px] h-[220px] -top-[110px] -left-[110px] rounded-full" style={{
-          border: "1px solid rgba(238,52,37,0.05)",
-          animation: "ch-orbit 14s linear infinite",
-        }}>
-          <div className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 w-1 h-1 rounded-full" style={{ background: "rgba(238,52,37,0.45)", boxShadow: "0 0 6px rgba(238,52,37,0.25)" }} />
-        </div>
-        {/* Central pulsing glow */}
-        <div className="absolute w-[140px] h-[140px] -top-[70px] -left-[70px] rounded-full" style={{
-          background: "radial-gradient(circle, rgba(238,52,37,0.05) 0%, transparent 70%)",
-          animation: "ch-pulse 3s ease-in-out infinite",
+      {/* ── Target Board on the LEFT ── */}
+      <div className="ch-target-board absolute top-1/2 left-[8%] -translate-y-1/2 pointer-events-none z-[5]" style={{ perspective: "800px" }}>
+        <div className="ch-target-3d" style={{ transform: "rotateY(20deg) rotateX(5deg)", transformStyle: "preserve-3d" }}>
+        <svg width="400" height="400" viewBox="0 0 320 320" fill="none">
+          {/* Outer ring */}
+          <circle className="ch-target-ring" cx="160" cy="160" r="150" stroke="rgba(238,52,37,0.15)" strokeWidth="3" fill="none" />
+          {/* Ring 2 */}
+          <circle className="ch-target-ring" cx="160" cy="160" r="120" stroke="rgba(238,52,37,0.2)" strokeWidth="2.5" fill="rgba(238,52,37,0.03)" />
+          {/* Ring 3 */}
+          <circle className="ch-target-ring" cx="160" cy="160" r="90" stroke="rgba(255,255,255,0.08)" strokeWidth="2" fill="rgba(238,52,37,0.05)" />
+          {/* Ring 4 */}
+          <circle className="ch-target-ring" cx="160" cy="160" r="60" stroke="rgba(238,52,37,0.3)" strokeWidth="2" fill="rgba(238,52,37,0.06)" />
+          {/* Ring 5 - inner */}
+          <circle className="ch-target-ring" cx="160" cy="160" r="30" stroke="rgba(238,52,37,0.4)" strokeWidth="2" fill="rgba(238,52,37,0.1)" />
+          {/* Bullseye */}
+          <circle className="ch-target-ring" cx="160" cy="160" r="8" fill="#ee3425" />
+          {/* Crosshair lines */}
+          <line className="ch-target-ring" x1="160" y1="5" x2="160" y2="315" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
+          <line className="ch-target-ring" x1="5" y1="160" x2="315" y2="160" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
+        </svg>
+
+
+
+        {/* Impact flash */}
+        <div className="ch-impact absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full" style={{
+          background: "radial-gradient(circle, rgba(238,52,37,0.8) 0%, rgba(238,52,37,0.3) 40%, transparent 70%)",
         }} />
+
+        {/* 3D shadow beneath the board */}
+        <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-[250px] h-[20px] rounded-full" style={{
+          background: "radial-gradient(ellipse, rgba(238,52,37,0.15) 0%, transparent 70%)",
+          filter: "blur(8px)",
+        }} />
+        </div>
       </div>
 
-      {/* Floating particles — rising dots */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {[...Array(10)].map((_, i) => (
-          <div
-            key={`cp-${i}`}
-            className="ch-particle absolute rounded-full"
-            style={{
-              width: `${2 + (i % 3)}px`,
-              height: `${2 + (i % 3)}px`,
-              background: i % 4 === 0 ? "rgba(238,52,37,0.35)" : "rgba(255,255,255,0.12)",
-              boxShadow: i % 4 === 0 ? "0 0 6px rgba(238,52,37,0.25)" : "none",
-              left: `${5 + (i * 9.2) % 88}%`,
-              top: `${65 + (i * 11) % 30}%`,
-            }}
-          />
-        ))}
+      {/* ── Flying Dart (separate, travels from right to left to hit the board) ── */}
+      <div className="ch-dart-flying absolute top-1/2 left-[8%] -translate-y-1/2 pointer-events-none z-[6]" style={{ marginLeft: "160px" }}>
+        <svg width="100" height="20" viewBox="0 0 100 20" fill="none">
+          {/* Dart tip (pointing left) */}
+          <polygon points="0,10 16,3 16,17" fill="#ee3425" />
+          {/* Dart body */}
+          <rect x="16" y="6" width="44" height="8" rx="2" fill="#cc2a1e" />
+          {/* Dart tail fins */}
+          <polygon points="60,0 60,20 76,10" fill="rgba(238,52,37,0.5)" />
+          <polygon points="64,3 64,17 78,10" fill="rgba(200,40,30,0.3)" />
+          {/* Tail feathers */}
+          <rect x="76" y="4" width="24" height="4" rx="1.5" fill="rgba(238,52,37,0.4)" />
+          <rect x="76" y="12" width="24" height="4" rx="1.5" fill="rgba(238,52,37,0.4)" />
+          <rect x="78" y="8" width="20" height="4" rx="1.5" fill="rgba(238,52,37,0.25)" />
+        </svg>
       </div>
 
-      {/* Animated network lines — connecting-dots pattern */}
-      <svg className="absolute top-[10%] left-0 w-full h-[80%] pointer-events-none" preserveAspectRatio="none">
-        {/* Network connection lines */}
-        <line className="ch-net-line" x1="10%" y1="20%" x2="25%" y2="45%" stroke="rgba(238,52,37,0.06)" strokeWidth="1" />
-        <line className="ch-net-line" x1="25%" y1="45%" x2="50%" y2="30%" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
-        <line className="ch-net-line" x1="50%" y1="30%" x2="75%" y2="55%" stroke="rgba(238,52,37,0.05)" strokeWidth="1" />
-        <line className="ch-net-line" x1="75%" y1="55%" x2="90%" y2="25%" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
-        <line className="ch-net-line" x1="15%" y1="70%" x2="40%" y2="60%" stroke="rgba(238,52,37,0.04)" strokeWidth="1" />
-        <line className="ch-net-line" x1="40%" y1="60%" x2="65%" y2="75%" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
-        <line className="ch-net-line" x1="65%" y1="75%" x2="85%" y2="65%" stroke="rgba(238,52,37,0.04)" strokeWidth="1" />
-        {/* Network nodes */}
-        <circle className="ch-net-node" cx="10%" cy="20%" r="3" fill="rgba(238,52,37,0.2)" />
-        <circle className="ch-net-node" cx="25%" cy="45%" r="2.5" fill="rgba(255,255,255,0.1)" />
-        <circle className="ch-net-node" cx="50%" cy="30%" r="3" fill="rgba(238,52,37,0.15)" />
-        <circle className="ch-net-node" cx="75%" cy="55%" r="2.5" fill="rgba(255,255,255,0.08)" />
-        <circle className="ch-net-node" cx="90%" cy="25%" r="2" fill="rgba(238,52,37,0.15)" />
-        <circle className="ch-net-node" cx="15%" cy="70%" r="2" fill="rgba(255,255,255,0.08)" />
-        <circle className="ch-net-node" cx="40%" cy="60%" r="3" fill="rgba(238,52,37,0.12)" />
-        <circle className="ch-net-node" cx="65%" cy="75%" r="2.5" fill="rgba(255,255,255,0.06)" />
-        <circle className="ch-net-node" cx="85%" cy="65%" r="2" fill="rgba(238,52,37,0.1)" />
-      </svg>
+      {/* ── Floating elements ── */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-[2]">
+        {/* Cross */}
+        <svg className="ch-floater absolute top-[12%] right-[12%]" width="36" height="36" viewBox="0 0 36 36">
+          <line x1="18" y1="4" x2="18" y2="32" stroke="rgba(238,52,37,0.45)" strokeWidth="2" />
+          <line x1="4" y1="18" x2="32" y2="18" stroke="rgba(238,52,37,0.45)" strokeWidth="2" />
+        </svg>
 
-      {/* Floating icons — career/work themed */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Briefcase */}
-        <div className="ch-float absolute top-[18%] right-[10%]">
-          <div className="relative">
-            <div className="absolute inset-0 rounded-full" style={{ background: "radial-gradient(circle, rgba(238,52,37,0.3) 0%, rgba(238,52,37,0.08) 40%, transparent 70%)", filter: "blur(12px)", transform: "scale(1.8)" }} />
-            <svg className="relative" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2" /><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" /><line x1="12" y1="12" x2="12" y2="12.01" /></svg>
-          </div>
-        </div>
-        {/* Users / Team */}
-        <div className="ch-float absolute top-[30%] left-[7%]">
-          <div className="relative">
-            <div className="absolute inset-0 rounded-full" style={{ background: "radial-gradient(circle, rgba(238,52,37,0.25) 0%, rgba(238,52,37,0.06) 40%, transparent 70%)", filter: "blur(14px)", transform: "scale(1.8)" }} />
-            <svg className="relative" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87" /><path d="M16 3.13a4 4 0 010 7.75" /></svg>
-          </div>
-        </div>
-        {/* Rocket */}
-        <div className="ch-float absolute top-[55%] right-[5%]">
-          <div className="relative">
-            <div className="absolute inset-0 rounded-full" style={{ background: "radial-gradient(circle, rgba(238,52,37,0.25) 0%, rgba(238,52,37,0.06) 40%, transparent 70%)", filter: "blur(10px)", transform: "scale(1.8)" }} />
-            <svg className="relative" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z" /><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z" /><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" /><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /></svg>
-          </div>
-        </div>
-        {/* Target */}
-        <div className="ch-float absolute bottom-[25%] left-[12%]">
-          <div className="relative">
-            <div className="absolute inset-0 rounded-full" style={{ background: "radial-gradient(circle, rgba(238,52,37,0.2) 0%, rgba(238,52,37,0.05) 40%, transparent 70%)", filter: "blur(12px)", transform: "scale(1.8)" }} />
-            <svg className="relative" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg>
-          </div>
-        </div>
+        {/* Circle */}
+        <div className="ch-floater absolute top-[20%] left-[18%] w-5 h-5 rounded-full border-2 border-[#ee3425]/40" style={{ boxShadow: "0 0 12px rgba(238,52,37,0.2)" }} />
+
+        {/* Diamond */}
+        <div className="ch-floater absolute top-[70%] right-[20%] w-5 h-5 rotate-45 border-2 border-[#ee3425]/35" style={{ boxShadow: "0 0 10px rgba(238,52,37,0.15)" }} />
+
+        {/* Glowing dot */}
+        <div className="ch-floater absolute top-[16%] left-[35%] w-2.5 h-2.5 rounded-full bg-[#ee3425]/50" style={{ boxShadow: "0 0 16px rgba(238,52,37,0.4), 0 0 30px rgba(238,52,37,0.15)" }} />
+
+        {/* Ring */}
+        <div className="ch-floater absolute top-[60%] left-[8%] w-10 h-10 rounded-full border-2 border-[#ee3425]/25" style={{ boxShadow: "0 0 15px rgba(238,52,37,0.1)" }} />
+
+        {/* Dot */}
+        <div className="ch-floater absolute top-[45%] right-[6%] w-2 h-2 rounded-full bg-white/25" style={{ boxShadow: "0 0 12px rgba(255,255,255,0.15)" }} />
       </div>
 
       {/* Content */}
@@ -267,16 +269,7 @@ export default function CareersHero() {
       </div>
 
       {/* Keyframes for orbit animations */}
-      <style jsx>{`
-        @keyframes ch-orbit {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        @keyframes ch-pulse {
-          0%, 100% { opacity: 0.3; transform: scale(0.9); }
-          50% { opacity: 1; transform: scale(1.15); }
-        }
-      `}</style>
+
 
       {/* Bottom separator */}
       <div className="absolute bottom-0 left-0 w-full z-20 pointer-events-none">

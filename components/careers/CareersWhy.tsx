@@ -9,21 +9,21 @@ const PILLARS = [
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 7h-9" /><path d="M14 17H5" /><circle cx="17" cy="17" r="3" /><circle cx="7" cy="7" r="3" /></svg>
     ),
     label: "Operations-first thinking",
-    text: "Our teams operate across on-demand express delivery and execution-led fleet logistics, supporting businesses and institutions with movement that needs to happen every day, at scale.",
+    text: "On-demand express delivery and execution-led fleet logistics at scale.",
   },
   {
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
     ),
     label: "Led by experience",
-    text: "We're led by people who understand logistics from the inside out. That experience shapes how we work — practical, structured, and focused on getting things done the right way.",
+    text: "Practical, structured leadership that knows logistics from the inside out.",
   },
   {
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22" /><path d="M16.5 6h5.25v5.25" /></svg>
     ),
     label: "Grow with the business",
-    text: "As we grow across cities and services, we're building teams that grow with the business — learning from operations, improving systems, and contributing to long-term performance.",
+    text: "Build your career as we expand across cities, services, and systems.",
   },
 ];
 
@@ -112,10 +112,7 @@ export default function CareersWhy() {
 
               <div className="p-7 md:p-8">
                 {/* Number + Icon row */}
-                <div className="flex items-center justify-between mb-6">
-                  <span className="text-[52px] font-black leading-none tracking-tight" style={{ color: "rgba(255,255,255,0.04)" }}>
-                    0{i + 1}
-                  </span>
+                <div className="flex items-center justify-end mb-6">
                   <div className="w-14 h-14 rounded-xl flex items-center justify-center" style={{
                     background: "rgba(238,52,37,0.08)",
                     color: A,

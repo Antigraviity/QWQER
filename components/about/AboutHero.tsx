@@ -3,14 +3,27 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const CITIES = [
-  { name: "Delhi" },
-  { name: "Mumbai" },
-  { name: "Pune" },
-  { name: "Hyderabad" },
-  { name: "Bangalore" },
-  { name: "Chennai" },
-  { name: "Kochi" },
+const MILESTONES = [
+  {
+    year: "2019",
+    items: ["Began operations in Bangalore", "Scaled up operations in multiple segments & industries"],
+  },
+  {
+    year: "2021",
+    items: ["Spread Express across South India", "Started QWQER Shop in 1 location"],
+  },
+  {
+    year: "2022",
+    items: ["Expanded QWQER Shop to multiple locations", "Launch of transportation offering"],
+  },
+  {
+    year: "2023",
+    items: ["Started Pan India operations with marquee clients"],
+  },
+  {
+    year: "2024",
+    items: ["Presence across all major transportation lanes", "200+ satisfied customers", "3 Lakh+ successful trips"],
+  },
 ];
 
 export default function AboutHero() {
@@ -23,151 +36,72 @@ export default function AboutHero() {
       /* Badge */
       gsap.fromTo(".ah-badge", { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out", delay: 0.25 });
 
-      /* Headline */
-      gsap.fromTo(".ah-line", { y: 55, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", stagger: 0.13, delay: 0.35 });
+      /* Headline — letter-by-letter reveal */
+      document.querySelectorAll(".ah-line").forEach((line) => {
+        const el = line as HTMLElement;
+        const text = el.textContent || "";
+        el.textContent = "";
+        text.split("").forEach((char) => {
+          const span = document.createElement("span");
+          span.textContent = char;
+          span.style.display = "inline-block";
+          span.style.opacity = "0.12";
+          span.classList.add("ah-char");
+          if (char === " ") span.style.width = "0.3em";
+          el.appendChild(span);
+        });
+      });
+      gsap.to(".ah-char", {
+        opacity: 1,
+        duration: 0.06,
+        stagger: 0.035,
+        delay: 0.4,
+        ease: "none",
+      });
 
       /* Subtext */
       gsap.fromTo(".ah-sub", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", delay: 0.95 });
 
-      /* ── Route animation: truck drives, pins pop as truck arrives ── */
+      /* ── Milestone timeline animation ── */
 
-      const TRUCK_DELAY = 1.3;  // when truck starts moving
-      const TRUCK_DUR = 5;      // total travel duration
-      const TOTAL = CITIES.length;
+      const TRACK_DELAY = 1.0;
+      const TRACK_DUR = 2.5;
+      const TRUCK_DELAY = 1.3;
+      const TRUCK_DUR = 5;
+      const TOTAL = MILESTONES.length;
 
-      // Track draws in slightly before truck
-      gsap.fromTo(".ah-track", { scaleX: 0 }, { scaleX: 1, duration: 2.5, ease: "power2.inOut", delay: 1.0, transformOrigin: "left center" });
+      // Track draws in
+      gsap.fromTo(".ah-track", { scaleX: 0 }, { scaleX: 1, duration: TRACK_DUR, ease: "power2.inOut", delay: TRACK_DELAY, transformOrigin: "left center" });
 
-      // Progress trail follows truck
+      // Trail follows truck
       gsap.fromTo(".ah-trail", { scaleX: 0 }, { scaleX: 1, duration: TRUCK_DUR, ease: "power1.inOut", delay: TRUCK_DELAY, transformOrigin: "left center" });
 
-      // Vehicle initial journey
-      const truckTween = gsap.fromTo(".ah-truck", { left: "-2%", opacity: 1 }, { left: "97%", duration: TRUCK_DUR, ease: "power1.inOut", delay: TRUCK_DELAY });
+      // Truck drives across
+      gsap.fromTo(".ah-truck", { left: "-2%", opacity: 1 }, { left: "97%", duration: TRUCK_DUR, ease: "power1.inOut", delay: TRUCK_DELAY });
 
-      // Calculate when truck reaches each city and trigger pin + dot
-      CITIES.forEach((_, i) => {
-        const cityPercent = ((i + 1) / (TOTAL + 1)) * 100;
-        // Map city position to the truck's travel progress (from -2% to 97%)
-        const progress = (cityPercent - (-2)) / (97 - (-2));  // 0 to 1
-        // Time when truck reaches this city
+      // Milestones appear as truck passes
+      MILESTONES.forEach((_, i) => {
+        const pos = ((i + 1) / (TOTAL + 1)) * 100;
+        const progress = (pos - (-2)) / (97 - (-2));
         const arrivalTime = TRUCK_DELAY + TRUCK_DUR * progress;
 
-        // Pin drops when truck arrives
-        gsap.set(`.ah-pin-${i}`, { y: -30, opacity: 0, scale: 0 });
-        gsap.to(`.ah-pin-${i}`, {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.55,
-          ease: "back.out(3)",
-          delay: arrivalTime - 0.1,
-        });
-
-        // Dot appears at same time
+        // Dot appears
         gsap.set(`.ah-dot-${i}`, { scale: 0, opacity: 0 });
-        gsap.to(`.ah-dot-${i}`, {
-          scale: 1,
-          opacity: 1,
-          duration: 0.3,
-          ease: "power2.out",
-          delay: arrivalTime - 0.1,
-        });
+        gsap.to(`.ah-dot-${i}`, { scale: 1, opacity: 1, duration: 0.3, ease: "power2.out", delay: arrivalTime - 0.1 });
 
-        // Pulse ring starts after dot appears
+        // Pulse ring
         gsap.set(`.ah-ring-${i}`, { opacity: 0 });
         gsap.to(`.ah-ring-${i}`, {
-          opacity: 1,
-          delay: arrivalTime + 0.2,
-          duration: 0.01,
+          opacity: 1, delay: arrivalTime + 0.2, duration: 0.01,
           onComplete: () => {
-            // Start repeating CSS animation by adding a class
             const ring = document.querySelector(`.ah-ring-${i}`) as HTMLElement;
             if (ring) ring.style.animation = "ringPing 2.5s ease-out infinite";
           },
         });
 
-        // Idle float after pin has landed
-        gsap.to(`.ah-pin-${i}`, {
-          y: -4,
-          duration: 2.2 + i * 0.15,
-          ease: "sine.inOut",
-          repeat: -1,
-          yoyo: true,
-          delay: arrivalTime + 0.6,
-        });
-      });
-
-      // After initial journey: keep truck at destination, start levitation with size swaps
-      gsap.delayedCall(TRUCK_DELAY + TRUCK_DUR + 1, () => {
-        // Kill all existing pin tweens
-        CITIES.forEach((_, i) => {
-          gsap.killTweensOf(`.ah-pin-${i}`);
-        });
-
-        // Start levitation with alternating size swaps
-        const swapCycle = () => {
-          CITIES.forEach((_, i) => {
-            const isCurrentlyLarge = i % 2 === 0;
-            const pin = document.querySelector(`.ah-pin-${i}`) as HTMLElement;
-            if (!pin) return;
-            const svg = pin.querySelector("svg");
-            if (!svg) return;
-
-            // Swap: large becomes small, small becomes large
-            gsap.to(svg, {
-              scale: isCurrentlyLarge ? 0.65 : 1.5,
-              duration: 1.2,
-              ease: "power2.inOut",
-            });
-
-            // Levitate with different heights based on new size
-            gsap.to(pin, {
-              y: isCurrentlyLarge ? -6 : -18,
-              duration: 1.8 + i * 0.1,
-              ease: "sine.inOut",
-              repeat: 1,
-              yoyo: true,
-            });
-          });
-        };
-
-        const swapBack = () => {
-          CITIES.forEach((_, i) => {
-            const isCurrentlyLarge = i % 2 === 0;
-            const pin = document.querySelector(`.ah-pin-${i}`) as HTMLElement;
-            if (!pin) return;
-            const svg = pin.querySelector("svg");
-            if (!svg) return;
-
-            // Swap back to original
-            gsap.to(svg, {
-              scale: 1,
-              duration: 1.2,
-              ease: "power2.inOut",
-            });
-
-            // Levitate with original heights
-            gsap.to(pin, {
-              y: isCurrentlyLarge ? -16 : -6,
-              duration: 1.8 + i * 0.1,
-              ease: "sine.inOut",
-              repeat: 1,
-              yoyo: true,
-            });
-          });
-        };
-
-        // Alternate between swapped and original every ~4s
-        swapCycle();
-        let isSwapped = true;
-        setInterval(() => {
-          if (isSwapped) {
-            swapBack();
-          } else {
-            swapCycle();
-          }
-          isSwapped = !isSwapped;
-        }, 4000);
+        // Content + Year card drops in from above
+        gsap.set(`.ah-card-${i}`, { y: -20, opacity: 0 });
+        gsap.to(`.ah-card-${i}`, { y: 0, opacity: 1, duration: 0.6, ease: "back.out(2)", delay: arrivalTime });
       });
 
       /* Blob parallax */
@@ -291,10 +225,10 @@ export default function AboutHero() {
 
         {/* Headline */}
         <h1 className="max-w-4xl">
-          <span className="ah-line block text-[65px] font-extrabold leading-[1.06] tracking-[-0.025em] text-white">
+          <span className="ah-line block text-4xl md:text-[65px] font-extrabold leading-[1.06] tracking-[-0.025em] text-white">
             Built by operators.
           </span>
-          <span className="ah-line block text-[65px] font-extrabold leading-[1.06] tracking-[-0.025em] text-white">
+          <span className="ah-line block text-4xl md:text-[65px] font-extrabold leading-[1.06] tracking-[-0.025em] text-white">
             Powered by precision.
           </span>
         </h1>
@@ -310,53 +244,42 @@ export default function AboutHero() {
         </p>
       </div>
 
-      {/* ── Horizontal Route ──────────────────────────────────── */}
-      <div className="relative z-10 w-full mt-8 md:mt-12 pb-10 md:pb-14">
+      {/* ── Milestone Timeline ──────────────────────────────────── */}
+      <div className="relative z-10 w-full mt-10 md:mt-14 pb-10 md:pb-14">
         <div className="relative mx-6 md:mx-14 lg:mx-20 max-w-[1300px] xl:mx-auto">
-          <div className="relative w-full h-[140px] md:h-[160px]">
+          <div className="relative w-full" style={{ minHeight: "280px" }}>
 
-            {/* ── Pins ────────────────────────────────────────── */}
-            {CITIES.map((city, i) => {
-              const left = ((i + 1) / (CITIES.length + 1)) * 100;
-              const isLarge = i % 2 === 0; // alternating: big, small, big, small...
-              const pinW = isLarge ? 30 : 20;
-              const pinH = isLarge ? 40 : 26;
-              const cx = isLarge ? 15 : 10;
-              const cy = isLarge ? 14 : 9;
-              const cr = isLarge ? 6 : 4;
-              const vb = isLarge ? "0 0 30 40" : "0 0 20 26";
-              const pathD = isLarge
-                ? "M15 0C6.72 0 0 6.72 0 15c0 11.25 15 25 15 25s15-13.75 15-25C30 6.72 23.28 0 15 0z"
-                : "M10 0C4.48 0 0 4.48 0 10c0 7.5 10 16 10 16s10-8.5 10-16C20 4.48 15.52 0 10 0z";
+            {/* ── Year labels (above line) & Content cards (below line) ── */}
+            {MILESTONES.map((m, i) => {
+              const left = ((i + 1) / (MILESTONES.length + 1)) * 100;
               return (
-                <div
-                  key={city.name}
-                  className={`ah-pin-${i} absolute opacity-0 flex flex-col items-center`}
-                  style={{ left: `${left}%`, bottom: "calc(50% + 20px)", transform: "translateX(-50%)" }}
-                >
-                  <svg width={pinW} height={pinH} viewBox={vb} fill="none">
-                    <path d={pathD} fill={A} opacity="0.9" />
-                    <circle cx={cx} cy={cy} r={cr} fill="white" opacity="0.95" />
-                  </svg>
-                  <span className={`mt-1.5 font-bold tracking-[0.12em] uppercase whitespace-nowrap text-white/60 ${isLarge ? 'text-[10px] md:text-[11px]' : 'text-[8px] md:text-[9px]'}`}>
-                    {city.name}
-                  </span>
+                <div key={m.year} className="absolute flex flex-col items-center" style={{ left: `${left}%`, bottom: "50%", transform: "translateX(-50%)", width: "160px" }}>
+                  <div
+                    className={`ah-card-${i} flex flex-col items-center`}
+                    style={{ opacity: 0, marginBottom: "16px" }}
+                  >
+                    <div className="flex flex-col gap-1.5 mb-3 min-h-[70px] justify-end">
+                      {m.items.map((item, j) => (
+                        <div key={j} className="flex items-start gap-1.5">
+                          <svg className="w-2.5 h-2.5 shrink-0 mt-[3px]" viewBox="0 0 10 10" fill="none">
+                            <path d="M1 5 L4 8 L9 2" stroke={A} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                          <span className="text-[9px] md:text-[10px] text-white/50 leading-[1.4]">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <span className={`ah-year-${i} text-lg md:text-xl font-black text-white tracking-tight`}>{m.year}</span>
+                  </div>
                 </div>
               );
             })}
 
-            {/* ── Route line ──────────────────────────────────── */}
+            {/* ── Route line (centered vertically) ──────────────── */}
             <div className="absolute left-0 right-0 top-1/2 -translate-y-[0.5px] h-[2px]">
-              {/* Base track */}
               <div
                 className="ah-track absolute inset-0 rounded-full"
-                style={{
-                  background: "rgba(255,255,255,0.06)",
-                  transformOrigin: "left center",
-                  transform: "scaleX(0)",
-                }}
+                style={{ background: "rgba(255,255,255,0.06)", transformOrigin: "left center", transform: "scaleX(0)" }}
               />
-              {/* Glowing colored trail */}
               <div
                 className="ah-trail absolute inset-0 h-[3px] -top-[0.5px] rounded-full"
                 style={{
@@ -368,32 +291,22 @@ export default function AboutHero() {
               />
             </div>
 
-            {/* ── Stop dots (hidden by default, revealed by GSAP) ── */}
-            {CITIES.map((city, i) => {
-              const left = ((i + 1) / (CITIES.length + 1)) * 100;
+            {/* ── Stop dots ──────────────────────────────────── */}
+            {MILESTONES.map((m, i) => {
+              const left = ((i + 1) / (MILESTONES.length + 1)) * 100;
               return (
                 <div
-                  key={`dot-${city.name}`}
+                  key={`dot-${m.year}`}
                   className="absolute top-1/2"
                   style={{ left: `${left}%`, transform: "translate(-50%, -50%)" }}
                 >
-                  {/* Pulse ring — controlled by GSAP */}
                   <div
                     className={`ah-ring-${i} absolute w-3 h-3 rounded-full -top-1.5 -left-1.5`}
-                    style={{
-                      border: `1.5px solid ${A}`,
-                      opacity: 0,
-                    }}
+                    style={{ border: `1.5px solid ${A}`, opacity: 0 }}
                   />
-                  {/* Core dot — controlled by GSAP */}
                   <div
                     className={`ah-dot-${i} w-[7px] h-[7px] rounded-full`}
-                    style={{
-                      backgroundColor: A,
-                      boxShadow: `0 0 10px rgba(238,52,37,0.5), 0 0 20px rgba(238,52,37,0.15)`,
-                      opacity: 0,
-                      transform: "scale(0)",
-                    }}
+                    style={{ backgroundColor: A, boxShadow: `0 0 10px rgba(238,52,37,0.5), 0 0 20px rgba(238,52,37,0.15)`, opacity: 0, transform: "scale(0)" }}
                   />
                 </div>
               );
@@ -402,9 +315,7 @@ export default function AboutHero() {
             {/* ── Truck ───────────────────────────────────────── */}
             <div className="ah-truck absolute top-1/2 z-10" style={{ left: "-2%", transform: "translateY(-50%)" }}>
               <div className="relative -top-[12px] -left-[15px]">
-                {/* Glow */}
                 <div className="absolute top-1 -left-1 w-10 h-6 rounded-full blur-md" style={{ backgroundColor: "rgba(238,52,37,0.25)" }} />
-                {/* Truck */}
                 <svg width="30" height="20" viewBox="0 0 30 20" fill="none">
                   <rect x="0" y="3" width="18" height="11" rx="2" fill={A} />
                   <line x1="4" y1="6" x2="14" y2="6" stroke="white" strokeWidth="0.6" opacity="0.3" />
@@ -421,12 +332,12 @@ export default function AboutHero() {
               </div>
             </div>
 
-            {/* Origin */}
+            {/* Origin dot */}
             <div className="absolute left-0 top-1/2 -translate-y-1/2">
               <div className="w-[9px] h-[9px] rounded-full border-2" style={{ borderColor: A, backgroundColor: "transparent" }} />
             </div>
 
-            {/* Destination */}
+            {/* Destination dot */}
             <div className="absolute right-0 top-1/2 -translate-y-1/2">
               <div className="w-[9px] h-[9px] rounded-full border-2" style={{ borderColor: A, backgroundColor: "transparent" }} />
             </div>

@@ -46,8 +46,9 @@ export default function WhyQwqer() {
             const markers = gsap.utils.toArray(".node-marker");
             markers.forEach((marker: any) => {
                 gsap.to(marker, {
-                    backgroundColor: "#ee3425",
-                    borderColor: "#ee3425",
+                    backgroundColor: "#a78bfa",
+                    borderColor: "#a78bfa",
+                    boxShadow: "0 0 12px rgba(167,139,250,0.6)",
                     scale: 1.2,
                     duration: 0.4,
                     scrollTrigger: {
@@ -109,22 +110,25 @@ export default function WhyQwqer() {
     ];
 
     return (
-        <section ref={sectionRef} className="py-12 bg-black relative overflow-hidden">
-            <div className="max-w-[1400px] mx-auto px-6 pt-12 relative z-10">
-                <div className="bg-[#ffefe9] rounded-[3rem] p-10 md:p-14 relative overflow-hidden shadow-2xl">
+        <section ref={sectionRef} className="py-6 bg-black relative overflow-hidden">
+            <div className="max-w-[1400px] mx-auto px-6 pt-6 relative z-10">
+                <div className="bg-gradient-to-br from-[#0f0d1a] via-[#1c1735] to-[#12101f] rounded-[3rem] p-8 md:p-10 relative overflow-hidden shadow-2xl border border-[#625ea5]/10">
 
                     {/* Subtle Blueprint Grid Pattern */}
                     <div className="absolute inset-0 opacity-[0.05]"
-                        style={{ backgroundImage: 'radial-gradient(#ee3425 0.5px, transparent 0.5px)', backgroundSize: '30px 30px' }}>
+                        style={{ backgroundImage: 'radial-gradient(#625ea5 0.5px, transparent 0.5px)', backgroundSize: '30px 30px' }}>
+                    </div>
+                    {/* Subtle purple ambient glow */}
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#625ea5]/5 rounded-full blur-[120px] pointer-events-none">
                     </div>
 
                     <div className="relative z-10">
                         {/* Header Area */}
-                        <div className="mb-14 text-center">
-                            <div className="inline-block px-4 py-1.5 bg-[#ee3425] text-white font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg shadow-xl mb-8">
+                        <div className="mb-8 text-center">
+                            <div className="inline-block px-4 py-1.5 bg-[#625ea5] text-white font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg shadow-xl mb-5">
                                 Why QWQER
                             </div>
-                            <h2 className="text-3xl md:text-5xl font-semibold text-[#d02012] leading-[1.1] tracking-tighter">
+                            <h2 className="text-2xl md:text-4xl font-semibold text-[#a78bfa] leading-[1.1] tracking-tighter">
                                 Quick logistics, <span className="italic">made for speed,</span><br />
                                 built for business, smarter deliveries.
                             </h2>
@@ -137,20 +141,20 @@ export default function WhyQwqer() {
                             <div className="hidden md:block absolute left-1/2 top-4 bottom-4 w-1 -translate-x-1/2 opacity-20"
                                 style={{
                                     backgroundSize: "4px 24px",
-                                    backgroundImage: "linear-gradient(to bottom, #ee3425 60%, transparent 40%)",
+                                    backgroundImage: "linear-gradient(to bottom, #a78bfa 60%, transparent 40%)",
                                 }}
                             ></div>
                             <div className="hidden md:block absolute left-1/2 top-4 bottom-4 w-1 -translate-x-1/2">
-                                <div ref={pathRef} className="why-road-line absolute inset-0 w-full h-0 shadow-[0_0_10px_#ee3425]"
+                                <div ref={pathRef} className="why-road-line absolute inset-0 w-full h-0 shadow-[0_0_10px_#a78bfa]"
                                     style={{
                                         backgroundSize: "4px 24px",
-                                        backgroundImage: "linear-gradient(to bottom, #ee3425 60%, transparent 40%)",
+                                        backgroundImage: "linear-gradient(to bottom, #a78bfa 60%, transparent 40%)",
                                     }}
                                 >
                                     <div className="absolute bottom-[-44px] left-[-0.5px] -translate-x-1/2 flex flex-col items-center">
                                         <div className="why-truck-vibrate flex flex-col items-center">
-                                            <div className="w-1.5 h-6 bg-[#ee3425] rounded-full mb-1 animate-pulse"></div>
-                                            <svg width="48" height="72" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#ee3425] drop-shadow-[0_0_20px_rgba(238,52,37,0.7)]">
+                                            <div className="w-1.5 h-6 bg-[#a78bfa] rounded-full mb-1 animate-pulse"></div>
+                                            <svg width="48" height="72" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#a78bfa] drop-shadow-[0_0_20px_rgba(167,139,250,0.7)]">
                                                 <rect x="4" y="2" width="16" height="26" rx="2" fill="currentColor" />
                                                 <rect x="6" y="28" width="12" height="6" rx="1" fill="currentColor" />
                                                 <rect x="7" y="31" width="10" height="2" rx="0.5" fill="white" fillOpacity="0.3" />
@@ -166,18 +170,18 @@ export default function WhyQwqer() {
                             <div className="md:hidden absolute left-4 top-2 bottom-2 w-1 opacity-30"
                                 style={{
                                     backgroundSize: "4px 24px",
-                                    backgroundImage: "linear-gradient(to bottom, #ee3425 60%, transparent 40%)",
+                                    backgroundImage: "linear-gradient(to bottom, #a78bfa 60%, transparent 40%)",
                                 }}
                             ></div>
                             <div className="md:hidden absolute left-4 top-2 bottom-2 w-1">
-                                <div ref={mobilePathRef} className="why-road-line absolute inset-0 w-full h-0 shadow-[0_0_10px_#ee3425] overflow-hidden"
+                                <div ref={mobilePathRef} className="why-road-line absolute inset-0 w-full h-0 shadow-[0_0_10px_#a78bfa] overflow-hidden"
                                     style={{
                                         backgroundSize: "4px 24px",
-                                        backgroundImage: "linear-gradient(to bottom, #ee3425 60%, transparent 40%)",
+                                        backgroundImage: "linear-gradient(to bottom, #a78bfa 60%, transparent 40%)",
                                     }}
                                 >
                                     <div className="absolute bottom-[-24px] left-[-0.5px] -translate-x-1/2 scale-110">
-                                        <svg width="32" height="48" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#ee3425]">
+                                        <svg width="32" height="48" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#a78bfa]">
                                             <rect x="4" y="2" width="16" height="26" rx="2" fill="currentColor" />
                                             <rect x="6" y="28" width="12" height="6" rx="1" fill="currentColor" />
                                             <rect x="7" y="31" width="10" height="2" rx="0.5" fill="white" fillOpacity="0.3" />
@@ -186,30 +190,30 @@ export default function WhyQwqer() {
                                 </div>
                             </div>
 
-                            <div className="space-y-10 md:space-y-14">
+                            <div className="space-y-6 md:space-y-8">
                                 {reasons.map((r, i) => (
                                     <div key={i} className={`list-item group relative md:flex items-center ${i % 2 === 0 ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
 
                                         {/* Mobile Path Node (Left) */}
-                                        <div className="node-marker md:hidden absolute left-[12px] top-2 w-2.5 h-2.5 rounded-full border-2 border-[#ee3425] bg-transparent z-20"></div>
+                                        <div className="node-marker md:hidden absolute left-[12px] top-2 w-2.5 h-2.5 rounded-full border-2 border-[#a78bfa] bg-transparent z-20"></div>
 
                                         {/* Center Node Marker (Desktop) */}
                                         <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 items-center justify-center w-8 h-8 z-30">
-                                            <div className="node-marker w-4 h-4 rounded-full border-2 border-[#ee3425] bg-transparent transition-all duration-300"></div>
-                                            <div className="absolute w-12 h-px bg-[#ee3425]/20 group-hover:bg-[#ee3425]/50 transition-all duration-300"></div>
+                                            <div className="node-marker w-4 h-4 rounded-full border-2 border-[#a78bfa] bg-transparent transition-all duration-300"></div>
+                                            <div className="absolute w-12 h-px bg-[#a78bfa]/30 group-hover:bg-[#a78bfa]/60 transition-all duration-300"></div>
                                         </div>
 
                                         {/* Content Side */}
                                         <div className={`w-full md:w-[45%] pl-10 md:pl-0 ${i % 2 === 0 ? 'md:text-left md:pl-8' : 'md:text-right md:pr-8'}`}>
                                             <div className={`flex flex-col ${i % 2 === 0 ? 'md:items-start' : 'md:items-end'}`}>
                                                 {/* Technical Index (e.g. 01) */}
-                                                <span className="text-3xl md:text-4xl font-black text-[#ee3425]/10 group-hover:text-[#ee3425]/20 transition-colors uppercase italic leading-none mb-3">
+                                                <span className="text-2xl md:text-3xl font-black text-[#a78bfa]/20 group-hover:text-[#a78bfa]/40 transition-colors uppercase italic leading-none mb-3">
                                                     {String(i + 1).padStart(2, '0')}
                                                 </span>
-                                                <h3 className="text-xl md:text-2xl font-semibold text-slate-800 mb-2 group-hover:text-[#ee3425] transition-colors duration-300">
+                                                <h3 className="text-lg md:text-xl font-semibold text-slate-200 mb-2 group-hover:text-[#a78bfa] transition-colors duration-300">
                                                     {r.title}
                                                 </h3>
-                                                <p className="text-slate-500 text-sm md:text-base leading-relaxed">
+                                                <p className="text-slate-400 text-xs md:text-sm leading-relaxed">
                                                     {r.desc}
                                                 </p>
                                             </div>
@@ -230,13 +234,7 @@ export default function WhyQwqer() {
                 </div>
             </div>
 
-            {/* Bottom Connection to Features */}
-            <div className="why-road-line absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-16 opacity-80"
-                style={{
-                    backgroundSize: "4px 24px",
-                    backgroundImage: "linear-gradient(to bottom, #ee3425 60%, transparent 40%)",
-                }}
-            ></div>
+
         </section>
     );
 }

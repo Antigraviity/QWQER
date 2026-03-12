@@ -1,95 +1,69 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FaLayerGroup, FaMapLocationDot, FaHeadset, FaEye, FaMicrochip, FaScaleUnbalanced } from "react-icons/fa6";
 
 export default function Features() {
     const sectionRef = useRef<HTMLDivElement>(null);
-    const pathRef = useRef<HTMLDivElement>(null);
+    const [activeIndex, setActiveIndex] = useState(0);
 
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
 
         const ctx = gsap.context(() => {
-            // Journey Timeline - Scooter moves right then down
-            const tl = gsap.timeline({
+            // Header reveal
+            gsap.from(".features-header", {
+                y: 30,
+                opacity: 0,
+                duration: 0.8,
+                ease: "power3.out",
                 scrollTrigger: {
                     trigger: sectionRef.current,
-                    start: "top 95%",
-                    end: "bottom 30%",
-                    scrub: 1.5
+                    start: "top 80%",
                 }
             });
 
-            tl.set(".scooter-icon", { rotation: -90 }) // Start facing RIGHT
-                .to(".journey-path-h", { width: "100%", ease: "none" })
-                .to(".scooter-icon", { left: "calc(100% - 2.5rem)", ease: "none" }, 0)
-                .to(".scooter-icon", { rotation: 0, duration: 0.3, ease: "power1.inOut" }) // Turn to face DOWN
-                .to(".journey-path-v", { height: "100%", ease: "none" })
-                .to(".scooter-icon", { top: "calc(100% - 3rem)", ease: "none" }, "<");
-
-            // Vehicle Vibration (Scooter)
-            gsap.to(".scooter-vibrate", {
-                x: 0.4,
-                y: 0.4,
-                duration: 0.05,
-                repeat: -1,
-                yoyo: true,
-                ease: "none"
+            // Staggered row reveals
+            const rows = gsap.utils.toArray(".feature-row");
+            rows.forEach((row: any, i) => {
+                gsap.from(row, {
+                    x: i % 2 === 0 ? -60 : 60,
+                    opacity: 0,
+                    duration: 0.7,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: row,
+                        start: "top 88%",
+                    }
+                });
             });
 
-            // Running Road Animation for horizontal and vertical paths
-            gsap.fromTo(".journey-path-h",
-                { backgroundPosition: "0px 0px" },
-                {
-                    backgroundPosition: "1200px 0px", // Seamless loop (multiple of 24)
-                    duration: 10, // Faster running motion
-                    repeat: -1,
-                    ease: "none"
-                }
-            );
-
-            gsap.fromTo(".journey-path-v",
-                { backgroundPosition: "0px 0px" },
-                {
-                    backgroundPosition: "0px 1200px", // Downward seamless loop
-                    duration: 10,
-                    repeat: -1,
-                    ease: "none"
-                }
-            );
-
-            // Sequential reveal of cards - Using .to for more reliability
-            gsap.set(".cargo-module", { y: 20, opacity: 0, scale: 0.98 });
-
-            gsap.to(".cargo-module", {
-                y: 0,
-                opacity: 1,
-                scale: 1,
-                stagger: 0.1,
-                duration: 0.6,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
-                }
-            });
-
-            // Pulse animation for the background route dots
-            gsap.to(".route-dot", {
-                opacity: 0.3,
-                scale: 1.5,
-                duration: 1.5,
-                repeat: -1,
-                yoyo: true,
-                stagger: 0.3,
-                ease: "sine.inOut"
+            // Counter animation
+            const counters = gsap.utils.toArray(".feature-counter");
+            counters.forEach((counter: any) => {
+                gsap.from(counter, {
+                    textContent: 0,
+                    duration: 1.5,
+                    snap: { textContent: 1 },
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: counter,
+                        start: "top 85%",
+                    }
+                });
             });
         }, sectionRef);
 
         return () => ctx.revert();
+    }, []);
+
+    // Auto-cycle active feature
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveIndex((prev) => (prev + 1) % 6);
+        }, 3500);
+        return () => clearInterval(interval);
     }, []);
 
     const features = [
@@ -97,162 +71,194 @@ export default function Features() {
             title: "Express Speed, Fleet Strength",
             icon: <FaLayerGroup />,
             desc: "Fast, reliable local deliveries combined with large-scale intercity logistics.",
-            gradient: "from-blue-600/20 to-transparent",
-            accent: "text-blue-400"
+            stat: "2x",
+            statLabel: "Faster Delivery",
+            color: "#a78bfa"
         },
         {
             title: "Built for Reliability at Every Scale",
             icon: <FaScaleUnbalanced />,
             desc: "Field-tested operations that adapt to your business volume seamlessly.",
-            gradient: "from-purple-600/20 to-transparent",
-            accent: "text-purple-400"
+            stat: "99.5%",
+            statLabel: "Uptime Rate",
+            color: "#818cf8"
         },
         {
             title: "Nationwide Reach, Local Execution",
             icon: <FaMapLocationDot />,
             desc: "Operate seamlessly across India while benefiting from strong regional oversight.",
-            gradient: "from-emerald-600/20 to-transparent",
-            accent: "text-emerald-400"
+            stat: "500+",
+            statLabel: "Cities Covered",
+            color: "#6ee7b7"
         },
         {
-            title: "Full Operational Visibility", icon: <FaEye />,
+            title: "Full Operational Visibility",
+            icon: <FaEye />,
             desc: "Track shipments in real time, with proactive updates and issue resolution.",
-            gradient: "from-cyan-600/20 to-transparent",
-            accent: "text-cyan-400"
+            stat: "100%",
+            statLabel: "Transparency",
+            color: "#67e8f9"
         },
         {
-            title: "Technology-Driven Operations", icon: <FaMicrochip />,
+            title: "Technology-Driven Operations",
+            icon: <FaMicrochip />,
             desc: "Tools and systems designed to optimize routes, fleet management and planning.",
-            gradient: "from-indigo-600/20 to-transparent",
-            accent: "text-indigo-400"
+            stat: "AI",
+            statLabel: "Powered Routing",
+            color: "#c084fc"
         },
         {
-            title: "24/7 Dedicated Support", icon: <FaHeadset />,
+            title: "24/7 Dedicated Support",
+            icon: <FaHeadset />,
             desc: "Our teams are always ready to assist, ensuring smooth operations from start to finish.",
-            gradient: "from-rose-600/20 to-transparent",
-            accent: "text-rose-400"
+            stat: "365",
+            statLabel: "Days Active",
+            color: "#f9a8d4"
         }
     ];
 
     return (
-        <section ref={sectionRef} className="py-12 bg-black relative overflow-hidden">
-            {/* Static entry point - no animation */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-12 opacity-80"
-                style={{
-                    backgroundSize: "4px 24px",
-                    backgroundImage: "linear-gradient(to bottom, #ee3425 60%, transparent 40%)",
-                }}
+        <section ref={sectionRef} className="py-16 bg-black relative overflow-hidden">
+            {/* Ambient background glow */}
+            <div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] rounded-full blur-[160px] pointer-events-none transition-colors duration-1000 opacity-[0.07]"
+                style={{ backgroundColor: features[activeIndex].color }}
             ></div>
-
-            <div className="absolute top-12 left-1/2 w-[calc(50%-2.5rem)] h-1 -translate-y-1/2 opacity-20"
-                style={{
-                    backgroundSize: "24px 4px",
-                    backgroundImage: "linear-gradient(to right, #ee3425 60%, transparent 40%)",
-                }}
-            ></div>
-            <div className="absolute top-12 left-1/2 w-[calc(50%-2.5rem)] h-1 -translate-y-1/2 overflow-hidden">
-                <div className="journey-path-h absolute inset-0 w-0 shadow-[0_0_10px_#ee3425]"
-                    style={{
-                        backgroundSize: "24px 4px",
-                        backgroundImage: "linear-gradient(to right, #ee3425 60%, transparent 40%)",
-                    }}
-                ></div>
-            </div>
-
-            {/* Vertical Segment (Right Side Down) */}
-            <div className="absolute top-12 right-10 w-1 h-[calc(100%-6rem)] opacity-20"
-                style={{
-                    backgroundSize: "4px 24px",
-                    backgroundImage: "linear-gradient(to bottom, #ee3425 60%, transparent 40%)",
-                }}
-            ></div>
-            <div className="absolute top-12 right-10 w-1 h-[calc(100%-6rem)] overflow-hidden">
-                <div className="journey-path-v absolute inset-0 w-full h-0 shadow-[0_0_10px_#ee3425]"
-                    style={{
-                        backgroundSize: "4px 24px",
-                        backgroundImage: "linear-gradient(to bottom, #ee3425 60%, transparent 40%)",
-                    }}
-                ></div>
-            </div>
-
-            {/* Traveling Scooter */}
-            <div className="scooter-icon absolute z-30 pointer-events-none" style={{ left: '50%', top: '48px', transform: 'translate(-50%, -50%) rotate(-90deg)' }}>
-                <div className="scooter-vibrate flex flex-col items-center">
-                    <div className="w-2.5 h-6 bg-[#ee3425] rounded-full mb-1 animate-pulse"></div>
-                    <svg width="52" height="68" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#ee3425] drop-shadow-[0_0_20px_rgba(238,52,37,0.7)]">
-                        {/* Scooter Body */}
-                        <rect x="8" y="4" width="8" height="20" rx="4" fill="currentColor" />
-                        {/* Handlebars */}
-                        <rect x="4" y="8" width="16" height="2" rx="1" fill="currentColor" />
-                        {/* Front Wheel/Shield */}
-                        <rect x="9" y="2" width="6" height="4" rx="1" fill="currentColor" opacity="0.8" />
-                        {/* Man (Top View) */}
-                        <circle cx="12" cy="14" r="5" fill="white" fillOpacity="0.2" stroke="currentColor" strokeWidth="1" />
-                        <circle cx="12" cy="14" r="3" fill="currentColor" />
-                        {/* Footboard */}
-                        <rect x="7" y="24" width="10" height="4" rx="1" fill="currentColor" opacity="0.6" />
-                    </svg>
-                </div>
-            </div>
-
-            {/* Background Texture/Gradient for depth */}
-            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_30%,_rgba(255,255,255,0.02)_0%,_transparent_50%)] pointer-events-none"></div>
-
-            {/* Delivery Route Background Decoration */}
-            <div className="absolute inset-0 pointer-events-none opacity-20">
-                <svg className="w-full h-full" viewBox="0 0 1440 900" fill="none">
-                    <path className="route-path" d="M0,200 C300,100 600,300 900,200 S1200,100 1440,300" stroke="white" strokeWidth="0.5" opacity="0.1" />
-                    <path className="route-path" d="M0,600 C400,700 800,500 1000,700 S1300,600 1440,800" stroke="white" strokeWidth="0.5" opacity="0.1" />
-                    <circle className="route-dot" cx="300" cy="150" r="1.5" fill="white" />
-                    <circle className="route-dot" cx="700" cy="230" r="1.5" fill="white" />
-                    <circle className="route-dot" cx="1100" cy="120" r="1.5" fill="white" />
-                </svg>
-            </div>
 
             <div className="max-w-7xl mx-auto px-6 relative z-10">
-                <div className="mb-8 text-center md:text-left">
-                    <div className="inline-block px-3 py-0.5 bg-white/5 rounded-full border border-white/10 mb-3 backdrop-blur-sm">
-                        <p className="text-white/60 font-bold text-[9px] uppercase tracking-widest">Logistics solutions you can trust</p>
-                    </div>
-                    <h2 className="text-2xl md:text-4xl font-bold text-white mb-3 tracking-tighter uppercase italic leading-none [word-spacing:0.2em]">
-                        How <span className="text-[#ee3425]">QWQER</span> Helps <br />
-                        <span className="not-italic text-white/90">Businesses Deliver Better</span>
+                {/* Header */}
+                <div className="features-header mb-12 text-center">
+                    <p className="text-[#ee3425] font-bold text-[10px] uppercase tracking-[0.2em] mb-4">Logistics solutions you can trust</p>
+                    <h2 className="text-2xl md:text-4xl font-bold text-white mb-3 tracking-tight leading-tight">
+                        How <span className="text-[#ee3425]">QWQER</span> Helps<br />
+                        Businesses Deliver Better
                     </h2>
-                    <p className="text-gray-400 max-w-xl text-sm md:text-base font-medium">
-                        Whether it&apos;s hyperlocal express delivery or intercity fleet operations, QWQER provides the right solution to keep your business moving.
+                    <p className="text-gray-500 max-w-lg mx-auto text-sm">
+                        Whether it&apos;s hyperlocal express delivery or intercity fleet operations, QWQER provides the right solution.
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {features.map((f, i) => (
-                        <div key={i} className="cargo-module group relative p-5 md:p-6 bg-[#0f0f0f] border border-white/10 hover:border-white/20 transition-all duration-500 rounded-xl overflow-hidden flex flex-col h-full shadow-[0_0_25px_rgba(0,0,0,0.5)]">
-                            {/* Inner Glow Effect - Colored Gradient */}
-                            <div className={`absolute inset-0 bg-gradient-to-br ${f.gradient} opacity-50 group-hover:opacity-100 transition-opacity duration-700`}></div>
+                {/* Interactive Accordion Rows */}
+                <div className="space-y-2">
+                    {features.map((f, i) => {
+                        const isActive = activeIndex === i;
+                        return (
+                            <div
+                                key={i}
+                                className="feature-row group cursor-pointer"
+                                onClick={() => setActiveIndex(i)}
+                                onMouseEnter={() => setActiveIndex(i)}
+                            >
+                                <div
+                                    className={`relative rounded-2xl border transition-all duration-500 overflow-hidden ${
+                                        isActive
+                                            ? "border-white/15 bg-white/[0.04]"
+                                            : "border-white/5 bg-white/[0.01] hover:bg-white/[0.03]"
+                                    }`}
+                                >
+                                    {/* Active glow bar */}
+                                    <div
+                                        className="absolute left-0 top-0 bottom-0 w-[3px] rounded-full transition-all duration-500"
+                                        style={{
+                                            backgroundColor: isActive ? f.color : "transparent",
+                                            boxShadow: isActive ? `0 0 20px ${f.color}60` : "none"
+                                        }}
+                                    ></div>
 
-                            {/* Industrial Grid Texture */}
-                            <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
-                                style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '16px 16px' }}>
-                            </div>
+                                    <div className="flex items-center gap-5 px-6 py-5">
+                                        {/* Icon */}
+                                        <div
+                                            className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 transition-all duration-500 ${
+                                                isActive ? "scale-110" : ""
+                                            }`}
+                                            style={{
+                                                backgroundColor: isActive ? `${f.color}20` : "rgba(255,255,255,0.03)",
+                                                color: isActive ? f.color : "#666",
+                                                boxShadow: isActive ? `0 0 25px ${f.color}30` : "none"
+                                            }}
+                                        >
+                                            {f.icon}
+                                        </div>
 
-                            <div className="relative z-10">
-                                <div className={`w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center ${f.accent} text-xl mb-4 border border-white/10 group-hover:bg-white group-hover:text-black transition-all duration-500 shadow-2xl`}>
-                                    {f.icon}
+                                        {/* Title & Description */}
+                                        <div className="flex-1 min-w-0">
+                                            <h3 className={`text-sm md:text-base font-semibold transition-colors duration-300 ${
+                                                isActive ? "text-white" : "text-white/50"
+                                            }`}>
+                                                {f.title}
+                                            </h3>
+                                            <div
+                                                className="overflow-hidden transition-all duration-500"
+                                                style={{
+                                                    maxHeight: isActive ? "60px" : "0px",
+                                                    opacity: isActive ? 1 : 0,
+                                                }}
+                                            >
+                                                <p className="text-gray-500 text-xs md:text-sm mt-1 leading-relaxed">
+                                                    {f.desc}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        {/* Stat Badge */}
+                                        <div
+                                            className={`hidden md:flex flex-col items-end shrink-0 transition-all duration-500 ${
+                                                isActive ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4"
+                                            }`}
+                                        >
+                                            <span
+                                                className="text-2xl font-black leading-none"
+                                                style={{ color: f.color }}
+                                            >
+                                                {f.stat}
+                                            </span>
+                                            <span className="text-[10px] text-gray-500 uppercase tracking-wider mt-1">
+                                                {f.statLabel}
+                                            </span>
+                                        </div>
+
+                                        {/* Arrow indicator */}
+                                        <div
+                                            className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-all duration-300"
+                                            style={{
+                                                backgroundColor: isActive ? `${f.color}15` : "transparent",
+                                            }}
+                                        >
+                                            <svg
+                                                className={`w-3 h-3 transition-transform duration-300 ${isActive ? "rotate-90" : ""}`}
+                                                style={{ color: isActive ? f.color : "#444" }}
+                                                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+                                            >
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                    {/* Progress bar at bottom of active item */}
+                                    {isActive && (
+                                        <div className="h-[2px] bg-white/5">
+                                            <div
+                                                className="h-full rounded-full"
+                                                style={{
+                                                    backgroundColor: f.color,
+                                                    animation: "progressFill 3.5s linear forwards",
+                                                }}
+                                            ></div>
+                                        </div>
+                                    )}
                                 </div>
-
-                                <h3 className="text-lg font-black text-white mb-3 uppercase tracking-tight group-hover:text-white transition-colors leading-tight">
-                                    {f.title}
-                                </h3>
-
-                                <div className={`w-8 h-0.5 bg-white/10 mb-4 rounded-full group-hover:w-12 group-hover:bg-white transition-all duration-500`}></div>
-
-                                <p className="text-gray-400 text-xs md:text-sm leading-relaxed font-medium group-hover:text-white/80 transition-colors">
-                                    {f.desc}
-                                </p>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
+
+            <style jsx>{`
+                @keyframes progressFill {
+                    from { width: 0%; }
+                    to { width: 100%; }
+                }
+            `}</style>
         </section>
     );
 }

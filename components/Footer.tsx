@@ -229,49 +229,49 @@ export default function Footer() {
             ease: "power3.out",
             transformOrigin: "bottom center",
         })
-        // Land with squash
-        .to(mascotEl, {
-            y: 0,
-            scaleY: 0.92,
-            scaleX: 1.06,
-            duration: 0.15,
-            ease: "power3.in",
-        })
-        // Bounce back
-        .to(mascotEl, {
-            scaleY: 1,
-            scaleX: 1,
-            duration: 0.2,
-            ease: "elastic.out(1, 0.4)",
-        })
-        // Quick excited wiggle
-        .to(mascotEl, {
-            rotation: -6,
-            duration: 0.08,
-            ease: "sine.inOut",
-        })
-        .to(mascotEl, {
-            rotation: 6,
-            duration: 0.08,
-            ease: "sine.inOut",
-        })
-        .to(mascotEl, {
-            rotation: -4,
-            duration: 0.08,
-            ease: "sine.inOut",
-        })
-        .to(mascotEl, {
-            rotation: 0,
-            duration: 0.1,
-            ease: "sine.out",
-        })
-        // Fade out thumbs-up mascot
-        .to(mascotEl, {
-            opacity: 0,
-            scale: 0.8,
-            duration: 0.2,
-            ease: "power2.in",
-        });
+            // Land with squash
+            .to(mascotEl, {
+                y: 0,
+                scaleY: 0.92,
+                scaleX: 1.06,
+                duration: 0.15,
+                ease: "power3.in",
+            })
+            // Bounce back
+            .to(mascotEl, {
+                scaleY: 1,
+                scaleX: 1,
+                duration: 0.2,
+                ease: "elastic.out(1, 0.4)",
+            })
+            // Quick excited wiggle
+            .to(mascotEl, {
+                rotation: -6,
+                duration: 0.08,
+                ease: "sine.inOut",
+            })
+            .to(mascotEl, {
+                rotation: 6,
+                duration: 0.08,
+                ease: "sine.inOut",
+            })
+            .to(mascotEl, {
+                rotation: -4,
+                duration: 0.08,
+                ease: "sine.inOut",
+            })
+            .to(mascotEl, {
+                rotation: 0,
+                duration: 0.1,
+                ease: "sine.out",
+            })
+            // Fade out thumbs-up mascot
+            .to(mascotEl, {
+                opacity: 0,
+                scale: 0.8,
+                duration: 0.2,
+                ease: "power2.in",
+            });
     }, []);
 
     return (
@@ -296,13 +296,13 @@ export default function Footer() {
                         </h4>
                         <ul className="space-y-3 text-white/80 font-medium text-lg">
                             <li>
-                                <a href="/#qwqer-fleet" className="flex items-center group hover:text-white transition-colors">
+                                <a href="/fleet" className="flex items-center group hover:text-white transition-colors">
                                     <span className="w-2 h-2 bg-white/50 rounded-full mr-3 group-hover:bg-white transition-colors"></span>
                                     QWQER Fleet
                                 </a>
                             </li>
                             <li>
-                                <a href="/#qwqer-express" className="flex items-center group hover:text-white transition-colors">
+                                <a href="/express" className="flex items-center group hover:text-white transition-colors">
                                     <span className="w-2 h-2 bg-white/50 rounded-full mr-3 group-hover:bg-white transition-colors"></span>
                                     QWQER Express
                                 </a>

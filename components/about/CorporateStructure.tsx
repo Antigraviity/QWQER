@@ -11,14 +11,16 @@ const subsidiaries = [
     primary: true,
   },
   {
-    name: "Qwy Software Pvt. Ltd.",
+    name: "Qwy Express Pvt. Ltd.",
     role: "Technology Subsidiary",
     desc: "Builds the technology platform powering route optimization, tracking, and fleet management.",
+    color: "#5b4bd5",
   },
   {
     name: "Qwy Fleet Pvt. Ltd.",
     role: "Fleet Subsidiary",
     desc: "Manages fleet operations, driver networks, and on-ground execution across all routes.",
+    color: "#3b5ee8",
   },
 ];
 
@@ -139,32 +141,32 @@ export default function CorporateStructure() {
 
           {/* ── Subsidiary Cards ─────────────────────────────── */}
           <div className="grid md:grid-cols-2 gap-5 w-full mt-8 md:mt-16">
-            {subsidiaries.slice(1).map((s, i) => (
-              <div key={i} className="cs-child group">
-                <div className="relative p-6 rounded-2xl bg-white/[0.03] border border-white/[0.07] hover:border-[#ee3425]/25 hover:bg-white/[0.06] transition-all duration-500 h-full overflow-hidden">
-                  {/* Background number */}
-                  <div className="absolute top-3 right-5 text-5xl font-black select-none" style={{ color: "rgba(238,52,37,0.05)" }}>
-                    {String(i + 1).padStart(2, "0")}
+            {subsidiaries.slice(1).map((s, i) => {
+              const c = s.color || "#ee3425";
+              return (
+                <div key={i} className="cs-child group">
+                  <div className="relative p-6 rounded-2xl border transition-all duration-500 h-full overflow-hidden" style={{ borderColor: `${c}30`, background: `${c}08` }}>
+
+
+                    {/* Role badge */}
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-4" style={{ border: `1px solid ${c}25`, background: `${c}10` }}>
+                      <span className="w-1.5 h-1.5 rounded-full" style={{ background: c }} />
+                      <span className="text-[10px] uppercase tracking-[0.15em] font-semibold" style={{ color: `${c}cc` }}>{s.role}</span>
+                    </div>
+
+                    <h3 className="text-white font-bold text-lg mb-2 transition-colors duration-300" style={{ color: c }}>
+                      {s.name}
+                    </h3>
+                    <p className="text-white/80 text-[13px] leading-[1.7] group-hover:text-white/90 transition-colors duration-300">
+                      {s.desc}
+                    </p>
+
+                    {/* Bottom accent */}
+                    <div className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-700" style={{ background: `linear-gradient(to right, ${c}, transparent)` }} />
                   </div>
-
-                  {/* Role badge */}
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-4" style={{ border: "1px solid rgba(238,52,37,0.15)", background: "rgba(238,52,37,0.05)" }}>
-                    <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#ee3425" }} />
-                    <span className="text-[10px] uppercase tracking-[0.15em] font-semibold text-[#ee3425]/70">{s.role}</span>
-                  </div>
-
-                  <h3 className="text-white font-bold text-lg mb-2 group-hover:text-[#ee3425] transition-colors duration-300">
-                    {s.name}
-                  </h3>
-                  <p className="text-white/80 text-[13px] leading-[1.7] group-hover:text-white/90 transition-colors duration-300">
-                    {s.desc}
-                  </p>
-
-                  {/* Bottom accent */}
-                  <div className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full bg-gradient-to-r from-[#ee3425] to-transparent transition-all duration-700" />
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* ── Body Text ────────────────────────────────────── */}
