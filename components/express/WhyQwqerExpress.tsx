@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent, MotionValue } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -113,7 +113,7 @@ export default function WhyQwqerExpress() {
         gsap.registerPlugin(ScrollTrigger);
     }, []);
 
-    useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    useMotionValueEvent(scrollYProgress, "change", (latest: number) => {
         // Letter reveal — trigger immediately when section enters
         if (latest >= 0.01 && !textRevealDone.current && headingRef.current) {
             textRevealDone.current = true;
@@ -316,11 +316,11 @@ function DotIndicator({
     scrollYProgress,
 }: {
     index: number;
-    scrollYProgress: ReturnType<typeof useTransform>;
+    scrollYProgress: MotionValue<number>;
 }) {
     const dotRef = useRef<HTMLDivElement>(null);
 
-    useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    useMotionValueEvent(scrollYProgress, "change", (latest: number) => {
         if (!dotRef.current) return;
         const scrollRange = 0.80 - 0.15;
         const normalized = Math.max(0, Math.min(1, (latest - 0.15) / scrollRange));
