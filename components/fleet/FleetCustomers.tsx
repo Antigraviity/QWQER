@@ -107,16 +107,25 @@ export default function FleetCustomers() {
                 <div className="max-w-7xl mx-auto w-full relative z-10">
 
                     {/* Section Header */}
-                    <div className="text-center md:text-left mb-12 lg:mb-16 flex flex-col items-center md:items-start">
+                    <div className="text-center md:text-left mb-6 lg:mb-8 flex flex-col items-center md:items-start">
                         <motion.h2
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.7, ease: "easeOut" }}
-                            className="text-4xl md:text-5xl font-bold text-white font-outfit tracking-tight"
+                            className="text-[48px] font-bold text-white font-outfit tracking-tight leading-tight"
                         >
-                            Why do customers <span className="text-[#3b82f6]">choose us?</span>
+                            Why do Customers <span className="text-[#3b82f6]">Choose Us?</span>
                         </motion.h2>
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+                            className="text-white/70 mt-4 text-lg max-w-2xl"
+                        >
+                            Delivering enterprise-grade logistics that businesses trust to scale, perform, and grow.
+                        </motion.p>
                     </div>
 
                     <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center">

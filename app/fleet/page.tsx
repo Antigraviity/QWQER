@@ -14,7 +14,7 @@ import FleetFooterScroll from "@/components/fleet/FleetFooterScroll";
 
 export default function FleetPage() {
     return (
-        <main className="min-h-screen bg-black text-white selection:bg-[#ee3425] selection:text-white relative font-sans">
+        <main className="min-h-screen bg-black text-white selection:bg-[#3b82f6] selection:text-white relative font-sans">
             <ScrollProgress />
             <Navbar />
 

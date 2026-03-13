@@ -107,8 +107,143 @@ export default function FleetFooterScroll() {
                     style={{ opacity: fadeOpacity }}
                 />
 
-                {/* Overlay Text Content */}
-                <div className="absolute inset-0 z-[2] flex flex-col items-center justify-center pointer-events-none px-6">
+                {/* Animated logistics floating elements — fade out when images appear */}
+                <motion.div
+                    className="absolute inset-0 z-[2] pointer-events-none overflow-hidden"
+                    style={{ opacity: fadeOpacity }}
+                >
+                    {/* Large floating package boxes */}
+                    {[
+                        { left: "6%", top: "18%", size: 52, delay: 0, dur: 4 },
+                        { left: "88%", top: "12%", size: 44, delay: 1.5, dur: 5 },
+                        { left: "78%", top: "68%", size: 48, delay: 0.8, dur: 4.5 },
+                        { left: "12%", top: "72%", size: 38, delay: 2, dur: 3.5 },
+                        { left: "48%", top: "8%", size: 36, delay: 0.5, dur: 5.5 },
+                        { left: "93%", top: "42%", size: 40, delay: 1, dur: 4.2 },
+                        { left: "3%", top: "45%", size: 34, delay: 0.3, dur: 4.8 },
+                    ].map((box, i) => (
+                        <motion.div
+                            key={`box-${i}`}
+                            className="absolute text-[#3b82f6]"
+                            style={{ left: box.left, top: box.top }}
+                            animate={{
+                                y: [0, -25, 0],
+                                rotate: [0, 8, -8, 0],
+                                opacity: [0.25, 0.55, 0.25],
+                            }}
+                            transition={{ duration: box.dur, repeat: Infinity, ease: "easeInOut", delay: box.delay }}
+                        >
+                            <svg width={box.size} height={box.size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                                <line x1="12" y1="22.08" x2="12" y2="12" />
+                            </svg>
+                        </motion.div>
+                    ))}
+
+                    {/* Floating location pins */}
+                    {[
+                        { left: "22%", top: "22%", size: 38, delay: 0.3, dur: 3.5 },
+                        { left: "68%", top: "15%", size: 34, delay: 1.2, dur: 4 },
+                        { left: "38%", top: "75%", size: 36, delay: 0.7, dur: 4.5 },
+                        { left: "82%", top: "78%", size: 32, delay: 2.5, dur: 3.8 },
+                        { left: "55%", top: "80%", size: 30, delay: 1.8, dur: 4.2 },
+                    ].map((pin, i) => (
+                        <motion.div
+                            key={`pin-${i}`}
+                            className="absolute text-[#3b82f6]"
+                            style={{ left: pin.left, top: pin.top }}
+                            animate={{
+                                y: [0, -18, 0],
+                                opacity: [0.2, 0.5, 0.2],
+                            }}
+                            transition={{ duration: pin.dur, repeat: Infinity, ease: "easeInOut", delay: pin.delay }}
+                        >
+                            <svg width={pin.size} height={pin.size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg>
+                        </motion.div>
+                    ))}
+
+                    {/* Truck traveling on the curved route line */}
+                    <div className="absolute inset-0">
+                        <div
+                            className="animate-truck-on-path text-[#3b82f6]"
+                            style={{
+                                offsetPath: "path('M -50 480 Q 200 400 400 460 Q 575 520 750 430 Q 925 340 1100 470 Q 1275 600 1500 420')",
+                                offsetRotate: "auto",
+                                position: "absolute",
+                            }}
+                        >
+                            <svg width="56" height="34" viewBox="0 0 48 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                <rect x="0" y="6" width="30" height="18" rx="2" />
+                                <path d="M30 12H40L46 18V24H30V12Z" strokeLinejoin="round" />
+                                <circle cx="10" cy="26" r="3" />
+                                <circle cx="38" cy="26" r="3" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    {/* Pulsing glow orbs */}
+                    {[
+                        { left: "15%", top: "40%", size: 120 },
+                        { left: "72%", top: "30%", size: 140 },
+                        { left: "42%", top: "65%", size: 100 },
+                        { left: "88%", top: "55%", size: 90 },
+                    ].map((glow, i) => (
+                        <motion.div
+                            key={`glow-${i}`}
+                            className="absolute rounded-full bg-[#3b82f6] blur-[50px]"
+                            style={{ left: glow.left, top: glow.top, width: glow.size, height: glow.size }}
+                            animate={{ scale: [1, 1.5, 1], opacity: [0.04, 0.1, 0.04] }}
+                            transition={{ duration: 4 + i, repeat: Infinity, ease: "easeInOut", delay: i * 1.2 }}
+                        />
+                    ))}
+
+                    {/* Wavy dashed route line — same path as truck */}
+                    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1440 900" fill="none" preserveAspectRatio="none">
+                        <motion.path
+                            d="M -50 480 Q 200 400 400 460 Q 575 520 750 430 Q 925 340 1100 470 Q 1275 600 1500 420"
+                            stroke="rgba(59,130,246,0.25)"
+                            strokeWidth="2"
+                            strokeDasharray="10 6"
+                            fill="none"
+                            initial={{ pathLength: 0 }}
+                            animate={{ pathLength: 1 }}
+                            transition={{ duration: 3, ease: "easeOut", delay: 0.3 }}
+                        />
+                        <motion.path
+                            d="M -50 520 Q 300 580 500 530 Q 700 480 900 560 Q 1050 620 1200 510 Q 1350 400 1500 550"
+                            stroke="rgba(59,130,246,0.12)"
+                            strokeWidth="1.5"
+                            strokeDasharray="6 8"
+                            fill="none"
+                            initial={{ pathLength: 0 }}
+                            animate={{ pathLength: 1 }}
+                            transition={{ duration: 3.5, ease: "easeOut", delay: 1 }}
+                        />
+                    </svg>
+
+                    {/* Truck animation keyframes */}
+                    <style>{`
+                        @keyframes truckOnPath {
+                            0% { offset-distance: 0%; opacity: 0; }
+                            3% { opacity: 0.6; }
+                            92% { opacity: 0.6; }
+                            100% { offset-distance: 100%; opacity: 0; }
+                        }
+                        .animate-truck-on-path {
+                            animation: truckOnPath 8s linear infinite;
+                        }
+                    `}</style>
+                </motion.div>
+
+                {/* Overlay Text Content — fades out with images */}
+                <motion.div
+                    className="absolute inset-0 z-[3] flex flex-col items-center justify-center pointer-events-none px-6"
+                    style={{ opacity: fadeOpacity }}
+                >
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -118,10 +253,19 @@ export default function FleetFooterScroll() {
                     >
                         <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold font-outfit text-white leading-tight drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)] tracking-tight">
                             Delivering Your Promises, <br />
-                            <span className="text-[#ee3425]">On Time, Every Time.</span>
+                            <span className="text-[#3b82f6]">On Time, Every Time.</span>
                         </h2>
+                        <motion.p
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.6 }}
+                            className="text-white/50 mt-6 text-lg font-inter max-w-xl mx-auto"
+                        >
+                            Enterprise-grade goods transportation built for scale, speed, and reliability.
+                        </motion.p>
                     </motion.div>
-                </div>
+                </motion.div>
             </div>
         </section>
     );

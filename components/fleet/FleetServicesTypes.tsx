@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import Image from "next/image";
 
 const serviceTabs = [
@@ -8,76 +9,167 @@ const serviceTabs = [
         id: "ftl",
         title: "Full Truck Load Transportation",
         image: "/Types of Fleet Services/Full Truck Load transportation.png",
-        description: "Intercity goods transportation operating across major routes across India, designed to handle high volume freight with consistency, operational control and real time visibility during transit."
+        description:
+            "Intercity goods transportation operating across major routes across India, designed to handle high volume freight with consistency, operational control and real time visibility during transit.",
+        label: "01",
     },
     {
         id: "intracity",
         title: "Intracity Transportation",
         image: "/Types of Fleet Services/Intracity transportation.png",
-        description: "Purpose-built local transportation with vehicles optimised for city routes. Ideal for Factory to DC, Store replenishments, etc."
+        description:
+            "Purpose-built local transportation with vehicles optimised for city routes. Ideal for Factory to DC, Store replenishments, etc.",
+        label: "02",
     },
     {
         id: "project",
         title: "Project Transportation",
         image: "/Types of Fleet Services/Project Transportation.png",
-        description: "Goods transportation solutions designed around unique cargos, routes and handling needs."
-    }
+        description:
+            "Goods transportation solutions designed around unique cargos, routes and handling needs.",
+        label: "03",
+    },
 ];
 
 export default function FleetServicesTypes() {
+    const sectionRef = useRef<HTMLElement>(null);
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start start", "end end"],
+    });
+
+    useMotionValueEvent(scrollYProgress, "change", (latest) => {
+        const total = serviceTabs.length;
+        let index = Math.floor(latest * total);
+        if (index >= total) index = total - 1;
+        if (index < 0) index = 0;
+        setActiveIndex(index);
+    });
+
+    const activeTab = serviceTabs[activeIndex];
+
     return (
-        <section className="py-24 px-6 md:px-12 bg-black relative border-t border-zinc-900">
-            <div className="max-w-7xl mx-auto relative z-10">
+        <section
+            ref={sectionRef}
+            className="relative bg-black h-[300vh] border-t border-zinc-900"
+        >
+            <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center px-6 md:px-12">
+                {/* Background glow */}
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.04),transparent_70%)] pointer-events-none" />
 
-                {/* Header Title */}
-                <div className="text-center mb-16 flex flex-col items-center">
-                    <motion.h2
-                        initial={{ opacity: 0, y: -20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-4xl md:text-5xl lg:text-6xl font-bold text-white font-outfit"
-                    >
-                        Types of <span className="text-[#f97316]">Fleet Services</span>
-                    </motion.h2>
-                </div>
-
-                {/* Grid of 3 Services */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-                    {serviceTabs.map((service, idx) => (
-                        <motion.div
-                            key={service.id}
-                            initial={{ opacity: 0, y: 30 }}
+                <div className="max-w-7xl mx-auto w-full relative z-10">
+                    {/* Header */}
+                    <div className="mb-8">
+                        <motion.h2
+                            initial={{ opacity: 0, y: -20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: idx * 0.1 }}
-                            className="bg-transparent group flex flex-col items-center text-center"
+                            className="text-[48px] font-bold text-white font-outfit tracking-tight leading-tight"
                         >
-                            {/* Floating Image Container */}
-                            <div className="w-full relative aspect-square flex items-center justify-center mb-6 transition-all duration-500 group-hover:-translate-y-3">
-                                {/* Ambient back glow */}
-                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-500">
-                                    <div className="w-1/2 h-1/2 bg-[#f97316]/20 blur-[60px] rounded-full" />
-                                </div>
-                                <div className="w-[90%] h-[90%] relative z-10">
-                                    <Image
-                                        src={service.image}
-                                        alt={service.title}
-                                        fill
-                                        className="object-contain group-hover:scale-105 transition-transform duration-500"
-                                        sizes="(max-width: 768px) 100vw, 33vw"
-                                    />
-                                </div>
-                            </div>
-                            <h3 className="text-2xl font-bold font-outfit text-white mb-4 transition-colors duration-300 group-hover:text-[#f97316]">
-                                {service.title}
-                            </h3>
-                            <p className="text-white/60 font-inter text-base md:text-lg leading-relaxed">
-                                {service.description}
-                            </p>
-                        </motion.div>
-                    ))}
-                </div>
+                            Types of{" "}
+                            <span className="text-[#3b82f6]">Fleet Services</span>
+                        </motion.h2>
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+                            className="text-white/70 mt-3 text-lg max-w-2xl"
+                        >
+                            Comprehensive transportation solutions tailored to every freight need across India.
+                        </motion.p>
+                    </div>
 
+                    {/* Route progress line */}
+                    <div className="relative mb-10">
+                        <div className="h-[2px] bg-zinc-800 w-full rounded-full" />
+                        <div
+                            className="absolute top-0 left-0 h-[2px] bg-gradient-to-r from-[#3b82f6] to-[#6366f1] rounded-full transition-all duration-500 ease-out"
+                            style={{ width: `${(activeIndex / (serviceTabs.length - 1)) * 100}%` }}
+                        />
+                        {/* Route stop dots */}
+                        {serviceTabs.map((tab, i) => (
+                            <div
+                                key={tab.id}
+                                className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer"
+                                style={{ left: `${(i / (serviceTabs.length - 1)) * 100}%` }}
+                                onClick={() => setActiveIndex(i)}
+                            >
+                                <div
+                                    className={`w-4 h-4 rounded-full border-2 transition-all duration-400 ${
+                                        i <= activeIndex
+                                            ? "bg-[#3b82f6] border-[#3b82f6] shadow-[0_0_12px_rgba(59,130,246,0.5)]"
+                                            : "bg-zinc-900 border-zinc-600"
+                                    }`}
+                                />
+                                <span
+                                    className={`absolute -bottom-7 left-1/2 -translate-x-1/2 text-xs font-inter whitespace-nowrap transition-colors duration-300 ${
+                                        i === activeIndex ? "text-white" : "text-white/30"
+                                    }`}
+                                >
+                                    {tab.label}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Card content — image left, text right */}
+                    <div className="flex flex-col md:flex-row items-center gap-8 md:gap-14 mt-6">
+                        {/* Image with AnimatePresence */}
+                        <div className="w-full md:w-1/2 relative">
+                            <div className="relative aspect-[4/3] max-w-[500px] mx-auto">
+                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                    <div className="w-2/3 h-2/3 bg-[#3b82f6]/12 blur-[80px] rounded-full" />
+                                </div>
+                                <AnimatePresence mode="wait">
+                                    <motion.div
+                                        key={activeTab.id}
+                                        initial={{ opacity: 0, x: 60, scale: 0.95 }}
+                                        animate={{ opacity: 1, x: 0, scale: 1 }}
+                                        exit={{ opacity: 0, x: -60, scale: 0.95 }}
+                                        transition={{ duration: 0.45, ease: "easeInOut" }}
+                                        className="absolute inset-0"
+                                    >
+                                        <Image
+                                            src={activeTab.image}
+                                            alt={activeTab.title}
+                                            fill
+                                            className="object-contain"
+                                            sizes="(max-width: 768px) 100vw, 50vw"
+                                            priority
+                                        />
+                                    </motion.div>
+                                </AnimatePresence>
+                            </div>
+                        </div>
+
+                        {/* Text with AnimatePresence */}
+                        <div className="w-full md:w-1/2">
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={activeTab.id}
+                                    initial={{ opacity: 0, y: 30 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -20 }}
+                                    transition={{ duration: 0.4, ease: "easeOut" }}
+                                    className="flex flex-col items-start"
+                                >
+                                    <span className="text-[#3b82f6]/30 text-[96px] font-black font-outfit leading-none -mb-4">
+                                        {activeTab.label}
+                                    </span>
+                                    <h3 className="text-3xl md:text-4xl font-bold font-outfit text-white mb-4 leading-tight">
+                                        {activeTab.title}
+                                    </h3>
+                                    <p className="text-white/60 font-inter text-base md:text-lg leading-relaxed max-w-md">
+                                        {activeTab.description}
+                                    </p>
+                                </motion.div>
+                            </AnimatePresence>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     );
