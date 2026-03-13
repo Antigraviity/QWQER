@@ -1,6 +1,7 @@
 'use client';
 
 import { useFormState, useFormStatus } from 'react-dom';
+import Image from 'next/image';
 import { authenticate } from '@/lib/actions';
 import { FaArrowRight, FaExclamationCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useState } from 'react';
@@ -13,7 +14,7 @@ export default function LoginPage() {
         <main className="flex items-center justify-center min-h-screen bg-black text-gray-900">
             <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-4 p-4 md:-mt-32">
                 <div className="flex flex-col items-center justify-center mb-2">
-                    <img src="/qwqer-logo.png" alt="QWQER Logo" className="h-[2.5rem]" />
+                    <Image src="/qwqer-logo.png" alt="QWQER Logo" width={160} height={40} className="h-10 w-auto" />
                 </div>
                 <form action={dispatch} className="space-y-3">
                     <div className="flex-1 rounded-xl bg-white px-6 pb-4 pt-6 border border-gray-200 shadow-sm text-center">

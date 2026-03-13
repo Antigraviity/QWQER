@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence, MotionValue } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -51,7 +51,7 @@ export default function ExpressIndustries() {
     }, []);
 
     // Heading letter reveal + active industry cycling
-    useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    useMotionValueEvent(scrollYProgress, "change", (latest: number) => {
         // Letter reveal
         if (latest >= 0.04 && !headingRevealDone.current && headingRef.current) {
             headingRevealDone.current = true;
@@ -412,11 +412,11 @@ function DotNav({
     scrollYProgress,
 }: {
     index: number;
-    scrollYProgress: ReturnType<typeof useTransform>;
+    scrollYProgress: MotionValue<number>;
 }) {
     const ref = useRef<HTMLDivElement>(null);
 
-    useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    useMotionValueEvent(scrollYProgress, "change", (latest: number) => {
         if (!ref.current) return;
         const scrollRange = 0.88 - 0.08;
         const normalized = Math.max(0, Math.min(1, (latest - 0.08) / scrollRange));

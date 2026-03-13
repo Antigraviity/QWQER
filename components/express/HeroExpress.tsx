@@ -1,5 +1,5 @@
 "use client";
-
+import NextImage from "next/image";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import gsap from "gsap";
@@ -140,9 +140,11 @@ export default function HeroExpress() {
             <div className="sticky top-0 left-0 w-full h-screen overflow-hidden">
 
                 {/* Static first frame — always present as fallback behind canvas */}
-                <img
+                <NextImage
                     src={`${FOLDER_PATH}/${FILE_PREFIX}000.${FILE_EXTENSION}`}
                     alt=""
+                    fill
+                    priority
                     className="absolute inset-0 w-full h-full object-cover"
                     style={{ zIndex: -1 }}
                 />

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { FaChartBar, FaNewspaper, FaEnvelope, FaSignOutAlt, FaUsers } from 'react-icons/fa';
 
@@ -15,7 +16,7 @@ export default function AdminLayout({
                         href="/admin"
                     >
                         <div className="w-32 md:w-40 flex items-center gap-2">
-                            <img src="/admin-logo.webp" alt="QWQER Logo" className="h-[2rem]" />
+                            <Image src="/admin-logo.webp" alt="QWQER Logo" width={160} height={32} className="h-8 w-auto" />
                         </div>
                     </Link>
                     <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
