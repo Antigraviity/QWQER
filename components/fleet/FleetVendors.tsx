@@ -142,7 +142,7 @@ export default function FleetVendors() {
                                         transition={{ duration: 0.4, ease: "easeInOut" }}
                                         className="overflow-hidden"
                                     >
-                                        <p className="text-gray-400 font-inter text-sm md:text-base leading-relaxed">
+                                        <p className="text-white/60 font-inter text-sm md:text-base leading-relaxed">
                                             {tab.description}
                                         </p>
                                     </motion.div>

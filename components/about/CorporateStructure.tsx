@@ -145,7 +145,7 @@ export default function CorporateStructure() {
               const c = s.color || "#ee3425";
               return (
                 <div key={i} className="cs-child group">
-                  <div className="relative p-6 rounded-2xl border transition-all duration-500 h-full overflow-hidden" style={{ borderColor: `${c}30`, background: `${c}08` }}>
+                  <div className="relative p-6 rounded-2xl border transition-all duration-500 h-full overflow-hidden flex flex-col items-center text-center" style={{ borderColor: `${c}30`, background: `${c}08` }}>
 
 
                     {/* Role badge */}
@@ -157,7 +157,7 @@ export default function CorporateStructure() {
                     <h3 className="text-white font-bold text-lg mb-2 transition-colors duration-300" style={{ color: c }}>
                       {s.name}
                     </h3>
-                    <p className="text-white/80 text-[13px] leading-[1.7] group-hover:text-white/90 transition-colors duration-300">
+                    <p className="text-white/70 text-base leading-[1.7] group-hover:text-white/85 transition-colors duration-300">
                       {s.desc}
                     </p>
 
@@ -171,7 +171,7 @@ export default function CorporateStructure() {
 
           {/* ── Body Text ────────────────────────────────────── */}
           <div className="cs-body-wrap mt-12 max-w-2xl mx-auto text-center">
-            <p className="cs-body text-white/80 text-[15px] leading-[1.8]">
+            <p className="cs-body text-white/70 text-base leading-[1.8]">
               Across its group entities, QWQER combines technology development, fleet operations, and execution management to support enterprise logistics requirements across multiple industries and geographies.
             </p>
           </div>

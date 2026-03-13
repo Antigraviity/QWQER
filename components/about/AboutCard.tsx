@@ -237,7 +237,7 @@ export default function AboutCard() {
             </h2>
 
             {/* Body */}
-            <p className="ac-body mt-5 text-white/40 text-base md:text-[17px] leading-[1.8] max-w-lg">
+            <p className="ac-body mt-5 text-white/70 text-base md:text-[17px] leading-[1.8] max-w-lg">
               QWQER is led by seasoned transportation operators, logistics
               professionals, and technology leaders who have built and managed
               operations at scale. This leadership shapes everything — from
@@ -252,7 +252,7 @@ export default function AboutCard() {
                   <div className="text-3xl md:text-4xl font-black text-white tracking-tight">
                     {s.value}
                   </div>
-                  <div className="text-[11px] uppercase tracking-[0.15em] text-white/30 mt-1 font-medium">
+                  <div className="text-[11px] uppercase tracking-[0.15em] text-white/70 mt-1 font-medium">
                     {s.label}
                   </div>
                 </div>
@@ -287,7 +287,7 @@ export default function AboutCard() {
                     <h3 className="text-white font-bold text-[15px] mt-1.5 mb-2 group-hover:text-[#dfd54b] transition-colors duration-300">
                       {p.title}
                     </h3>
-                    <p className="text-white/30 text-[13px] leading-[1.7] group-hover:text-white/45 transition-colors duration-300">
+                    <p className="text-white/70 text-[15px] leading-[1.7] group-hover:text-white/85 transition-colors duration-300">
                       {p.desc}
                     </p>
                   </div>

@@ -182,7 +182,7 @@ export default function WhyQwqerFleet() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-                        className="text-gray-400 mt-6 max-w-2xl mx-auto text-lg"
+                        className="text-white/70 mt-6 max-w-2xl mx-auto text-lg"
                     >
                         Pioneering logistics through technological innovation, safety, and unwavering reliability.
                     </motion.p>

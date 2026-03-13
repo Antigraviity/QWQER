@@ -81,7 +81,7 @@ export default function CareersJoin() {
           </h2>
 
           {/* Body text */}
-          <p className="text-white/40 text-[15px] md:text-base leading-[1.85] max-w-xl mx-auto mb-10">
+          <p className="text-white/70 text-base md:text-lg leading-[1.85] max-w-xl mx-auto mb-10">
             If you&apos;re interested in working on logistics that values execution and ownership, we&apos;d love to hear from you. Explore open roles and join QWQER.
           </p>
 

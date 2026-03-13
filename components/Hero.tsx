@@ -115,7 +115,7 @@ export default function Hero() {
                             built to move business.
                         </span>
                     </h1>
-                    <p className="animate-word block text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p className="animate-word block text-white/70 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
                         From intercity FTL operations to hyperlocal deliveries, QWQER helps businesses move goods across India with visibility, control, and consistency.
                     </p>
                     <div className="flex gap-4 justify-center animate-word">

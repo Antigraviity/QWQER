@@ -261,7 +261,7 @@ export default function CareersHero() {
 
         {/* Subtext */}
         <p
-          className="ch-sub mt-5 md:mt-7 max-w-2xl mx-auto text-center text-[15px] md:text-lg leading-[1.8] text-white/40"
+          className="ch-sub mt-5 md:mt-7 max-w-2xl mx-auto text-center text-[15px] md:text-lg leading-[1.8] text-white/70"
           style={{ opacity: 0 }}
         >
           Do you like solving real operational problems, taking ownership, and working in fast-moving, real-world environments?

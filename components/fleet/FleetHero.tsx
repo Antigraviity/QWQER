@@ -37,7 +37,7 @@ export default function FleetHero() {
                             <span className="text-[#ee3425]">Transportation</span> <br />
                             <span className="text-blue-500">Solutions.</span>
                         </h1>
-                        <p className="text-lg md:text-xl text-gray-300 max-w-xl font-inter drop-shadow-md bg-black/50 p-4 rounded-xl backdrop-blur-sm border border-white/5">
+                        <p className="text-lg md:text-xl text-white/70 max-w-xl font-inter drop-shadow-md bg-black/50 p-4 rounded-xl backdrop-blur-sm border border-white/5">
                             Robust transportation solutions that keep your business moving securely, sustainably, and cost-effectively.
                         </p>
                     </motion.div>

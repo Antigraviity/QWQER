@@ -117,7 +117,7 @@ export default function PartnerExpress() {
         <h2 className="pe-title text-center text-3xl md:text-5xl font-extrabold tracking-tight mb-4" style={{ opacity: 0 }}>
           QWQER Express <span style={{ color: "#9b7de0" }}>for Riders</span>
         </h2>
-        <p className="pe-title text-center text-white/40 text-sm md:text-base max-w-xl mx-auto mb-14" style={{ opacity: 0 }}>
+        <p className="pe-title text-center text-white/70 text-base md:text-lg max-w-xl mx-auto mb-14" style={{ opacity: 0 }}>
           Your ride, your rules. Join thousands of riders earning on their own schedule.
         </p>
 
@@ -157,7 +157,7 @@ export default function PartnerExpress() {
                 {/* Text content */}
                 <div className="flex-1 min-w-0 pt-1">
                   <h3 className="text-white font-bold text-[15px] mb-2 leading-snug group-hover:text-[#c4b0f0] transition-colors duration-300">{f.title}</h3>
-                  <p className="text-white/35 text-[13px] leading-relaxed group-hover:text-white/50 transition-colors duration-300">{f.desc}</p>
+                  <p className="text-white/70 text-sm md:text-[15px] leading-relaxed group-hover:text-white/85 transition-colors duration-300">{f.desc}</p>
                 </div>
 
                 {/* Corner accent */}

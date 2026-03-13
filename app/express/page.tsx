@@ -12,7 +12,7 @@ import ExpressJoin from "@/components/express/ExpressJoin";
 
 export default function ExpressPage() {
     return (
-        <main className="min-h-screen bg-black text-white selection:bg-[#ee3425] selection:text-white relative font-sans">
+        <main className="min-h-screen bg-black text-white selection:bg-[#7c3aed] selection:text-white relative font-sans">
             <ScrollProgress />
             <Navbar />
 

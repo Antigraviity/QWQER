@@ -10,11 +10,11 @@ const MILESTONES = [
   },
   {
     year: "2021",
-    items: ["Spread Express across South India", "Started QWQER Shop in 1 location"],
+    items: ["Spread Express across South India"],
   },
   {
     year: "2022",
-    items: ["Expanded QWQER Shop to multiple locations", "Launch of transportation offering"],
+    items: ["Launch of transportation offering"],
   },
   {
     year: "2023",
@@ -235,7 +235,7 @@ export default function AboutHero() {
 
         {/* Subtext */}
         <p
-          className="ah-sub mt-5 md:mt-7 max-w-lg text-[15px] md:text-base leading-[1.8] text-white/40"
+          className="ah-sub mt-5 md:mt-7 max-w-lg text-[15px] md:text-base leading-[1.8] text-white/70"
           style={{ opacity: 0 }}
         >
           From the first mile to the final doorstep, we orchestrate every
@@ -261,10 +261,10 @@ export default function AboutHero() {
                     <div className="flex flex-col gap-1.5 mb-3 min-h-[70px] justify-end">
                       {m.items.map((item, j) => (
                         <div key={j} className="flex items-start gap-1.5">
-                          <svg className="w-2.5 h-2.5 shrink-0 mt-[3px]" viewBox="0 0 10 10" fill="none">
+                          <svg className="w-4 h-4 shrink-0 mt-[2px]" viewBox="0 0 10 10" fill="none">
                             <path d="M1 5 L4 8 L9 2" stroke={A} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
-                          <span className="text-[9px] md:text-[10px] text-white/50 leading-[1.4]">{item}</span>
+                          <span className="text-[11px] md:text-[12px] text-white/70 leading-[1.4]">{item}</span>
                         </div>
                       ))}
                     </div>
@@ -315,8 +315,8 @@ export default function AboutHero() {
             {/* ── Truck ───────────────────────────────────────── */}
             <div className="ah-truck absolute top-1/2 z-10" style={{ left: "-2%", transform: "translateY(-50%)" }}>
               <div className="relative -top-[12px] -left-[15px]">
-                <div className="absolute top-1 -left-1 w-10 h-6 rounded-full blur-md" style={{ backgroundColor: "rgba(238,52,37,0.25)" }} />
-                <svg width="30" height="20" viewBox="0 0 30 20" fill="none">
+                <div className="absolute top-1 -left-1 w-14 h-8 rounded-full blur-md" style={{ backgroundColor: "rgba(238,52,37,0.25)" }} />
+                <svg width="46" height="30" viewBox="0 0 30 20" fill="none">
                   <rect x="0" y="3" width="18" height="11" rx="2" fill={A} />
                   <line x1="4" y1="6" x2="14" y2="6" stroke="white" strokeWidth="0.6" opacity="0.3" />
                   <line x1="4" y1="8.5" x2="14" y2="8.5" stroke="white" strokeWidth="0.6" opacity="0.3" />

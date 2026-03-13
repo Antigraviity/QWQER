@@ -45,11 +45,11 @@ export default function ExpressJoin() {
                     viewport={{ once: true }}
                     className="mb-16"
                 >
-                    <span className="text-[#ee3425] text-xs font-bold tracking-[0.35em] uppercase block mb-3">
+                    <span className="text-[#7c3aed] text-xs font-bold tracking-[0.35em] uppercase block mb-3">
                         Rider / Vendor
                     </span>
-                    <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight">
-                        Why Join <span className="text-[#ee3425]">QWQER Express?</span>
+                    <h2 className="text-4xl md:text-[48px] font-extrabold text-white tracking-tight">
+                        Why Join <span className="text-[#7c3aed]">QWQER Express?</span>
                     </h2>
                 </motion.div>
 
@@ -60,30 +60,31 @@ export default function ExpressJoin() {
                             key={i}
                             initial={{ opacity: 0, y: 24 }}
                             whileInView={{ opacity: 1, y: 0 }}
+                            whileHover={{ scale: 1.06 }}
                             viewport={{ once: true, margin: "-50px" }}
-                            transition={{ delay: i * 0.08, duration: 0.5, ease: "easeOut" }}
-                            className="group flex flex-col bg-[#0c0c0c] border border-white/6 hover:border-white/12 rounded-2xl overflow-hidden transition-colors duration-300"
+                            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                            className="group flex flex-col bg-[#0c0c0c] border border-white/6 hover:border-[#7c3aed]/40 rounded-2xl overflow-hidden cursor-pointer will-change-transform"
                         >
                             {/* Image */}
-                            <div className="relative w-full h-48 bg-[#101010]">
+                            <div className="relative w-full h-48 bg-[#101010] overflow-hidden">
                                 <Image
                                     src={b.image}
                                     alt={b.title}
                                     fill
-                                    className="object-contain p-5 group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+                                    className="object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
                                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
                                 />
                             </div>
 
                             {/* Divider */}
-                            <div className="h-px bg-white/5 group-hover:bg-[#ee3425]/30 transition-colors duration-300" />
+                            <div className="h-px bg-white/5 group-hover:bg-[#7c3aed]/30 transition-colors duration-300" />
 
                             {/* Text */}
                             <div className="flex flex-col gap-2 p-5 flex-1">
                                 <h3 className="text-sm font-bold text-white leading-snug">
                                     {b.title}
                                 </h3>
-                                <p className="text-gray-500 text-xs leading-relaxed">
+                                <p className="text-white/60 text-sm leading-relaxed">
                                     {b.description}
                                 </p>
                             </div>

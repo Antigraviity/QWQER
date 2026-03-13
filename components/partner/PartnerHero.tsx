@@ -467,7 +467,7 @@ export default function PartnerHero() {
 
         {/* Subtext */}
         <p
-          className="ph-sub mt-5 md:mt-7 max-w-lg mx-auto text-center text-[15px] md:text-base leading-[1.8] text-white/40"
+          className="ph-sub mt-5 md:mt-7 max-w-lg mx-auto text-center text-base md:text-lg leading-[1.8] text-white/70"
           style={{ opacity: 0 }}
         >
           Start earning anytime. No contracts. No lock-ins.
@@ -477,8 +477,8 @@ export default function PartnerHero() {
         <div className="ph-cta mt-8 flex justify-center" style={{ opacity: 0 }}>
           <a
             href="#"
-            className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-white text-sm tracking-wide overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(238,52,37,0.3)]"
-            style={{ background: A }}
+            className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-white text-sm tracking-wide overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(124,58,237,0.3)]"
+            style={{ background: "#7c3aed" }}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
             <svg className="w-5 h-5 relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2" /><line x1="12" y1="18" x2="12.01" y2="18" /></svg>

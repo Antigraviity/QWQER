@@ -149,7 +149,7 @@ export default function FleetCustomers() {
                                                         animate={{ height: "auto", opacity: 1 }}
                                                         exit={{ height: 0, opacity: 0 }}
                                                         transition={{ duration: 0.3 }}
-                                                        className="text-sm text-gray-400 font-inter leading-relaxed mt-1"
+                                                        className="text-sm text-white/60 font-inter leading-relaxed mt-1"
                                                     >
                                                         {tab.description}
                                                     </motion.p>

@@ -393,7 +393,7 @@ export default function GlobeFleet() {
               <span style={{ color: "#ee3425" }}>Powering commerce.</span>
             </h2>
 
-            <p className="gf-desc text-white/40 text-[15px] md:text-base leading-[1.8] mb-8">
+            <p className="gf-desc text-white/70 text-[15px] md:text-base leading-[1.8] mb-8">
               Our fleet network spans major Indian cities, delivering goods
               across intercity corridors with real-time tracking, optimized
               routes, and operational precision — from first mile to final
@@ -403,15 +403,15 @@ export default function GlobeFleet() {
             <div className="flex gap-8 md:gap-12">
               <div className="gf-stat">
                 <div className="text-2xl md:text-3xl font-black text-white">10+</div>
-                <div className="text-[12px] text-white/35 mt-1 uppercase tracking-wider">Major Cities</div>
+                <div className="text-[12px] text-white/70 mt-1 uppercase tracking-wider">Major Cities</div>
               </div>
               <div className="gf-stat">
                 <div className="text-2xl md:text-3xl font-black text-white">200+</div>
-                <div className="text-[12px] text-white/35 mt-1 uppercase tracking-wider">Clients Served</div>
+                <div className="text-[12px] text-white/70 mt-1 uppercase tracking-wider">Clients Served</div>
               </div>
               <div className="gf-stat">
                 <div className="text-2xl md:text-3xl font-black text-white">3L+</div>
-                <div className="text-[12px] text-white/35 mt-1 uppercase tracking-wider">Trips Completed</div>
+                <div className="text-[12px] text-white/70 mt-1 uppercase tracking-wider">Trips Completed</div>
               </div>
             </div>
           </div>

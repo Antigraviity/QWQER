@@ -71,7 +71,7 @@ export default function FleetServicesTypes() {
                             <h3 className="text-2xl font-bold font-outfit text-white mb-4 transition-colors duration-300 group-hover:text-[#f97316]">
                                 {service.title}
                             </h3>
-                            <p className="text-gray-400 font-inter text-base md:text-lg leading-relaxed">
+                            <p className="text-white/60 font-inter text-base md:text-lg leading-relaxed">
                                 {service.description}
                             </p>
                         </motion.div>

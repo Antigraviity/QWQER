@@ -199,7 +199,7 @@ export default function DisciplinedExecution() {
               <span key={i + 10} className="exec-word inline-block ml-3" style={{ color: "white" }}>{word}</span>
             ))}
           </h2>
-          <p className="text-white/30 text-sm md:text-base leading-relaxed mt-4">
+          <p className="text-white/70 text-sm md:text-base leading-relaxed mt-4">
             Every delivery follows a disciplined chain of operations built for consistency.
           </p>
         </div>
@@ -239,7 +239,7 @@ export default function DisciplinedExecution() {
                     </svg>
                   </div>
                   <h3 className="text-white font-bold text-[17px] mb-2 group-hover:text-[#de7e3d] transition-colors duration-300">{p.title}</h3>
-                  <p className="text-white/30 text-[13px] leading-[1.7] group-hover:text-white/45 transition-colors duration-300">{p.desc}</p>
+                  <p className="text-white/70 text-[15px] leading-[1.7] group-hover:text-white/85 transition-colors duration-300">{p.desc}</p>
                   <div className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-700" style={{ background: "linear-gradient(to right, #de7e3d, transparent)" }} />
                 </div>
               </div>
@@ -273,7 +273,7 @@ export default function DisciplinedExecution() {
                     </svg>
                   </div>
                   <h3 className="text-white font-bold text-[17px] mb-2 group-hover:text-[#de7e3d] transition-colors duration-300">{p.title}</h3>
-                  <p className="text-white/30 text-[13px] leading-[1.7] group-hover:text-white/45 transition-colors duration-300">{p.desc}</p>
+                  <p className="text-white/70 text-[15px] leading-[1.7] group-hover:text-white/85 transition-colors duration-300">{p.desc}</p>
                   <div className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-700" style={{ background: "linear-gradient(to right, #de7e3d, transparent)" }} />
                 </div>
               </div>

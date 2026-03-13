@@ -15,7 +15,7 @@ export default function Trusted() {
     return (
         <section className="py-16 bg-black border-y border-white/5 overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 text-center mb-10">
-                <p className="text-gray-500 text-sm uppercase tracking-widest font-bold">Trusted by top companies</p>
+                <p className="text-white/50 text-sm uppercase tracking-widest font-bold">Trusted by top companies</p>
             </div>
 
             <div className="relative w-full overflow-hidden mask-linear-fade">

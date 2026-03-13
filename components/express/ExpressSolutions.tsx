@@ -1,144 +1,318 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import gsap from "gsap";
 
 const solutions = [
     {
         title: "On-Demand Deliveries",
-        description: "Instant pickup and delivery for time-sensitive orders, enabled by rapid rider allocation and flexible capacity.",
+        description:
+            "Instant pickup and delivery for time-sensitive orders, enabled by rapid rider allocation and flexible capacity.",
         image: "/QWQER Express Solutions/On-Demand Deliveries.png",
-        color: "from-red-900/20 to-transparent",
-        accent: "rgba(238,52,37,0.15)",
     },
     {
         title: "Batch Deliveries",
-        description: "Efficient single-pickup, multi-drop deliveries designed to handle high-volume dispatches at scale.",
+        description:
+            "Efficient single-pickup, multi-drop deliveries designed to handle high-volume dispatches at scale.",
         image: "/QWQER Express Solutions/Batch Deliveries.png",
-        color: "from-orange-900/20 to-transparent",
-        accent: "rgba(251,146,60,0.1)",
     },
     {
         title: "Same-Day Deliveries",
-        description: "Reliable same-day fulfilment for intra-city orders, ensuring faster turnaround without compromising scale or reliability.",
+        description:
+            "Reliable same-day fulfilment for intra-city orders, ensuring faster turnaround without compromising scale or reliability.",
         image: "/QWQER Express Solutions/Same-Day Deliveries.png",
-        color: "from-rose-900/20 to-transparent",
-        accent: "rgba(244,63,94,0.12)",
     },
     {
         title: "Mid-mile to Last-mile Fulfilment",
-        description: "End-to-end movement from hubs to stores and from stores to customers within city limits.",
+        description:
+            "End-to-end movement from hubs to stores and from stores to customers within city limits.",
         image: "/QWQER Express Solutions/Mid-mile to Last-mile Fulfilment.png",
-        color: "from-red-900/20 to-transparent",
-        accent: "rgba(238,52,37,0.15)",
     },
     {
         title: "Scheduled Deliveries",
-        description: "Planned, same-day and next-day routes designed for predictable, recurring operations.",
+        description:
+            "Planned, same-day and next-day routes designed for predictable, recurring operations.",
         image: "/QWQER Express Solutions/Scheduled Deliveries.png",
-        color: "from-orange-900/20 to-transparent",
-        accent: "rgba(251,146,60,0.1)",
     },
     {
         title: "Multi-drop Distribution",
-        description: "Single-pickup, multiple-drop delivery models optimised for efficiency and cost control.",
+        description:
+            "Single-pickup, multiple-drop delivery models optimised for efficiency and cost control.",
         image: "/QWQER Express Solutions/Multi-drop Distribution.png",
-        color: "from-rose-900/20 to-transparent",
-        accent: "rgba(244,63,94,0.12)",
     },
 ];
 
+const TOTAL = solutions.length;
+
 export default function ExpressSolutions() {
+    const sectionRef = useRef<HTMLDivElement>(null);
+    const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const titleRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const prevIndex = useRef(-1);
+
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start start", "end end"],
+    });
+
+    // Header animations
+    const headerOpacity = useTransform(scrollYProgress, [0, 0.06], [0, 1]);
+    const headerY = useTransform(scrollYProgress, [0, 0.06], [40, 0]);
+    const headingRevealDone = useRef(false);
+    const headingRef = useRef<HTMLHeadingElement>(null);
+
+    // Letter reveal for heading — preserves child element colors
+    useMotionValueEvent(scrollYProgress, "change", (latest) => {
+        if (latest >= 0.02 && !headingRevealDone.current && headingRef.current) {
+            headingRevealDone.current = true;
+
+            // Process each direct child node (text nodes and span elements)
+            const h2 = headingRef.current;
+            const children = Array.from(h2.childNodes);
+            h2.innerHTML = "";
+
+            children.forEach((node) => {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    // Plain text — split into chars with white color
+                    const text = node.textContent || "";
+                    text.split("").forEach((char) => {
+                        const span = document.createElement("span");
+                        span.textContent = char;
+                        span.style.display = "inline-block";
+                        span.style.opacity = "0.06";
+                        span.classList.add("es-char");
+                        if (char === " ") span.style.width = "0.3em";
+                        h2.appendChild(span);
+                    });
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    // Element (e.g. <span class="text-[#7c3aed]">) — preserve color
+                    const el = node as HTMLElement;
+                    const color = el.style.color || "";
+                    const className = el.className || "";
+                    const text = el.textContent || "";
+                    text.split("").forEach((char) => {
+                        const span = document.createElement("span");
+                        span.textContent = char;
+                        span.style.display = "inline-block";
+                        span.style.opacity = "0.06";
+                        span.style.color = "#7c3aed";
+                        span.classList.add("es-char");
+                        if (char === " ") span.style.width = "0.3em";
+                        h2.appendChild(span);
+                    });
+                }
+            });
+
+            gsap.to(".es-char", {
+                opacity: 1,
+                duration: 0.04,
+                stagger: 0.02,
+                ease: "none",
+            });
+        }
+
+        // Active solution index
+        const scrollRange = 0.85 - 0.12; // usable scroll range
+        const normalized = Math.max(0, Math.min(1, (latest - 0.12) / scrollRange));
+        const idx = Math.min(TOTAL - 1, Math.floor(normalized * TOTAL));
+
+        if (idx !== prevIndex.current && idx >= 0) {
+            const prev = prevIndex.current;
+            prevIndex.current = idx;
+
+            // Animate images
+            if (prev >= 0 && imageRefs.current[prev]) {
+                gsap.to(imageRefs.current[prev], {
+                    opacity: 0,
+                    scale: 0.92,
+                    duration: 0.5,
+                    ease: "power2.inOut",
+                });
+            }
+            if (imageRefs.current[idx]) {
+                gsap.fromTo(
+                    imageRefs.current[idx],
+                    { opacity: 0, scale: 1.08 },
+                    { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" }
+                );
+            }
+
+            // Animate text items
+            if (prev >= 0 && titleRefs.current[prev]) {
+                gsap.to(titleRefs.current[prev], {
+                    opacity: 0.2,
+                    x: 0,
+                    duration: 0.4,
+                    ease: "power2.inOut",
+                });
+                // Collapse description
+                const prevDesc = titleRefs.current[prev]?.querySelector(".es-desc") as HTMLElement;
+                if (prevDesc) {
+                    prevDesc.style.maxHeight = "0px";
+                    prevDesc.style.opacity = "0";
+                }
+            }
+            if (titleRefs.current[idx]) {
+                gsap.to(titleRefs.current[idx], {
+                    opacity: 1,
+                    x: 12,
+                    duration: 0.5,
+                    ease: "power2.out",
+                });
+                // Expand description
+                const activeDesc = titleRefs.current[idx]?.querySelector(".es-desc") as HTMLElement;
+                if (activeDesc) {
+                    activeDesc.style.maxHeight = "80px";
+                    activeDesc.style.opacity = "1";
+                }
+            }
+        }
+    });
+
+    // Progress bar
+    const progressHeight = useTransform(scrollYProgress, [0.12, 0.85], ["0%", "100%"]);
+
     return (
-        <section className="py-24 bg-[#050505] relative overflow-hidden">
+        <section ref={sectionRef} className="relative bg-[#050505]" style={{ height: `${(TOTAL + 1) * 100}vh` }}>
             {/* Top border glow */}
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#ee3425]/50 to-transparent" />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#7c3aed]/50 to-transparent z-20" />
 
-            {/* Background grid pattern */}
-            <div
-                className="absolute inset-0 opacity-[0.03] pointer-events-none"
-                style={{
-                    backgroundImage: "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
-                    backgroundSize: "60px 60px",
-                }}
-            />
+            {/* Sticky viewport */}
+            <div className="sticky top-0 left-0 w-full h-screen overflow-hidden">
+                {/* Background */}
+                <div className="absolute inset-0 pointer-events-none">
+                    <div className="absolute top-[-10%] right-[10%] w-[500px] h-[500px] bg-[#7c3aed]/[0.03] blur-[160px] rounded-full" />
+                    <div className="absolute bottom-[-10%] left-[20%] w-[400px] h-[400px] bg-[#7c3aed]/[0.02] blur-[120px] rounded-full" />
+                </div>
 
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                {/* Heading */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-4"
-                >
-                    <div>
-                        <span className="text-[#ee3425] text-sm font-bold tracking-[0.3em] uppercase block mb-3">
+                {/* Content */}
+                <div className="relative z-10 flex flex-col h-full max-w-[1400px] mx-auto px-6 md:px-16">
+
+                    {/* ─── TOP: Full-width heading ─── */}
+                    <motion.div className="pt-16 md:pt-20 mb-8 md:mb-10" style={{ opacity: headerOpacity, y: headerY }}>
+                        <span className="text-[#7c3aed] text-[11px] font-bold tracking-[0.35em] uppercase block mb-4">
                             Our Services
                         </span>
-                        <h2 className="text-4xl md:text-6xl font-extrabold text-white leading-tight tracking-tight">
-                            QWQER Express<br />
-                            <span className="text-[#ee3425]">Solutions</span>
-                        </h2>
-                    </div>
-                    <p className="text-gray-500 text-base max-w-sm leading-relaxed md:text-right">
-                        From instant pickups to complex multi-drop runs — we have a model built for every operation.
-                    </p>
-                </motion.div>
-
-                {/* Cards grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {solutions.map((solution, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-60px" }}
-                            transition={{ delay: index * 0.08, duration: 0.5, ease: "easeOut" }}
-                            className="group relative rounded-3xl overflow-hidden border border-white/5 hover:border-[#ee3425]/40 transition-all duration-500 hover:shadow-[0_0_50px_rgba(238,52,37,0.15)] h-[420px] bg-[#0a0a0a]"
+                        <h2
+                            ref={headingRef}
+                            className="text-4xl md:text-[48px] font-extrabold text-white tracking-tight leading-[1.1] whitespace-nowrap"
                         >
-                            {/* Full-card image */}
-                            <Image
-                                src={solution.image}
-                                alt={solution.title}
-                                fill
-                                className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out opacity-80 group-hover:opacity-100"
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            />
+                            QWQER <span className="text-[#7c3aed]">Express Solutions</span>
+                        </h2>
+                        <p className="text-white/70 text-base max-w-lg leading-relaxed mt-4">
+                            From instant pickups to complex multi-drop runs — we have a model built for every operation.
+                        </p>
+                    </motion.div>
 
-                            {/* Dark gradient overlay — bottom half for text legibility */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent z-10 pointer-events-none" />
+                    {/* ─── BOTTOM: Two-column layout ─── */}
+                    <div className="flex flex-1 min-h-0">
 
-                            {/* Hover color accent glow from top */}
-                            <div
-                                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10"
-                                style={{ background: `radial-gradient(ellipse at 50% 10%, ${solution.accent} 0%, transparent 60%)` }}
-                            />
+                    {/* ─── LEFT: Text list ─── */}
+                    <div className="flex flex-col justify-center w-full md:w-[45%] pr-0 md:pr-12">
 
-                            {/* Text content — pinned to bottom */}
-                            <div className="absolute bottom-0 left-0 right-0 z-20 p-6">
-                                {/* Index */}
-                                <span className="text-[11px] font-bold tracking-[0.25em] text-[#ee3425]/60 uppercase block mb-2">
-                                    {String(index + 1).padStart(2, "0")}
-                                </span>
-
-                                <h3 className="text-xl font-bold text-white mb-2 leading-snug group-hover:text-[#ee3425] transition-colors duration-300">
-                                    {solution.title}
-                                </h3>
-                                <p className="text-gray-400 text-sm leading-relaxed">
-                                    {solution.description}
-                                </p>
-
+                        {/* Solution list with vertical progress bar */}
+                        <div className="flex gap-5">
+                            {/* Progress track */}
+                            <div className="relative w-[2px] flex-shrink-0 hidden md:block">
+                                <div className="absolute inset-0 bg-white/[0.06] rounded-full" />
+                                <motion.div
+                                    className="absolute top-0 left-0 w-full rounded-full"
+                                    style={{
+                                        height: progressHeight,
+                                        background: "linear-gradient(180deg, #7c3aed, #a78bfa)",
+                                        boxShadow: "0 0 12px rgba(124,58,237,0.4)",
+                                    }}
+                                />
                             </div>
 
-                            {/* Bottom border accent on hover */}
-                            <div className="absolute bottom-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-[#ee3425] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-30" />
-                        </motion.div>
-                    ))}
+                            {/* Titles */}
+                            <div className="flex flex-col gap-1 flex-1">
+                                {solutions.map((sol, i) => (
+                                    <div
+                                        key={i}
+                                        ref={(el) => { titleRefs.current[i] = el; }}
+                                        className={`py-3 px-4 rounded-xl cursor-default transition-colors duration-300 ${i === 0 ? "es-active" : ""}`}
+                                        style={{ opacity: i === 0 ? 1 : 0.2 }}
+                                    >
+                                        <h3 className="text-base md:text-lg font-bold text-white leading-snug mb-1">
+                                            {sol.title}
+                                        </h3>
+                                        <p className="text-white/70 text-sm leading-relaxed es-desc max-w-sm"
+                                            style={{
+                                                maxHeight: i === 0 ? "80px" : "0px",
+                                                overflow: "hidden",
+                                                opacity: i === 0 ? 1 : 0,
+                                                transition: "max-height 0.5s ease, opacity 0.4s ease",
+                                            }}
+                                        >
+                                            {sol.description}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* ─── RIGHT: Image ─── */}
+                    <div className="hidden md:flex w-[55%] items-center justify-center relative">
+                        {/* Glow behind image */}
+                        <div className="absolute w-[400px] h-[400px] bg-[#7c3aed]/[0.04] blur-[100px] rounded-full pointer-events-none" />
+
+                        {/* Image stack — all positioned absolutely, opacity controlled by GSAP */}
+                        <div className="relative w-full h-[60vh] max-h-[500px]">
+                            {solutions.map((sol, i) => (
+                                <div
+                                    key={i}
+                                    ref={(el) => { imageRefs.current[i] = el; }}
+                                    className="absolute inset-0 rounded-3xl overflow-hidden border border-white/[0.06]"
+                                    style={{ opacity: i === 0 ? 1 : 0 }}
+                                >
+                                    <Image
+                                        src={sol.image}
+                                        alt={sol.title}
+                                        fill
+                                        className="object-cover"
+                                        sizes="55vw"
+                                        priority={i === 0}
+                                    />
+                                    {/* Subtle vignette */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/60 via-transparent to-transparent pointer-events-none" />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>{/* close flex-1 wrapper */}
+                </div>{/* close content flex-col */}
+
+                {/* Mobile: show active image below text */}
+                <div className="md:hidden absolute bottom-0 left-0 right-0 h-[40vh] px-6">
+                    <div className="relative w-full h-full">
+                        {solutions.map((sol, i) => (
+                            <div
+                                key={i}
+                                ref={(el) => {
+                                    // For mobile, reuse the same refs (images will animate)
+                                    if (!imageRefs.current[i]) imageRefs.current[i] = el;
+                                }}
+                                className="absolute inset-0 rounded-2xl overflow-hidden"
+                                style={{ opacity: i === 0 ? 1 : 0 }}
+                            >
+                                <Image
+                                    src={sol.image}
+                                    alt={sol.title}
+                                    fill
+                                    className="object-cover"
+                                    sizes="100vw"
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
 
-            {/* Bottom border glow */}
-            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#ee3425]/30 to-transparent" />
+
         </section>
     );
 }

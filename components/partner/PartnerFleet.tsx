@@ -137,7 +137,7 @@ export default function PartnerFleet() {
         <h2 className="pf-title text-center text-3xl md:text-5xl font-extrabold tracking-tight mb-4" style={{ opacity: 0 }}>
           QWQER Fleet <span style={{ color: "#5b8af5" }}>for Fleet Owners</span>
         </h2>
-        <p className="pf-title text-center text-white/40 text-sm md:text-base max-w-xl mx-auto mb-14" style={{ opacity: 0 }}>
+        <p className="pf-title text-center text-white/70 text-base md:text-lg max-w-xl mx-auto mb-14" style={{ opacity: 0 }}>
           Scale your fleet operations with consistent demand and structured support.
         </p>
 
@@ -170,7 +170,7 @@ export default function PartnerFleet() {
 
               {/* Text */}
               <h3 className="text-white font-bold text-[14px] mb-1.5 leading-snug">{f.title}</h3>
-              <p className="text-white/30 text-[12px] leading-relaxed">{f.desc}</p>
+              <p className="text-white/70 text-sm md:text-[15px] leading-relaxed">{f.desc}</p>
             </div>
           ))}
         </div>

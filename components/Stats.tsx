@@ -84,7 +84,7 @@ export default function Stats() {
                             <h2 className="text-3xl md:text-5xl font-semibold text-white mb-6 leading-tight tracking-tight">
                                 Trusted by businesses to <span className="text-[#ee3425]">deliver <br /> faster</span> with consistency.
                             </h2>
-                            <p className="max-w-2xl mx-auto text-base md:text-lg text-gray-400 leading-relaxed">
+                            <p className="max-w-2xl mx-auto text-base md:text-lg text-white/70 leading-relaxed">
                                 A transportation solution provider built for express delivery and fleet operations - designed to moove businesses faster, without complexity.
                             </p>
                         </div>
@@ -98,7 +98,7 @@ export default function Stats() {
                                 >
                                     <div className="flex flex-col items-center justify-center text-center h-full min-h-[160px]">
                                         <span
-                                            className="stat-counter text-5xl md:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-b from-white to-white/40 group-hover:from-white group-hover:to-[#ee3425] transition-all duration-500 mb-4 block italic pr-2"
+                                            className="stat-counter text-5xl md:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-b from-white to-white/40 group-hover:from-white group-hover:to-[#ee3425] transition-all duration-500 mb-4 block pr-2"
                                             data-target={m.num}
                                             data-decimals={m.decimals}
                                             data-suffix={m.suffix}
@@ -106,7 +106,7 @@ export default function Stats() {
                                         >
                                             {m.static || `0${m.suffix}`}
                                         </span>
-                                        <span className="text-gray-500 text-[10px] md:text-xs font-bold uppercase tracking-[0.15em] group-hover:text-white transition-colors duration-300">
+                                        <span className="text-white/50 text-[10px] md:text-xs font-bold uppercase tracking-[0.15em] group-hover:text-white transition-colors duration-300">
                                             {m.label}
                                         </span>
                                     </div>

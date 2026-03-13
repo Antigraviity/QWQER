@@ -99,8 +99,8 @@ function FlipCard({ member, index }: { member: typeof team[0] & { imageStyle?: s
             />
           </div>
           <div className="h-[60px] flex flex-col justify-center px-4">
-            <h4 className="text-white font-bold text-sm leading-tight">{member.name}</h4>
-            <p className="text-gray-500 text-xs mt-0.5">{member.role}</p>
+            <h4 className="text-white font-bold text-base leading-tight">{member.name}</h4>
+            <p className="text-white/70 text-sm mt-0.5">{member.role}</p>
           </div>
         </div>
 
@@ -129,11 +129,11 @@ function FlipCard({ member, index }: { member: typeof team[0] & { imageStyle?: s
           </div>
 
           <div className="relative z-10">
-            <h4 className="text-white font-bold text-base mb-1">{member.name}</h4>
-            <p className="text-white/50 text-[11px] uppercase tracking-wider mb-5">{member.role}</p>
+            <h4 className="text-white font-bold text-lg mb-1">{member.name}</h4>
+            <p className="text-white/70 text-xs uppercase tracking-wider mb-5">{member.role}</p>
             <div className="w-10 h-[2px] bg-white/20 mx-auto mb-5 rounded-full" />
             {member.back.map((line, j) => (
-              <p key={j} className="text-white/75 text-[13px] leading-relaxed mb-2">
+              <p key={j} className="text-white/80 text-[15px] leading-relaxed mb-2">
                 {line}
               </p>
             ))}

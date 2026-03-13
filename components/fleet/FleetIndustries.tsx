@@ -102,7 +102,7 @@ export default function FleetIndustries() {
 
                                     {/* Inner text content */}
                                     <div className="relative flex items-center gap-3 px-6 py-3 bg-transparent group-hover:bg-[#ee3425] rounded-2xl transition-colors duration-300">
-                                        <span className="text-zinc-400 group-hover:text-white font-inter font-semibold tracking-wide transition-colors duration-300 text-sm md:text-base whitespace-nowrap">
+                                        <span className="text-white/60 group-hover:text-white font-inter font-semibold tracking-wide transition-colors duration-300 text-sm md:text-base whitespace-nowrap">
                                             {industry}
                                         </span>
                                     </div>

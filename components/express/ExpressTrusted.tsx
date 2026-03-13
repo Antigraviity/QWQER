@@ -6,7 +6,7 @@ const clients = [
     { name: "KFC", src: "/Express clients/KFC.png" },
     { name: "Rebel Foods", src: "/Express clients/Rebel.png" },
     { name: "Tata 1mg", src: "/Express clients/Tata 1mg.png" },
-    { name: "Zomato", src: "/Express clients/zomato.jpg" },
+    { name: "Zomato", src: "/fleet-clients/zomato.webp" },
     { name: "Zepto", src: "/Express clients/zepto (1).png" },
     { name: "Apollo Pharmacy", src: "/Express clients/apollo-phar.png" },
     { name: "McDonald's", src: "/Express clients/mcd.png" },
@@ -24,7 +24,7 @@ export default function ExpressTrusted() {
     return (
         <section className="py-16 bg-black border-y border-white/5 overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 text-center mb-10">
-                <p className="text-gray-500 text-sm uppercase tracking-widest font-bold">
+                <p className="text-white/50 text-sm uppercase tracking-widest font-bold">
                     Trusted by top companies
                 </p>
             </div>
@@ -36,13 +36,13 @@ export default function ExpressTrusted() {
                     {[...clients, ...clients, ...clients].map((c, i) => (
                         <div
                             key={i}
-                            className="flex-shrink-0 relative w-[160px] h-[80px] md:w-[180px] md:h-[90px] transition-transform duration-300 hover:scale-105 cursor-pointer mx-4"
+                            className="relative w-48 h-28 md:w-[200px] md:h-32 transition-transform duration-300 hover:scale-105 cursor-pointer flex items-center justify-center"
                         >
                             <Image
                                 src={c.src}
                                 alt={c.name}
                                 fill
-                                className="object-contain"
+                                className="object-contain rounded-xl"
                             />
                         </div>
                     ))}

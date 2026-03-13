@@ -81,7 +81,7 @@ export default function CareersWhy() {
           <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-5">
             Why <span style={{ color: A }}>QWQER?</span>
           </h2>
-          <p className="text-white/35 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+          <p className="text-white/70 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
             We work on transportation challenges that exist across real supply chains. Here&apos;s what makes working here different.
           </p>
         </div>
@@ -125,7 +125,7 @@ export default function CareersWhy() {
                 <h3 className="text-white font-bold text-lg mb-3 leading-tight">{p.label}</h3>
 
                 {/* Description */}
-                <p className="text-white/30 text-[13.5px] leading-[1.75]">{p.text}</p>
+                <p className="text-white/70 text-[15px] leading-[1.75]">{p.text}</p>
               </div>
             </div>
           ))}

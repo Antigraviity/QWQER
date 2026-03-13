@@ -129,11 +129,11 @@ export default function Features() {
                 {/* Header */}
                 <div className="features-header mb-12 text-center">
                     <p className="text-[#ee3425] font-bold text-[10px] uppercase tracking-[0.2em] mb-4">Logistics solutions you can trust</p>
-                    <h2 className="text-2xl md:text-4xl font-bold text-white mb-3 tracking-tight leading-tight">
+                    <h2 className="text-2xl md:text-[48px] font-bold text-white mb-3 tracking-tight leading-tight">
                         How <span className="text-[#ee3425]">QWQER</span> Helps<br />
                         Businesses Deliver Better
                     </h2>
-                    <p className="text-gray-500 max-w-lg mx-auto text-sm">
+                    <p className="text-white/60 max-w-lg mx-auto text-sm">
                         Whether it&apos;s hyperlocal express delivery or intercity fleet operations, QWQER provides the right solution.
                     </p>
                 </div>
@@ -183,7 +183,7 @@ export default function Features() {
                                         {/* Title & Description */}
                                         <div className="flex-1 min-w-0">
                                             <h3 className={`text-sm md:text-base font-semibold transition-colors duration-300 ${
-                                                isActive ? "text-white" : "text-white/50"
+                                                isActive ? "text-white" : "text-white/70"
                                             }`}>
                                                 {f.title}
                                             </h3>
@@ -194,7 +194,7 @@ export default function Features() {
                                                     opacity: isActive ? 1 : 0,
                                                 }}
                                             >
-                                                <p className="text-gray-500 text-xs md:text-sm mt-1 leading-relaxed">
+                                                <p className="text-white/70 text-sm md:text-base mt-1 leading-relaxed">
                                                     {f.desc}
                                                 </p>
                                             </div>
