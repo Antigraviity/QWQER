@@ -119,7 +119,7 @@ export default function WhyQwqer() {
             );
 
             // Color transition — when item 6 enters viewport, shift entire section to blue
-            const transitionTrigger = items[5]; // 6th item (index 5)
+            const transitionTrigger = items[5] as Element; // 6th item (index 5)
             if (transitionTrigger) {
                 // Section card background gradient
                 gsap.to(".wq-section-card", {
