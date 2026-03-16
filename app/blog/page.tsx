@@ -6,7 +6,7 @@ import { FaArrowRight } from "react-icons/fa6";
 import { db } from "@/lib/db";
 import type { Metadata } from "next";
 
-export const revalidate = 0;
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
     title: 'Blog | QWQER - Insights on Logistics & Hyperlocal Delivery',

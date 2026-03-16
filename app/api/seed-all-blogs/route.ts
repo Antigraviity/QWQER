@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import blogData from "./blog-data.json";
 
+export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 export async function GET() {

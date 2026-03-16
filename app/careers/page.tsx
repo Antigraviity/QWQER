@@ -6,7 +6,7 @@ import CareersOpenings from "@/components/careers/CareersOpenings";
 import CareersJoin from "@/components/careers/CareersJoin";
 import { db } from "@/lib/db";
 
-export const revalidate = 0;
+export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: "Careers | QWQER - Solve Real Problems, Build Real Impact",
