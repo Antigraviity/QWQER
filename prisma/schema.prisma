@@ -6,7 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -22,15 +23,43 @@ model User {
 model Post {
   id          String   @id @default(cuid())
   slug        String   @unique
-  title       String
-  excerpt     String?
-  content     String   @db.Text
-  image       String?
+  title       String   @db.VarChar(500)
+  excerpt     String?  @db.Text
+  content     String   @db.LongText
+  image       String?  @db.VarChar(500)
   readTime    String?  @default("5 min read")
   published   Boolean  @default(false)
   
   // Categorization
   date        String? // Display date string e.g. "Feb 18, 2026"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Career {
+  id          String   @id @default(cuid())
+  title       String   @db.VarChar(500)
+  slug        String   @unique
+  department  String
+  location    String
+  type        String   @default("Full-time")
+  experience  String?
+  description String   @db.LongText
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model JobApplication {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String?
+  resumeUrl   String?
+  coverNote   String?  @db.Text
+  careerTitle String
+  careerSlug  String
+  status      String   @default("NEW")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -41,7 +70,7 @@ model Enquiry {
   email     String
   phone     String?
   message   String   @db.Text
-  status    String   @default("NEW") // NEW, READ, CONTACTED
+  status    String   @default("NEW")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

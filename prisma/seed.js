@@ -1,27 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
-const { Pool } = require('pg');
-const { PrismaPg } = require('@prisma/adapter-pg');
 const bcrypt = require('bcryptjs');
 
-let connectionString = process.env.DATABASE_URL;
-
-if (connectionString?.startsWith('prisma+postgres://')) {
-    try {
-        const url = new URL(connectionString);
-        const apiKey = url.searchParams.get('api_key');
-        if (apiKey) {
-            const decoded = Buffer.from(apiKey, 'base64').toString('utf-8');
-            const parsed = JSON.parse(decoded);
-            if (parsed.databaseUrl) connectionString = parsed.databaseUrl;
-        }
-    } catch (e) {
-        console.error("Failed to parse Prisma Postgres DB URL", e);
-    }
-}
-
-const pool = new Pool({ connectionString });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient();
 
 async function main() {
     const email = 'admin@qwqer.in';
@@ -45,11 +25,9 @@ async function main() {
 main()
     .then(async () => {
         await prisma.$disconnect();
-        await pool.end();
     })
     .catch(async (e) => {
         console.error(e);
         await prisma.$disconnect();
-        await pool.end();
         process.exit(1);
     });

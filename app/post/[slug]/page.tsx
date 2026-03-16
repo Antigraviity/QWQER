@@ -5,8 +5,44 @@ import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa6";
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 
 export const revalidate = 0;
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+    const post = await db.post.findUnique({
+        where: { slug: params.slug },
+        select: { title: true, excerpt: true, image: true, slug: true },
+    });
+
+    if (!post) {
+        return { title: 'Post Not Found | QWQER' };
+    }
+
+    const url = `https://qwqer.in/post/${post.slug}`;
+
+    return {
+        title: `${post.title} | QWQER Blog`,
+        description: post.excerpt || `Read "${post.title}" on the QWQER blog.`,
+        openGraph: {
+            title: post.title,
+            description: post.excerpt || `Read "${post.title}" on the QWQER blog.`,
+            url,
+            siteName: 'QWQER',
+            type: 'article',
+            ...(post.image && { images: [{ url: post.image, width: 1200, height: 630, alt: post.title }] }),
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: post.title,
+            description: post.excerpt || `Read "${post.title}" on the QWQER blog.`,
+            ...(post.image && { images: [post.image] }),
+        },
+        alternates: {
+            canonical: url,
+        },
+    };
+}
 
 export default async function BlogPost({ params }: { params: { slug: string } }) {
     const post = await db.post.findUnique({
@@ -17,8 +53,39 @@ export default async function BlogPost({ params }: { params: { slug: string } })
         notFound();
     }
 
+    // JSON-LD structured data for SEO
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: post.title,
+        description: post.excerpt || '',
+        image: post.image || undefined,
+        datePublished: post.createdAt.toISOString(),
+        dateModified: post.updatedAt.toISOString(),
+        author: {
+            '@type': 'Organization',
+            name: 'QWQER',
+            url: 'https://qwqer.in',
+        },
+        publisher: {
+            '@type': 'Organization',
+            name: 'QWQER',
+            url: 'https://qwqer.in',
+        },
+        mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': `https://qwqer.in/post/${post.slug}`,
+        },
+    };
+
     return (
         <main className="min-h-screen bg-white text-gray-900 selection:bg-[#ee3425] selection:text-white" data-blog-detail="true">
+            {/* JSON-LD Structured Data */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+
             <Navbar />
 
             {/* Back link */}
@@ -87,10 +154,10 @@ export default async function BlogPost({ params }: { params: { slug: string } })
                             <h3 className="text-lg font-bold text-gray-900 mb-1">Have Questions?</h3>
                             <p className="text-xs text-gray-400 mb-5">We&apos;d love to hear from you. Drop us a message.</p>
                             <div className="space-y-3">
-                                <div><label className="block text-[11px] font-semibold text-gray-500 mb-1 uppercase tracking-wide">Name</label><input type="text" placeholder="Your name" className="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder:text-gray-300 focus:outline-none focus:border-[#ee3425]/50 focus:ring-1 focus:ring-[#ee3425]/20 transition-all" /></div>
-                                <div><label className="block text-[11px] font-semibold text-gray-500 mb-1 uppercase tracking-wide">Email</label><input type="email" placeholder="you@company.com" className="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder:text-gray-300 focus:outline-none focus:border-[#ee3425]/50 focus:ring-1 focus:ring-[#ee3425]/20 transition-all" /></div>
-                                <div><label className="block text-[11px] font-semibold text-gray-500 mb-1 uppercase tracking-wide">Phone</label><input type="tel" placeholder="+91 98765 43210" className="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder:text-gray-300 focus:outline-none focus:border-[#ee3425]/50 focus:ring-1 focus:ring-[#ee3425]/20 transition-all" /></div>
-                                <div><label className="block text-[11px] font-semibold text-gray-500 mb-1 uppercase tracking-wide">Message</label><textarea placeholder="How can we help?" rows={3} className="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder:text-gray-300 focus:outline-none focus:border-[#ee3425]/50 focus:ring-1 focus:ring-[#ee3425]/20 transition-all resize-none" /></div>
+                                <div><label className="block text-[11px] font-semibold text-gray-500 mb-1 uppercase tracking-wide">Name</label><input type="text" placeholder="Your name" className="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder:text-gray-300 outline-none focus:border-[#ee3425] focus:ring-0 transition-colors duration-200" /></div>
+                                <div><label className="block text-[11px] font-semibold text-gray-500 mb-1 uppercase tracking-wide">Email</label><input type="email" placeholder="you@company.com" className="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder:text-gray-300 outline-none focus:border-[#ee3425] focus:ring-0 transition-colors duration-200" /></div>
+                                <div><label className="block text-[11px] font-semibold text-gray-500 mb-1 uppercase tracking-wide">Phone</label><input type="tel" placeholder="+91 98765 43210" className="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder:text-gray-300 outline-none focus:border-[#ee3425] focus:ring-0 transition-colors duration-200" /></div>
+                                <div><label className="block text-[11px] font-semibold text-gray-500 mb-1 uppercase tracking-wide">Message</label><textarea placeholder="How can we help?" rows={3} className="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder:text-gray-300 outline-none focus:border-[#ee3425] focus:ring-0 transition-colors duration-200 resize-none" /></div>
                                 <button className="w-full py-2.5 rounded-lg bg-[#ee3425] text-white text-sm font-bold hover:bg-[#d42e20] transition-all">Send Message</button>
                             </div>
                         </div>

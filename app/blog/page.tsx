@@ -4,17 +4,74 @@ import Link from "next/link";
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa6";
 import { db } from "@/lib/db";
+import type { Metadata } from "next";
 
-export const revalidate = 0; // Disable caching for now to see updates immediately
+export const revalidate = 0;
+
+export const metadata: Metadata = {
+    title: 'Blog | QWQER - Insights on Logistics & Hyperlocal Delivery',
+    description: 'Explore insights, updates, and stories from QWQER on logistics, fleet management, hyperlocal delivery, and transportation solutions in India.',
+    openGraph: {
+        title: 'QWQER Blog - Logistics & Delivery Insights',
+        description: 'Explore insights, updates, and stories from QWQER on logistics, fleet management, hyperlocal delivery, and transportation solutions in India.',
+        url: 'https://qwqer.in/blog',
+        siteName: 'QWQER',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'QWQER Blog - Logistics & Delivery Insights',
+        description: 'Explore insights, updates, and stories from QWQER on logistics, fleet management, hyperlocal delivery, and transportation solutions in India.',
+    },
+    alternates: {
+        canonical: 'https://qwqer.in/blog',
+    },
+};
 
 export default async function BlogPage() {
     const posts = await db.post.findMany({
         where: { published: true },
         orderBy: { createdAt: 'desc' },
+        select: {
+            id: true,
+            title: true,
+            slug: true,
+            excerpt: true,
+            image: true,
+            date: true,
+            readTime: true,
+        },
     });
+
+    // JSON-LD for blog listing
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'Blog',
+        name: 'QWQER Blog',
+        description: 'Insights, updates, and stories from the world of logistics and hyperlocal delivery.',
+        url: 'https://qwqer.in/blog',
+        publisher: {
+            '@type': 'Organization',
+            name: 'QWQER',
+            url: 'https://qwqer.in',
+        },
+        blogPost: posts.map((post) => ({
+            '@type': 'BlogPosting',
+            headline: post.title,
+            description: post.excerpt || '',
+            url: `https://qwqer.in/post/${post.slug}`,
+            ...(post.image && { image: post.image }),
+        })),
+    };
 
     return (
         <main className="min-h-screen bg-black text-white selection:bg-[#ee3425] selection:text-white relative">
+            {/* JSON-LD Structured Data */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+
             <Navbar />
 
             {/* Header */}
@@ -48,7 +105,6 @@ export default async function BlogPage() {
                                             No Image
                                         </div>
                                     )}
-
                                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
                                 </div>
 

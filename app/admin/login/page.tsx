@@ -25,7 +25,7 @@ export default function LoginPage() {
                         <div className="w-full">
                             <div>
                                 <label
-                                    className="mb-3 mt-5 block text-xs font-semibold uppercase tracking-wider text-gray-600"
+                                    className="mb-3 mt-5 block text-xs font-semibold uppercase tracking-wider text-gray-600 text-left"
                                     htmlFor="email"
                                 >
                                     Email
@@ -43,7 +43,7 @@ export default function LoginPage() {
                             </div>
                             <div className="mt-4">
                                 <label
-                                    className="mb-3 mt-5 block text-xs font-semibold uppercase tracking-wider text-gray-600"
+                                    className="mb-3 mt-5 block text-xs font-semibold uppercase tracking-wider text-gray-600 text-left"
                                     htmlFor="password"
                                 >
                                     Password
