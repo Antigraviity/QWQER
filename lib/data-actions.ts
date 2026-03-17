@@ -135,6 +135,19 @@ const EnquirySchema = z.object({
     message: z.string().min(1, 'Message is required'),
 });
 
+export async function markEnquiryRead(id: string) {
+    try {
+        await db.enquiry.update({
+            where: { id },
+            data: { status: 'READ' },
+        });
+        revalidatePath('/admin/enquiries');
+        revalidatePath('/admin');
+    } catch (error) {
+        console.error('Failed to mark enquiry as read:', error);
+    }
+}
+
 export async function submitEnquiry(prevState: State, formData: FormData): Promise<State> {
     const validatedFields = EnquirySchema.safeParse({
         name: formData.get('name'),

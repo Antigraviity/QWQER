@@ -1,6 +1,7 @@
 import { db } from '@/lib/db';
 import { FaNewspaper, FaEnvelope, FaBriefcase, FaUsers, FaCircle } from 'react-icons/fa';
 import Link from 'next/link';
+import AutoRefresh from '@/components/AutoRefresh';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,11 +34,12 @@ export default async function AdminPage() {
 
     return (
         <main>
+            <AutoRefresh interval={30000} />
             <h1 className="mb-6 text-xl md:text-2xl font-bold text-gray-900">Dashboard</h1>
 
             {/* Stats Cards */}
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <div className="rounded-xl bg-white p-5 shadow-sm border border-gray-200">
+                <Link href="/admin/blog" className="rounded-xl bg-white p-5 shadow-sm border border-gray-200 hover:border-[#ee3425]/30 transition-colors group">
                     <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2">
                             <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center">
@@ -47,7 +49,7 @@ export default async function AdminPage() {
                         </div>
                     </div>
                     <p className="text-3xl font-bold text-gray-900">{postCount}</p>
-                </div>
+                </Link>
 
                 <Link href="/admin/enquiries" className="rounded-xl bg-white p-5 shadow-sm border border-gray-200 hover:border-[#ee3425]/30 transition-colors group">
                     <div className="flex items-center justify-between mb-3">
@@ -78,7 +80,7 @@ export default async function AdminPage() {
                     <p className="text-3xl font-bold text-gray-900">{careerCount}</p>
                 </Link>
 
-                <div className="rounded-xl bg-white p-5 shadow-sm border border-gray-200">
+                <Link href="/admin/careers?tab=applications" className="rounded-xl bg-white p-5 shadow-sm border border-gray-200 hover:border-[#ee3425]/30 transition-colors group">
                     <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2">
                             <div className="w-9 h-9 rounded-lg bg-orange-50 flex items-center justify-center">
@@ -93,7 +95,7 @@ export default async function AdminPage() {
                         )}
                     </div>
                     <p className="text-3xl font-bold text-gray-900">{applicationCount}</p>
-                </div>
+                </Link>
             </div>
 
             {/* Two Column Layout */}
