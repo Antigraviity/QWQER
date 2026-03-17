@@ -8,22 +8,23 @@ export async function authenticate(
     formData: FormData,
 ) {
     try {
-        console.log("Vercel Database Env Check:");
-        console.log("DATABASE_URL exists:", !!process.env.DATABASE_URL);
-        console.log("POSTGRES_URL exists:", !!process.env.POSTGRES_URL);
-        console.log("POSTGRES_PRISMA_URL exists:", !!process.env.POSTGRES_PRISMA_URL);
-
-        await signIn('credentials', formData);
+        await signIn('credentials', {
+            email: formData.get('email'),
+            password: formData.get('password'),
+            redirectTo: '/admin',
+        });
     } catch (error) {
         if (error instanceof AuthError) {
-            console.error('NextAuth Error Type:', error.type);
-            console.error('NextAuth Error Message:', error.message);
+            console.error('Auth error type:', error.type);
+            console.error('Auth error message:', error.message);
+            console.error('Auth error cause:', (error as any).cause?.err?.message || 'unknown');
 
             switch (error.type) {
                 case 'CredentialsSignin':
+                case 'CallbackRouteError':
                     return 'Invalid credentials.';
                 default:
-                    return 'Something went wrong. Check server logs.';
+                    return 'Something went wrong. Please try again.';
             }
         }
         throw error;
