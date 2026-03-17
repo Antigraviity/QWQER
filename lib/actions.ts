@@ -2,11 +2,19 @@
 
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
+import { rateLimit } from '@/lib/rate-limit';
 
 export async function authenticate(
     prevState: string | undefined,
     formData: FormData,
 ) {
+    // Rate limit: 5 login attempts per 15 minutes per email
+    const email = formData.get('email') as string || 'unknown';
+    const { success: rateLimitOk } = rateLimit(`login:${email}`, 5, 15 * 60 * 1000);
+    if (!rateLimitOk) {
+        return 'Too many login attempts. Please try again in 15 minutes.';
+    }
+
     try {
         await signIn('credentials', {
             email: formData.get('email'),

@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { uploadToCloudinary } from '@/lib/cloudinary';
+import { rateLimit } from '@/lib/rate-limit';
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 5 uploads per 10 minutes per IP
+  const ip = request.headers.get('x-forwarded-for') || 'unknown';
+  const { success } = rateLimit(`resume:${ip}`, 5, 10 * 60 * 1000);
+  if (!success) {
+    return NextResponse.json({ error: 'Too many uploads. Please try again later.' }, { status: 429 });
+  }
+
   try {
     const formData = await request.formData();
     const file = formData.get('resume') as File | null;

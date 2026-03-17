@@ -2,6 +2,15 @@ const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || 'qwqer.marketing@gmail.com';
 const FROM_EMAIL = process.env.FROM_EMAIL || 'QWQER <onboarding@resend.dev>';
 
+function esc(str: string): string {
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 type EnquiryEmailData = {
     name: string;
     email: string;
@@ -39,7 +48,10 @@ export async function sendEnquiryNotification(data: EnquiryEmailData) {
         return { success: false, error: 'API key not configured' };
     }
 
-    const { name, email, phone, message } = data;
+    const { name: rawName, email, phone: rawPhone, message: rawMessage } = data;
+    const name = esc(rawName);
+    const phone = rawPhone ? esc(rawPhone) : undefined;
+    const message = esc(rawMessage);
 
     // 1. Admin notification email
     const adminHtml = `
@@ -167,7 +179,11 @@ export async function sendJobApplicationNotification(data: JobApplicationEmailDa
         return { success: false, error: 'API key not configured' };
     }
 
-    const { name, email, phone, coverNote, careerTitle, resumeUrl } = data;
+    const { name: rawName, email, phone: rawPhone, coverNote: rawCoverNote, careerTitle: rawTitle, resumeUrl } = data;
+    const name = esc(rawName);
+    const phone = rawPhone ? esc(rawPhone) : undefined;
+    const coverNote = rawCoverNote ? esc(rawCoverNote) : undefined;
+    const careerTitle = esc(rawTitle);
 
     // Admin notification
     const adminHtml = `

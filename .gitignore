@@ -40,3 +40,14 @@ next-env.d.ts
 
 # large files
 *.zip
+
+# temp/debug files
+*.txt
+_*.js
+cleanup.ps1
+
+# prisma dev db
+prisma/dev.db
+
+# cursor
+.cursor

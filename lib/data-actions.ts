@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { State } from '@/lib/definitions';
 import bcrypt from 'bcryptjs';
 import { sendEnquiryNotification, sendJobApplicationNotification } from '@/lib/email';
+import { rateLimit } from '@/lib/rate-limit';
 
 const PostSchema = z.object({
     title: z.string().min(1, 'Title is required'),
@@ -149,6 +150,15 @@ export async function markEnquiryRead(id: string) {
 }
 
 export async function submitEnquiry(prevState: State, formData: FormData): Promise<State> {
+    // Rate limit: 5 enquiries per 10 minutes per email
+    const email = formData.get('email') as string;
+    if (email) {
+        const { success } = rateLimit(`enquiry:${email}`, 5, 10 * 60 * 1000);
+        if (!success) {
+            return { message: 'Too many submissions. Please try again later.' };
+        }
+    }
+
     const validatedFields = EnquirySchema.safeParse({
         name: formData.get('name'),
         email: formData.get('email'),
@@ -449,6 +459,15 @@ const JobApplicationSchema = z.object({
 });
 
 export async function submitJobApplication(prevState: State, formData: FormData): Promise<State> {
+    // Rate limit: 3 applications per 30 minutes per email
+    const appEmail = formData.get('email') as string;
+    if (appEmail) {
+        const { success } = rateLimit(`job:${appEmail}`, 3, 30 * 60 * 1000);
+        if (!success) {
+            return { message: 'Too many submissions. Please try again later.' };
+        }
+    }
+
     const validatedFields = JobApplicationSchema.safeParse({
         name: formData.get('name'),
         email: formData.get('email'),
