@@ -151,9 +151,9 @@ export async function markEnquiryRead(id: string) {
 
 export async function submitEnquiry(prevState: State, formData: FormData): Promise<State> {
     // Rate limit: 5 enquiries per 10 minutes per email
-    const email = formData.get('email') as string;
-    if (email) {
-        const { success } = rateLimit(`enquiry:${email}`, 5, 10 * 60 * 1000);
+    const rateLimitEmail = formData.get('email') as string;
+    if (rateLimitEmail) {
+        const { success } = rateLimit(`enquiry:${rateLimitEmail}`, 5, 10 * 60 * 1000);
         if (!success) {
             return { message: 'Too many submissions. Please try again later.' };
         }
