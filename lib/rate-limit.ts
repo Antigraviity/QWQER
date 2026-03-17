@@ -20,9 +20,9 @@ export function rateLimit(key: string, maxRequests: number, windowMs: number): {
 // Clean up old entries periodically
 setInterval(() => {
     const now = Date.now();
-    for (const [key, entry] of rateLimitMap.entries()) {
+    rateLimitMap.forEach((entry, key) => {
         if (now > entry.resetAt) {
             rateLimitMap.delete(key);
         }
-    }
+    });
 }, 60000);
