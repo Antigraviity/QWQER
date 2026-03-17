@@ -2,8 +2,9 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CareersHero from "@/components/careers/CareersHero";
 import CareersWhy from "@/components/careers/CareersWhy";
+import CareersValues from "@/components/careers/CareersValues";
+import CareersProcess from "@/components/careers/CareersProcess";
 import CareersOpenings from "@/components/careers/CareersOpenings";
-import CareersJoin from "@/components/careers/CareersJoin";
 import { db } from "@/lib/db";
 
 export const dynamic = 'force-dynamic';
@@ -24,8 +25,9 @@ export default async function CareersPage() {
       <Navbar />
       <CareersHero />
       <CareersWhy />
+      <CareersValues />
+      <CareersProcess />
       {careers.length > 0 && <CareersOpenings careers={careers} />}
-      <CareersJoin />
       <Footer />
     </main>
   );

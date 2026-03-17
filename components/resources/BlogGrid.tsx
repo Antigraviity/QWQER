@@ -3,17 +3,9 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FaArrowRight, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
-import allPosts from "./blog-posts.json";
 
 const POSTS_PER_PAGE = 12;
 const TABS = ["Blogs", "Public Relations", "News"];
-
-// Content per tab — PR and News are empty for now
-const TAB_CONTENT: Record<string, any[]> = {
-    Blogs: allPosts,
-    "Public Relations": [],
-    News: [],
-};
 
 function Pagination({ currentPage, totalPages, onPageChange }: { currentPage: number; totalPages: number; onPageChange: (p: number) => void }) {
     return (
@@ -36,9 +28,25 @@ function Pagination({ currentPage, totalPages, onPageChange }: { currentPage: nu
     );
 }
 
-export default function BlogGrid() {
+type BlogPost = {
+    title: string;
+    slug: string;
+    image: string | null;
+    date: string | null;
+    readTime: string | null;
+    excerpt: string | null;
+};
+
+export default function BlogGrid({ posts }: { posts: BlogPost[] }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [activeTab, setActiveTab] = useState("Blogs");
+
+    const TAB_CONTENT: Record<string, BlogPost[]> = {
+        Blogs: posts,
+        "Public Relations": [],
+        News: [],
+    };
+
     const currentPosts = TAB_CONTENT[activeTab] || [];
     const totalPages = Math.max(1, Math.ceil(currentPosts.length / POSTS_PER_PAGE));
     const startIndex = (currentPage - 1) * POSTS_PER_PAGE;

@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { State } from '@/lib/definitions';
 import bcrypt from 'bcryptjs';
+import { sendEnquiryNotification, sendJobApplicationNotification } from '@/lib/email';
 
 const PostSchema = z.object({
     title: z.string().min(1, 'Title is required'),
@@ -152,6 +153,7 @@ export async function submitEnquiry(prevState: State, formData: FormData): Promi
     const { name, email, phone, message } = validatedFields.data;
 
     try {
+        // Save to database
         await db.enquiry.create({
             data: {
                 name,
@@ -160,12 +162,18 @@ export async function submitEnquiry(prevState: State, formData: FormData): Promi
                 message,
             },
         });
+
+        // Send email notification (non-blocking)
+        sendEnquiryNotification({ name, email, phone, message }).catch((err) => {
+            console.error('Email notification failed:', err);
+        });
     } catch (error) {
         return {
             message: 'Database Error: Failed to Submit Enquiry.',
         };
     }
 
+    revalidatePath('/admin/enquiries');
     return { message: 'Enquiry Submitted Successfully!' };
 }
 
@@ -214,6 +222,74 @@ export async function createUser(prevState: State, formData: FormData): Promise<
 
     revalidatePath('/admin/users');
     return { message: 'success' };
+}
+
+export async function updateAdminProfile(prevState: State, formData: FormData): Promise<State> {
+    const id = formData.get('id') as string;
+    const name = formData.get('name') as string;
+    const newEmail = formData.get('email') as string;
+
+    if (!id || !name || !newEmail) {
+        return { message: 'Name and email are required.' };
+    }
+
+    try {
+        // Check if email is already taken by another user
+        const existing = await db.user.findUnique({ where: { email: newEmail } });
+        if (existing && existing.id !== id) {
+            return { message: 'This email is already in use by another account.' };
+        }
+
+        await db.user.update({
+            where: { id },
+            data: { name, email: newEmail },
+        });
+    } catch (error) {
+        return { message: 'Database Error: Failed to update profile.' };
+    }
+
+    return { message: 'Profile updated successfully!' };
+}
+
+export async function changePassword(prevState: State, formData: FormData): Promise<State> {
+    const email = formData.get('email') as string;
+    const currentPassword = formData.get('currentPassword') as string;
+    const newPassword = formData.get('newPassword') as string;
+    const confirmPassword = formData.get('confirmPassword') as string;
+
+    if (!email || !currentPassword || !newPassword || !confirmPassword) {
+        return { message: 'All fields are required.' };
+    }
+
+    if (newPassword.length < 6) {
+        return { message: 'New password must be at least 6 characters.' };
+    }
+
+    if (newPassword !== confirmPassword) {
+        return { message: 'New passwords do not match.' };
+    }
+
+    try {
+        const user = await db.user.findUnique({ where: { email } });
+        if (!user) {
+            return { message: 'User not found.' };
+        }
+
+        const isValid = await bcrypt.compare(currentPassword, user.password);
+        if (!isValid) {
+            return { message: 'Current password is incorrect.' };
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        await db.user.update({
+            where: { email },
+            data: { password: hashedPassword },
+        });
+    } catch (error) {
+        return { message: 'Database Error: Failed to change password.' };
+    }
+
+    return { message: 'Password changed successfully!' };
 }
 
 export async function revokeUser(id: string) {
@@ -281,6 +357,62 @@ export async function createCareer(prevState: State, formData: FormData): Promis
     redirect('/admin/careers');
 }
 
+export async function updateCareer(id: string, prevState: State, formData: FormData): Promise<State> {
+    const validatedFields = CareerSchema.safeParse({
+        title: formData.get('title'),
+        slug: formData.get('slug'),
+        department: formData.get('department'),
+        location: formData.get('location'),
+        type: formData.get('type'),
+        experience: formData.get('experience'),
+        description: formData.get('description'),
+    });
+
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Missing Fields. Failed to Update Career.',
+        };
+    }
+
+    const { title, slug, department, location, type, experience, description } = validatedFields.data;
+
+    try {
+        await db.career.update({
+            where: { id },
+            data: {
+                title,
+                slug,
+                department,
+                location,
+                type,
+                experience: experience || null,
+                description,
+            },
+        });
+    } catch (error) {
+        return { message: 'Database Error: Failed to Update Career.' };
+    }
+
+    revalidatePath('/careers');
+    revalidatePath('/admin/careers');
+    redirect('/admin/careers');
+}
+
+export async function updateCareerStatus(id: string, published: boolean) {
+    try {
+        await db.career.update({
+            where: { id },
+            data: { published },
+        });
+        revalidatePath('/careers');
+        revalidatePath('/admin/careers');
+    } catch (error) {
+        console.error('Database Error: Failed to Update Career Status.', error);
+        throw new Error('Failed to update career status');
+    }
+}
+
 export async function deleteCareer(id: string) {
     try {
         await db.career.delete({ where: { id } });
@@ -327,9 +459,15 @@ export async function submitJobApplication(prevState: State, formData: FormData)
         await db.jobApplication.create({
             data: { name, email, phone, coverNote, careerTitle, careerSlug, resumeUrl },
         });
+
+        // Send email notifications (non-blocking)
+        sendJobApplicationNotification({ name, email, phone, coverNote, careerTitle, resumeUrl }).catch((err) => {
+            console.error('Job application email notification failed:', err);
+        });
     } catch (error) {
         return { message: 'Database Error: Failed to Submit Application.' };
     }
 
+    revalidatePath('/admin/careers');
     return { message: 'Application submitted successfully! We will get back to you soon.' };
 }

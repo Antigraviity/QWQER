@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { FaChartBar, FaNewspaper, FaEnvelope, FaSignOutAlt, FaUsers, FaBriefcase } from 'react-icons/fa';
+import { FaChartBar, FaNewspaper, FaEnvelope, FaSignOutAlt, FaCog, FaBriefcase } from 'react-icons/fa';
 import { signOut } from 'next-auth/react';
 
 const navItems = [
@@ -11,7 +11,7 @@ const navItems = [
     { href: '/admin/blog', label: 'Blogs', icon: FaNewspaper },
     { href: '/admin/careers', label: 'Careers', icon: FaBriefcase },
     { href: '/admin/enquiries', label: 'Enquiries', icon: FaEnvelope },
-    { href: '/admin/users', label: 'Users', icon: FaUsers },
+    { href: '/admin/settings', label: 'Settings', icon: FaCog },
 ];
 
 export default function AdminSidebar() {

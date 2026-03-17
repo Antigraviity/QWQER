@@ -43,12 +43,12 @@ export default function CareersOpenings({ careers }: { careers: Career[] }) {
     }, {});
 
     return (
-        <section ref={sectionRef} className="relative py-24 md:py-32">
+        <section ref={sectionRef} className="relative py-16 md:py-20">
             <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, #000 0%, #0a0505 50%, #000 100%)" }} />
 
             <div className="relative z-10 max-w-5xl mx-auto px-6">
                 {/* Section Header */}
-                <div className="co-title text-center mb-16" style={{ opacity: 0 }}>
+                <div className="co-title text-center mb-12" style={{ opacity: 0 }}>
                     <span className="inline-block px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase text-[#ee3425] border border-[#ee3425]/20 bg-[#ee3425]/5 mb-6">
                         Open Positions
                     </span>

@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa6";
+import SidebarContactForm from "@/components/SidebarContactForm";
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -149,18 +150,7 @@ export default async function BlogPost({ params }: { params: { slug: string } })
                 {/* RIGHT SIDEBAR */}
                 <aside className="hidden lg:block w-[280px] shrink-0">
                     <div className="sticky top-32 space-y-5">
-                        <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-                            <div className="flex items-center gap-2 mb-1"><div className="w-2 h-2 rounded-full bg-[#ee3425]" /><span className="text-[10px] font-bold text-[#ee3425] uppercase tracking-widest">Get in Touch</span></div>
-                            <h3 className="text-lg font-bold text-gray-900 mb-1">Have Questions?</h3>
-                            <p className="text-xs text-gray-400 mb-5">We&apos;d love to hear from you. Drop us a message.</p>
-                            <div className="space-y-3">
-                                <div><label className="block text-[11px] font-semibold text-gray-500 mb-1 uppercase tracking-wide">Name</label><input type="text" placeholder="Your name" className="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder:text-gray-300 outline-none focus:border-[#ee3425] focus:ring-0 transition-colors duration-200" /></div>
-                                <div><label className="block text-[11px] font-semibold text-gray-500 mb-1 uppercase tracking-wide">Email</label><input type="email" placeholder="you@company.com" className="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder:text-gray-300 outline-none focus:border-[#ee3425] focus:ring-0 transition-colors duration-200" /></div>
-                                <div><label className="block text-[11px] font-semibold text-gray-500 mb-1 uppercase tracking-wide">Phone</label><input type="tel" placeholder="+91 98765 43210" className="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder:text-gray-300 outline-none focus:border-[#ee3425] focus:ring-0 transition-colors duration-200" /></div>
-                                <div><label className="block text-[11px] font-semibold text-gray-500 mb-1 uppercase tracking-wide">Message</label><textarea placeholder="How can we help?" rows={3} className="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder:text-gray-300 outline-none focus:border-[#ee3425] focus:ring-0 transition-colors duration-200 resize-none" /></div>
-                                <button className="w-full py-2.5 rounded-lg bg-[#ee3425] text-white text-sm font-bold hover:bg-[#d42e20] transition-all">Send Message</button>
-                            </div>
-                        </div>
+                        <SidebarContactForm />
                         <div className="rounded-2xl border border-gray-200 bg-white p-5">
                             <h4 className="text-xs font-bold text-gray-900 mb-3 uppercase tracking-wide">Quick Links</h4>
                             <div className="space-y-2">
