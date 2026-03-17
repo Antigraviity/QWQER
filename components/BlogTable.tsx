@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useMemo } from 'react';
-import { FaSearch, FaTrash, FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa';
+import { useState, useMemo, useTransition } from 'react';
+import { FaSearch, FaTrash, FaChevronLeft, FaChevronRight, FaTimes, FaSpinner, FaExclamationTriangle, FaEdit } from 'react-icons/fa';
+import Link from 'next/link';
+import { deletePost } from '@/lib/data-actions';
 
 type Post = {
     id: string;
@@ -12,11 +14,109 @@ type Post = {
 
 const POSTS_PER_PAGE = 10;
 
-export default function BlogTable({ posts }: { posts: Post[] }) {
+function DeleteModal({ post, onConfirm, onCancel, isDeleting }: {
+    post: Post;
+    onConfirm: () => void;
+    onCancel: () => void;
+    isDeleting: boolean;
+}) {
+    const [confirmText, setConfirmText] = useState('');
+    const isConfirmed = confirmText === 'DELETE';
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            {/* Backdrop */}
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onCancel} />
+
+            {/* Modal */}
+            <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 animate-in">
+                <div className="flex flex-col items-center text-center">
+                    {/* Icon */}
+                    <div className="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center mb-4">
+                        <FaExclamationTriangle className="w-6 h-6 text-[#ee3425]" />
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">Delete Blog Post</h3>
+
+                    {/* Message */}
+                    <p className="text-sm text-gray-500 mb-1">Are you sure you want to delete</p>
+                    <p className="text-sm font-semibold text-gray-800 mb-4 px-4 leading-relaxed">
+                        &ldquo;{post.title}&rdquo;
+                    </p>
+
+                    <p className="text-xs text-gray-400 mb-4">This action cannot be undone.</p>
+
+                    {/* Confirm input */}
+                    <div className="w-full mb-6">
+                        <p className="text-xs text-gray-500 mb-2">Type <span className="font-bold text-gray-900">DELETE</span> to confirm</p>
+                        <input
+                            type="text"
+                            value={confirmText}
+                            onChange={(e) => setConfirmText(e.target.value)}
+                            placeholder="DELETE"
+                            autoFocus
+                            className={`w-full px-3 py-2.5 rounded-lg border text-sm text-center font-medium tracking-widest transition-colors outline-none ${
+                                isConfirmed
+                                    ? 'border-[#ee3425] bg-red-50 text-[#ee3425] ring-1 ring-[#ee3425]'
+                                    : 'border-gray-200 text-gray-900 placeholder:text-gray-300 focus:border-gray-300'
+                            }`}
+                        />
+                    </div>
+
+                    {/* Buttons */}
+                    <div className="flex items-center gap-3 w-full">
+                        <button
+                            onClick={onCancel}
+                            disabled={isDeleting}
+                            className="flex-1 px-4 py-2.5 rounded-lg border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors disabled:opacity-50"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            onClick={onConfirm}
+                            disabled={!isConfirmed || isDeleting}
+                            className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 ${
+                                isConfirmed && !isDeleting
+                                    ? 'bg-[#ee3425] text-white hover:bg-red-600 cursor-pointer'
+                                    : 'bg-red-600 text-white cursor-not-allowed opacity-50'
+                            }`}
+                        >
+                            {isDeleting ? (
+                                <>
+                                    <FaSpinner className="w-3.5 h-3.5 animate-spin" />
+                                    Deleting...
+                                </>
+                            ) : (
+                                <>
+                                    <FaTrash className="w-3.5 h-3.5" />
+                                    Delete
+                                </>
+                            )}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <style dangerouslySetInnerHTML={{ __html: `
+                @keyframes animate-in {
+                    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+                    to { opacity: 1; transform: scale(1) translateY(0); }
+                }
+                .animate-in { animation: animate-in 0.2s ease-out; }
+            `}} />
+        </div>
+    );
+}
+
+export default function BlogTable({ posts: initialPosts }: { posts: Post[] }) {
+    const [posts, setPosts] = useState(initialPosts);
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [deleteTarget, setDeleteTarget] = useState<Post | null>(null);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [isPending, startTransition] = useTransition();
 
-    // Instant client-side filtering
     const filtered = useMemo(() => {
         if (!query.trim()) return posts;
         const q = query.toLowerCase();
@@ -34,7 +134,6 @@ export default function BlogTable({ posts }: { posts: Post[] }) {
         currentPage * POSTS_PER_PAGE
     );
 
-    // Reset to page 1 when query changes
     const handleSearch = (value: string) => {
         setQuery(value);
         setCurrentPage(1);
@@ -45,7 +144,22 @@ export default function BlogTable({ posts }: { posts: Post[] }) {
         setCurrentPage(1);
     };
 
-    // Page numbers with ellipsis
+    const handleDeleteConfirm = async () => {
+        if (!deleteTarget) return;
+        setIsDeleting(true);
+        try {
+            startTransition(async () => {
+                await deletePost(deleteTarget.id);
+                setPosts((prev) => prev.filter((p) => p.id !== deleteTarget.id));
+                setDeleteTarget(null);
+                setIsDeleting(false);
+            });
+        } catch (error) {
+            console.error('Failed to delete post:', error);
+            setIsDeleting(false);
+        }
+    };
+
     const pageNumbers = useMemo(() => {
         const pages: (number | string)[] = [];
         if (totalPages <= 7) {
@@ -64,6 +178,16 @@ export default function BlogTable({ posts }: { posts: Post[] }) {
 
     return (
         <>
+            {/* Delete Confirmation Modal */}
+            {deleteTarget && (
+                <DeleteModal
+                    post={deleteTarget}
+                    onConfirm={handleDeleteConfirm}
+                    onCancel={() => { if (!isDeleting) setDeleteTarget(null); }}
+                    isDeleting={isDeleting}
+                />
+            )}
+
             {/* Search bar */}
             <div className="mb-4 flex items-center justify-between gap-4">
                 <div className="relative flex flex-1 flex-shrink-0 max-w-md">
@@ -112,13 +236,21 @@ export default function BlogTable({ posts }: { posts: Post[] }) {
                                 <td className="p-4 hidden md:table-cell text-gray-500 max-w-sm truncate">{post.slug}</td>
                                 <td className="p-4 hidden md:table-cell text-gray-500 whitespace-nowrap">{post.date}</td>
                                 <td className="p-4 text-right">
-                                    <div className="flex justify-end gap-3">
-                                        <button
-                                            disabled
-                                            className="text-gray-300 p-2 rounded cursor-not-allowed"
-                                            title="Delete disabled"
+                                    <div className="flex justify-end gap-2">
+                                        <Link
+                                            href={`/admin/blog/${post.id}/edit`}
+                                            className="text-gray-400 hover:text-[#ee3425] hover:bg-red-50 p-2 rounded-lg transition-colors"
+                                            title="Edit post"
                                         >
-                                            <span className="sr-only">Delete (disabled)</span>
+                                            <span className="sr-only">Edit</span>
+                                            <FaEdit className="w-4 h-4" />
+                                        </Link>
+                                        <button
+                                            onClick={() => setDeleteTarget(post)}
+                                            className="text-gray-400 hover:text-red-500 hover:bg-red-50 p-2 rounded-lg transition-colors"
+                                            title="Delete post"
+                                        >
+                                            <span className="sr-only">Delete</span>
                                             <FaTrash className="w-4 h-4" />
                                         </button>
                                     </div>

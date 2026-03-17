@@ -66,6 +66,53 @@ export async function createPost(prevState: State, formData: FormData): Promise<
     redirect('/admin/blog');
 }
 
+export async function updatePost(id: string, prevState: State, formData: FormData): Promise<State> {
+    const validatedFields = PostSchema.safeParse({
+        title: formData.get('title'),
+        slug: formData.get('slug'),
+        excerpt: formData.get('excerpt'),
+        content: formData.get('content'),
+        image: formData.get('image'),
+        readTime: formData.get('readTime'),
+        date: formData.get('date'),
+    });
+
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Missing Fields. Failed to Update Post.',
+        };
+    }
+
+    const { title, slug, excerpt, content, image, readTime, date } = validatedFields.data;
+
+    try {
+        await db.post.update({
+            where: { id },
+            data: {
+                title,
+                slug,
+                excerpt,
+                content,
+                image,
+                readTime: readTime || '5 min read',
+                date: date
+                    ? new Date(date + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+                    : undefined,
+            },
+        });
+    } catch (error) {
+        return {
+            message: 'Database Error: Failed to Update Post.',
+        };
+    }
+
+    revalidatePath('/blog');
+    revalidatePath('/admin/blog');
+    revalidatePath(`/post/${slug}`);
+    redirect('/admin/blog');
+}
+
 export async function deletePost(id: string) {
     try {
         await db.post.delete({

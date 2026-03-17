@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useCallback, useState } from 'react';
+import { useRef, useCallback, useState, useEffect } from 'react';
 import {
     FaBold, FaItalic, FaUnderline, FaHeading, FaListUl, FaListOl,
     FaQuoteLeft, FaLink, FaUnlink, FaAlignLeft, FaAlignCenter,
@@ -12,6 +12,7 @@ type RichTextEditorProps = {
     placeholder?: string;
     required?: boolean;
     errors?: string[];
+    defaultValue?: string;
 };
 
 const ToolbarButton = ({
@@ -41,7 +42,7 @@ const ToolbarButton = ({
 
 const ToolbarDivider = () => <div className="w-px h-6 bg-gray-200 mx-1" />;
 
-export default function RichTextEditor({ name, placeholder, required, errors }: RichTextEditorProps) {
+export default function RichTextEditor({ name, placeholder, required, errors, defaultValue }: RichTextEditorProps) {
     const editorRef = useRef<HTMLDivElement>(null);
     const hiddenInputRef = useRef<HTMLInputElement>(null);
     const [activeFormats, setActiveFormats] = useState<Set<string>>(new Set());
@@ -51,6 +52,13 @@ export default function RichTextEditor({ name, placeholder, required, errors }: 
             hiddenInputRef.current.value = editorRef.current.innerHTML;
         }
     }, []);
+
+    // Initialize hidden input with default value
+    useEffect(() => {
+        if (defaultValue && hiddenInputRef.current) {
+            hiddenInputRef.current.value = defaultValue;
+        }
+    }, [defaultValue]);
 
     const updateActiveFormats = useCallback(() => {
         const formats = new Set<string>();
@@ -195,6 +203,7 @@ export default function RichTextEditor({ name, placeholder, required, errors }: 
                 onMouseUp={updateActiveFormats}
                 onKeyUp={updateActiveFormats}
                 data-placeholder={placeholder || 'Write your blog content here...'}
+                dangerouslySetInnerHTML={defaultValue ? { __html: defaultValue } : undefined}
                 className="w-full min-h-[350px] max-h-[600px] overflow-y-auto bg-white border border-gray-300 rounded-b-lg p-4 text-gray-900 focus:border-[#ee3425] focus:outline-none focus:ring-1 focus:ring-[#ee3425] transition-colors shadow-sm prose prose-sm max-w-none
                     [&:empty]:before:content-[attr(data-placeholder)] [&:empty]:before:text-gray-400
                     [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-gray-900 [&_h2]:mt-6 [&_h2]:mb-3 [&_h2]:pb-2 [&_h2]:border-b [&_h2]:border-gray-100
