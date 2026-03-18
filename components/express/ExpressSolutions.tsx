@@ -10,37 +10,37 @@ const solutions = [
         title: "On-Demand Deliveries",
         description:
             "Instant pickup and delivery for time-sensitive orders, enabled by rapid rider allocation and flexible capacity.",
-        image: "/QWQER Express Solutions/On-Demand Deliveries.png",
+        image: "/express-solutions/on-demand-deliveries.webp",
     },
     {
         title: "Batch Deliveries",
         description:
             "Efficient single-pickup, multi-drop deliveries designed to handle high-volume dispatches at scale.",
-        image: "/QWQER Express Solutions/Batch Deliveries.png",
+        image: "/express-solutions/batch-deliveries.webp",
     },
     {
         title: "Same-Day Deliveries",
         description:
             "Reliable same-day fulfilment for intra-city orders, ensuring faster turnaround without compromising scale or reliability.",
-        image: "/QWQER Express Solutions/Same-Day Deliveries.png",
+        image: "/express-solutions/same-day-deliveries.webp",
     },
     {
         title: "Mid-mile to Last-mile Fulfilment",
         description:
             "End-to-end movement from hubs to stores and from stores to customers within city limits.",
-        image: "/QWQER Express Solutions/Mid-mile to Last-mile Fulfilment.png",
+        image: "/express-solutions/mid-mile-last-mile-fulfilment.webp",
     },
     {
         title: "Scheduled Deliveries",
         description:
             "Planned, same-day and next-day routes designed for predictable, recurring operations.",
-        image: "/QWQER Express Solutions/Scheduled Deliveries.png",
+        image: "/express-solutions/scheduled-deliveries.webp",
     },
     {
         title: "Multi-drop Distribution",
         description:
             "Single-pickup, multiple-drop delivery models optimised for efficiency and cost control.",
-        image: "/QWQER Express Solutions/Multi-drop Distribution.png",
+        image: "/express-solutions/multi-drop-distribution.webp",
     },
 ];
 

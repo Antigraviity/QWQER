@@ -1,9 +1,72 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import CityAnimation from "./CityAnimation";
+
+const TYPEWRITER_PHRASES = [
+    "for speed and scale.",
+    "for seamless delivery.",
+    "for enterprise reliability.",
+];
+
+function TypewriterText() {
+    const [displayText, setDisplayText] = useState("");
+    const [phraseIndex, setPhraseIndex] = useState(0);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [showCursor, setShowCursor] = useState(true);
+
+    useEffect(() => {
+        const currentPhrase = TYPEWRITER_PHRASES[phraseIndex];
+        let timeout: NodeJS.Timeout;
+
+        if (!isDeleting) {
+            // Typing
+            if (displayText.length < currentPhrase.length) {
+                timeout = setTimeout(() => {
+                    setDisplayText(currentPhrase.slice(0, displayText.length + 1));
+                }, 80 + Math.random() * 40); // slight randomness for natural feel
+            } else {
+                // Pause at full text, then start deleting
+                timeout = setTimeout(() => setIsDeleting(true), 2000);
+            }
+        } else {
+            // Deleting
+            if (displayText.length > 0) {
+                timeout = setTimeout(() => {
+                    setDisplayText(displayText.slice(0, -1));
+                }, 40);
+            } else {
+                // Move to next phrase
+                setIsDeleting(false);
+                setPhraseIndex((prev) => (prev + 1) % TYPEWRITER_PHRASES.length);
+            }
+        }
+
+        return () => clearTimeout(timeout);
+    }, [displayText, phraseIndex, isDeleting]);
+
+    // Blinking cursor
+    useEffect(() => {
+        const cursorInterval = setInterval(() => setShowCursor((prev) => !prev), 530);
+        return () => clearInterval(cursorInterval);
+    }, []);
+
+    return (
+        <>
+            {displayText}
+            <span
+                className="inline-block w-[3px] md:w-[4px] ml-1 rounded-full bg-[#ee3425] align-middle"
+                style={{
+                    opacity: showCursor ? 1 : 0,
+                    transition: "opacity 0.1s",
+                    height: "0.7em",
+                }}
+            />
+        </>
+    );
+}
 
 export default function Hero() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -111,8 +174,15 @@ export default function Hero() {
                         <span className="animate-word inline-block mr-3">Transportation</span>
                         <span className="animate-word inline-block mr-3">solutions,</span>
                         <br className="hidden md:block" />
-                        <span className="animate-word inline-block bg-gradient-to-r from-white via-gray-200 to-gray-500 bg-clip-text text-transparent">
-                            built to move business.
+                        <span className="flex items-baseline justify-center">
+                            <span className="text-white whitespace-nowrap">built&nbsp;</span>
+                            <span className="inline-block text-left">
+                                <span className="bg-gradient-to-r from-[#ee3425] via-[#ff6b5a] to-[#ee3425] bg-clip-text text-transparent whitespace-nowrap"><TypewriterText /></span>
+                                {/* Invisible longest phrase to reserve width and prevent layout shift */}
+                                <span className="block h-0 overflow-hidden invisible" aria-hidden="true">
+                                    for enterprise reliability.
+                                </span>
+                            </span>
                         </span>
                     </h1>
                     <p className="animate-word block text-white/70 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">

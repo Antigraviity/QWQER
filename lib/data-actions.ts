@@ -150,6 +150,23 @@ export async function markEnquiryRead(id: string) {
 }
 
 export async function submitEnquiry(prevState: State, formData: FormData): Promise<State> {
+    // Bot protection: honeypot field — bots auto-fill hidden fields
+    const honeypot = formData.get('website_url');
+    if (honeypot) {
+        // Silently reject — don't reveal it's a bot check
+        return { message: 'Enquiry Submitted Successfully!' };
+    }
+
+    // Bot protection: time-based check — form must be open for at least 3 seconds
+    const formLoadedAt = formData.get('_ft') as string;
+    if (formLoadedAt) {
+        const elapsed = Date.now() - parseInt(formLoadedAt, 10);
+        if (elapsed < 3000) {
+            // Submitted too fast — likely a bot
+            return { message: 'Enquiry Submitted Successfully!' };
+        }
+    }
+
     // Rate limit: 5 enquiries per 10 minutes per email
     const rateLimitEmail = formData.get('email') as string;
     if (rateLimitEmail) {
@@ -459,6 +476,21 @@ const JobApplicationSchema = z.object({
 });
 
 export async function submitJobApplication(prevState: State, formData: FormData): Promise<State> {
+    // Bot protection: honeypot
+    const honeypot = formData.get('website_url');
+    if (honeypot) {
+        return { message: 'Application submitted successfully! We will get back to you soon.' };
+    }
+
+    // Bot protection: time-based check
+    const formLoadedAt = formData.get('_ft') as string;
+    if (formLoadedAt) {
+        const elapsed = Date.now() - parseInt(formLoadedAt, 10);
+        if (elapsed < 3000) {
+            return { message: 'Application submitted successfully! We will get back to you soon.' };
+        }
+    }
+
     // Rate limit: 3 applications per 30 minutes per email
     const appEmail = formData.get('email') as string;
     if (appEmail) {

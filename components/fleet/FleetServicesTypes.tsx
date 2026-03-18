@@ -8,7 +8,7 @@ const serviceTabs = [
     {
         id: "ftl",
         title: "Full Truck Load Transportation",
-        image: "/Types of Fleet Services/Full Truck Load transportation.png",
+        image: "/fleet-services/full-truck-load.webp",
         description:
             "Intercity goods transportation operating across major routes across India, designed to handle high volume freight with consistency, operational control and real time visibility during transit.",
         label: "01",
@@ -16,7 +16,7 @@ const serviceTabs = [
     {
         id: "intracity",
         title: "Intracity Transportation",
-        image: "/Types of Fleet Services/Intracity transportation.png",
+        image: "/fleet-services/intracity-transportation.webp",
         description:
             "Purpose-built local transportation with vehicles optimised for city routes. Ideal for Factory to DC, Store replenishments, etc.",
         label: "02",
@@ -24,7 +24,7 @@ const serviceTabs = [
     {
         id: "project",
         title: "Project Transportation",
-        image: "/Types of Fleet Services/Project Transportation.png",
+        image: "/fleet-services/project-transportation.webp",
         description:
             "Goods transportation solutions designed around unique cargos, routes and handling needs.",
         label: "03",

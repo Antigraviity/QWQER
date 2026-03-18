@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 
-const FRAME_COUNT = 55;
-const FOLDER_PATH = "/Sequence 1";
-const FILE_PREFIX = "Sequence";
-const FILE_EXTENSION = "jpg";
+const FRAME_COUNT = 52;
+const FOLDER_PATH = "/fleet-hero-sequence";
+const FILE_PREFIX = "Frame";
+const FILE_EXTENSION = "webp";
 
 export default function HeroScroll() {
     const containerRef = useRef<HTMLDivElement>(null);

@@ -4,8 +4,8 @@ import Image from "next/image";
 export default function Trusted() {
 
     const clients = [
-        { name: "McDonalds", src: "/clients/mcd.webp" },
-        { name: "Apollo", src: "/clients/apollo-phar.webp" },
+        { name: "McDonalds", src: "/clients/mcdonalds.webp" },
+        { name: "Apollo", src: "/clients/apollo-pharmacy.webp" },
         { name: "Pidilite", src: "/clients/pidilite.webp" },
         { name: "Zepto", src: "/clients/zepto.webp" },
         { name: "Zomato", src: "/clients/zomato.webp" },

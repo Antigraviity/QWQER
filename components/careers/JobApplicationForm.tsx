@@ -78,6 +78,11 @@ export default function JobApplicationForm({ careerTitle, careerSlug }: { career
             <p className="text-sm text-gray-500 mb-6">Fill in your details below and we&apos;ll get back to you.</p>
 
             <form action={dispatch} className="space-y-4">
+                {/* Bot protection: honeypot */}
+                <div className="absolute -left-[9999px]" aria-hidden="true" tabIndex={-1}>
+                    <input type="text" name="website_url" tabIndex={-1} autoComplete="off" />
+                </div>
+                <input type="hidden" name="_ft" value={Date.now().toString()} />
                 <input type="hidden" name="careerTitle" value={careerTitle} />
                 <input type="hidden" name="careerSlug" value={careerSlug} />
                 <input type="hidden" name="resumeUrl" value={resumeUrl} />

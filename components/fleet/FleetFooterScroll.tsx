@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 
-const FRAME_COUNT = 52;
-const FOLDER_PATH = "/Sequence 2";
-const FILE_PREFIX = "Sequence ";
-const FILE_EXTENSION = "jpg";
+const FRAME_COUNT = 140;
+const FOLDER_PATH = "/closing-fleet-hero-sequence";
+const FILE_PREFIX = "Frame";
+const FILE_EXTENSION = "webp";
 
 export default function FleetFooterScroll() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -64,7 +64,7 @@ export default function FleetFooterScroll() {
 
         for (let i = 0; i < FRAME_COUNT; i++) {
             const img = new Image();
-            const paddedNumber = i.toString().padStart(2, '0');
+            const paddedNumber = i.toString().padStart(3, '0');
             img.src = `${FOLDER_PATH}/${FILE_PREFIX}${paddedNumber}.${FILE_EXTENSION}`;
 
             img.onload = () => {

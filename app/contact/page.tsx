@@ -12,6 +12,8 @@ export default function ContactPage() {
     const initialState: State = { message: null, errors: {} };
     const [state, dispatch] = useFormState(submitEnquiry, initialState);
     const [queryType, setQueryType] = useState('fleet');
+    const [termsAgreed, setTermsAgreed] = useState(false);
+    const [termsError, setTermsError] = useState(false);
 
     return (
         <main className="min-h-screen bg-black text-white selection:bg-[#ee3425] selection:text-white relative" data-blog-detail="true">
@@ -73,7 +75,20 @@ export default function ContactPage() {
 
                         {/* Contact Form */}
                         <div className="flex-1 bg-[#0a0a0a] p-8 md:p-10">
-                            <form action={dispatch} className="space-y-5">
+                            <form action={(formData) => {
+                                if (!termsAgreed) {
+                                    setTermsError(true);
+                                    return;
+                                }
+                                setTermsError(false);
+                                dispatch(formData);
+                            }} className="space-y-5">
+                                {/* Bot protection: honeypot (hidden from users, bots auto-fill it) */}
+                                <div className="absolute -left-[9999px]" aria-hidden="true" tabIndex={-1}>
+                                    <input type="text" name="website_url" tabIndex={-1} autoComplete="off" />
+                                </div>
+                                {/* Bot protection: timestamp */}
+                                <input type="hidden" name="_ft" value={Date.now().toString()} />
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                     <div>
                                         <label className="block text-xs font-semibold text-white mb-1.5">First Name *</label>
@@ -101,8 +116,15 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <label className="block text-xs font-semibold text-white mb-1.5">Phone *</label>
-                                        <input type="tel" name="phone" placeholder="Phone" className="w-full bg-transparent border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder:text-gray-600 focus:outline-none transition-all" />
+                                        <div className="flex">
+                                            <span className="inline-flex items-center px-3 bg-white/5 border border-white/10 border-r-0 rounded-l-lg text-sm text-white/60">+91</span>
+                                            <input type="tel" name="phone" placeholder="10-digit number" maxLength={10} pattern="[0-9]{10}" onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/[^0-9]/g, '').slice(0, 10); }} required className="w-full bg-transparent border border-white/10 rounded-r-lg rounded-l-none px-4 py-3 text-sm text-white placeholder:text-gray-600 focus:outline-none transition-all" />
+                                        </div>
                                     </div>
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-semibold text-white mb-1.5">Location *</label>
+                                    <input type="text" name="location" placeholder="City, State" required className="w-full bg-transparent border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder:text-gray-600 focus:outline-none transition-all" />
                                 </div>
                                 <div>
                                     <label className="block text-xs font-semibold text-white mb-3">Select your query *</label>
@@ -127,10 +149,13 @@ export default function ContactPage() {
                                     <label className="block text-xs font-semibold text-white mb-1.5">Message</label>
                                     <textarea name="message" placeholder="Type your message..." rows={4} required className="w-full bg-transparent border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder:text-gray-600 focus:outline-none transition-all resize-none" />
                                 </div>
-                                <label className="flex items-center gap-2 cursor-pointer">
-                                    <input type="checkbox" className="w-4 h-4 rounded border-gray-600 text-[#ee3425] focus:ring-[#ee3425]" />
-                                    <span className="text-xs text-gray-400">You agree to our friendly <a href="/terms" className="underline hover:text-[#ee3425] transition-colors">terms of service</a>.</span>
-                                </label>
+                                <div>
+                                    <label className="flex items-center gap-2 cursor-pointer">
+                                        <input type="checkbox" checked={termsAgreed} onChange={(e) => { setTermsAgreed(e.target.checked); if (e.target.checked) setTermsError(false); }} className="w-4 h-4 rounded border-gray-600 text-[#ee3425] focus:ring-[#ee3425]" />
+                                        <span className="text-xs text-gray-400">You agree to our friendly <a href="/terms" className="underline hover:text-[#ee3425] transition-colors">terms of service</a>.</span>
+                                    </label>
+                                    {termsError && <p className="text-sm text-red-400 mt-1.5">Please agree to the terms of service before submitting.</p>}
+                                </div>
                                 {state.errors?.name && state.errors.name.map((e: string) => <p key={e} className="text-sm text-red-400">{e}</p>)}
                                 {state.errors?.email && state.errors.email.map((e: string) => <p key={e} className="text-sm text-red-400">{e}</p>)}
                                 {state.errors?.message && state.errors.message.map((e: string) => <p key={e} className="text-sm text-red-400">{e}</p>)}
@@ -180,7 +205,7 @@ export default function ContactPage() {
                                     <div className="w-full h-px bg-white/5" />
                                     <div>
                                         <h4 className="text-xs font-bold text-white mb-1.5">Hyderabad</h4>
-                                        <p className="text-[11px] text-gray-400 leading-relaxed">NESTVAULT Coworking Space, H No 8-2-293/82/A/787/1/4F/1, 4th Floor, Road Number 36, Jubilee Hills, Hyderabad, Telangana 500033</p>
+                                        <p className="text-[11px] text-gray-400 leading-relaxed">105, 1st Floor, AltF Green Towers, Municipal No. 1-10-176/4A, 4B, 4C & 4D, Begumpet Main Road, Mayur Marg, Begumpet, Hyderabad-500016</p>
                                     </div>
                                 </div>
                             </div>

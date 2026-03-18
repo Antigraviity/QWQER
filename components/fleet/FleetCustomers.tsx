@@ -8,7 +8,7 @@ const customerTabs = [
     {
         id: "reliability",
         title: "Enterprise-Grade Reliability",
-        image: "/Why do customers choose us/Enterprise-Grade Reliability.png",
+        image: "/fleet-why-choose/enterprise-reliability.webp",
         description: "Consistent, dependable goods transportation built for high-volume operations.",
         color: "bg-[#3b82f6]",
         glow: "bg-[#3b82f6]/20"
@@ -16,7 +16,7 @@ const customerTabs = [
     {
         id: "partner",
         title: "Trusted Partner Mindset",
-        image: "/Why do customers choose us/Trusted Partner Mindset.png",
+        image: "/fleet-why-choose/trusted-partner.webp",
         description: "We operate as an extension of your enterprise, with complete accountability.",
         color: "bg-[#3b82f6]",
         glow: "bg-[#3b82f6]/20"
@@ -24,7 +24,7 @@ const customerTabs = [
     {
         id: "scalable",
         title: "Customisable and Scalable Solutions",
-        image: "/Why do customers choose us/Customisable and Scalable Solutions.png",
+        image: "/fleet-why-choose/scalable-solutions.webp",
         description: "Easily scale across cities, routes, and demand cycles.",
         color: "bg-[#3b82f6]",
         glow: "bg-[#3b82f6]/20"
@@ -32,7 +32,7 @@ const customerTabs = [
     {
         id: "control",
         title: "Operational Control & Visibility",
-        image: "/Why do customers choose us/Operational Control & Visibility.png",
+        image: "/fleet-why-choose/operational-control.webp",
         description: "Structured processes and performance-driven operations.",
         color: "bg-[#3b82f6]",
         glow: "bg-[#3b82f6]/20"
@@ -40,7 +40,7 @@ const customerTabs = [
     {
         id: "safety",
         title: "Compliance & Safety First",
-        image: "/Why do customers choose us/Compliance & Safety First.png",
+        image: "/fleet-why-choose/compliance-safety.webp",
         description: "Adherence to corporate, regulatory, and safety standards.",
         color: "bg-[#3b82f6]",
         glow: "bg-[#3b82f6]/20"

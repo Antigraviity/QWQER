@@ -53,6 +53,11 @@ export default function SidebarContactForm() {
                 </div>
             ) : (
                 <form ref={formRef} action={dispatch} className="space-y-3">
+                    {/* Bot protection: honeypot */}
+                    <div className="absolute -left-[9999px]" aria-hidden="true" tabIndex={-1}>
+                        <input type="text" name="website_url" tabIndex={-1} autoComplete="off" />
+                    </div>
+                    <input type="hidden" name="_ft" value={Date.now().toString()} />
                     <div>
                         <label className="block text-[11px] font-semibold text-gray-500 mb-1 uppercase tracking-wide">Name</label>
                         <input
@@ -75,12 +80,18 @@ export default function SidebarContactForm() {
                     </div>
                     <div>
                         <label className="block text-[11px] font-semibold text-gray-500 mb-1 uppercase tracking-wide">Phone</label>
-                        <input
-                            type="tel"
-                            name="phone"
-                            placeholder="+91 98765 43210"
-                            className="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder:text-gray-300 outline-none focus:border-[#ee3425] focus:ring-0 transition-colors duration-200"
-                        />
+                        <div className="flex">
+                            <span className="inline-flex items-center px-2.5 bg-gray-50 border border-gray-200 border-r-0 rounded-l-lg text-sm text-gray-400">+91</span>
+                            <input
+                                type="tel"
+                                name="phone"
+                                placeholder="10-digit number"
+                                maxLength={10}
+                                pattern="[0-9]{10}"
+                                onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/[^0-9]/g, '').slice(0, 10); }}
+                                className="w-full px-3 py-2.5 rounded-r-lg rounded-l-none border border-gray-200 text-sm text-gray-800 placeholder:text-gray-300 outline-none focus:border-[#ee3425] focus:ring-0 transition-colors duration-200"
+                            />
+                        </div>
                     </div>
                     <div>
                         <label className="block text-[11px] font-semibold text-gray-500 mb-1 uppercase tracking-wide">Message</label>

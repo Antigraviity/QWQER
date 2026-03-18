@@ -91,7 +91,7 @@ export default function CareersOpenings({ careers }: { careers: Career[] }) {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="flex items-center gap-2 text-[#ee3425] text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <div className="flex items-center gap-2 text-white/50 group-hover:text-[#ee3425] text-sm font-semibold transition-colors">
                                             View Details <FaArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                                         </div>
                                     </Link>

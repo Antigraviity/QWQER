@@ -3,17 +3,17 @@
 import Image from "next/image";
 
 const logos = [
-    { name: "Flipkart", src: "/fleet-clients/Flipkart.jpg" },
-    { name: "Blue Dart DHL", src: "/fleet-clients/Blue-Dart.png" },
-    { name: "Epsilon", src: "/fleet-clients/Epsilon-1.png" },
-    { name: "BigBasket", src: "/fleet-clients/Bigbask.png" },
+    { name: "Flipkart", src: "/fleet-clients/flipkart.webp" },
+    { name: "Blue Dart DHL", src: "/fleet-clients/blue-dart.webp" },
+    { name: "Epsilon", src: "/fleet-clients/epsilon.webp" },
+    { name: "BigBasket", src: "/fleet-clients/bigbasket.webp" },
     { name: "Zomato", src: "/fleet-clients/zomato.webp" },
-    { name: "Zepto", src: "/fleet-clients/zepto-1.png" },
-    { name: "Berger", src: "/fleet-clients/Berger-1.png" },
-    { name: "Pidilite", src: "/fleet-clients/pidilite-1.png" },
-    { name: "Saint Gobain", src: "/fleet-clients/Saint-Gobain-1.png" },
-    { name: "Greenlam", src: "/fleet-clients/Greenlam-1.png" },
-    { name: "Yokohama", src: "/fleet-clients/Yokohama-1.png" },
+    { name: "Zepto", src: "/fleet-clients/zepto.webp" },
+    { name: "Berger", src: "/fleet-clients/berger.webp" },
+    { name: "Pidilite", src: "/fleet-clients/pidilite.webp" },
+    { name: "Saint Gobain", src: "/fleet-clients/saint-gobain.webp" },
+    { name: "Greenlam", src: "/fleet-clients/greenlam.webp" },
+    { name: "Yokohama", src: "/fleet-clients/yokohama.webp" },
 ];
 
 export default function FleetTrusted() {

@@ -8,31 +8,31 @@ const vendorTabs = [
     {
         id: "payments",
         title: "On-Time Payments",
-        image: "/Why vendors work with us/On-Time Payments.png",
+        image: "/fleet-vendor-benefits/on-time-payments.webp",
         description: "Reliable and structured payment cycles, reducing standard market norms of credit period."
     },
     {
         id: "business",
         title: "Consistent Business Opportunities",
-        image: "/Why vendors work with us/Consistent Business Opportunities.png",
+        image: "/fleet-vendor-benefits/consistent-opportunities.webp",
         description: "Steady demand from enterprise clients."
     },
     {
         id: "transparent",
         title: "Transparent Processes",
-        image: "/Why vendors work with us/Transparent Processes.png",
+        image: "/fleet-vendor-benefits/transparent-processes.webp",
         description: "Clear terms, fair practices, and predictable operations."
     },
     {
         id: "growth",
         title: "Scalable Growth",
-        image: "/Why vendors work with us/Scalable Growth.png",
+        image: "/fleet-vendor-benefits/scalable-growth.webp",
         description: "Opportunities to grow with long-term enterprise contracts."
     },
     {
         id: "support",
         title: "Operational Support",
-        image: "/Why vendors work with us/Operational Support.png",
+        image: "/fleet-vendor-benefits/operational-support.webp",
         description: "Process guidance, standards, and performance enablement."
     }
 ];

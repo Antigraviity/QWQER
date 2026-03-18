@@ -12,13 +12,13 @@ const subsidiaries = [
   },
   {
     name: "Qwy Express Pvt. Ltd.",
-    role: "Technology Subsidiary",
-    desc: "Builds the technology platform powering route optimization, tracking, and fleet management.",
+    role: "Line Haul Subsidiary",
+    desc: "Manages time-critical deliveries, real-time tracking, and rapid intracity/hyperlocal last-mile execution.",
     color: "#5b4bd5",
   },
   {
     name: "Qwy Fleet Pvt. Ltd.",
-    role: "Fleet Subsidiary",
+    role: "Urban Haul Subsidiary",
     desc: "Manages fleet operations, driver networks, and on-ground execution across all routes.",
     color: "#3b5ee8",
   },

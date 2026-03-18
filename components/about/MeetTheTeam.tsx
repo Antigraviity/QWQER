@@ -8,26 +8,26 @@ const team = [
   {
     name: "Prakash Velayudhan",
     role: "Managing Director",
-    image: "/leaders/Prakash.jpg.webp",
+    image: "/leaders/prakash.webp",
     imagePos: "object-center",
     back: ["Founder & MD, QWY Group", "25+ years Telecom & Tech"],
   },
   {
     name: "Aditya Nair",
     role: "VP, Fleet",
-    image: "/leaders/Aditya.webp",
+    image: "/leaders/aditya.webp",
     back: ["14 years in Indian startups", "Education, Hospitality, Logistics Expertise"],
   },
   {
     name: "Vineetha Chidambaran",
     role: "COO, Express",
-    image: "/leaders/Vineetha Chidambaran - COO Express.webp",
+    image: "/leaders/vineetha-chidambaran.webp",
     back: ["22 years in multi-function experience", "Ops, Hiring, Marketing, Solutions"],
   },
   {
     name: "Rakesh J",
     role: "CFO",
-    image: "/leaders/Rakesh.jpg.webp",
+    image: "/leaders/rakesh.webp",
     back: ["18 year cross-industry experience", "CA with dual master's"],
   },
   {

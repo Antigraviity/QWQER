@@ -1,0 +1,410 @@
+[
+  {
+    "from": "/Express clients/apollo-pharmacy.webp",
+    "to": "/express-clients/apollo-pharmacy.webp"
+  },
+  {
+    "from": "/Express clients/bigbasket.webp",
+    "to": "/express-clients/bigbasket.webp"
+  },
+  {
+    "from": "/Express clients/mcdonalds.webp",
+    "to": "/express-clients/mcdonalds.webp"
+  },
+  {
+    "from": "/Express clients/rebel-foods.webp",
+    "to": "/express-clients/rebel-foods.webp"
+  },
+  {
+    "from": "/Express clients/sweet-karam-coffee.webp",
+    "to": "/express-clients/sweet-karam-coffee.webp"
+  },
+  {
+    "from": "/Express clients/tata-1mg.webp",
+    "to": "/express-clients/tata-1mg.webp"
+  },
+  {
+    "from": "/Express clients/zepto.webp",
+    "to": "/express-clients/zepto.webp"
+  },
+  {
+    "from": "/Express clients/zomato.webp",
+    "to": "/express-clients/zomato.webp"
+  },
+  {
+    "from": "/QWQER Express Solutions/batch-deliveries.webp",
+    "to": "/express-solutions/batch-deliveries.webp"
+  },
+  {
+    "from": "/QWQER Express Solutions/mid-mile-last-mile-fulfilment.webp",
+    "to": "/express-solutions/mid-mile-last-mile-fulfilment.webp"
+  },
+  {
+    "from": "/QWQER Express Solutions/multi-drop-distribution.webp",
+    "to": "/express-solutions/multi-drop-distribution.webp"
+  },
+  {
+    "from": "/QWQER Express Solutions/on-demand-deliveries.webp",
+    "to": "/express-solutions/on-demand-deliveries.webp"
+  },
+  {
+    "from": "/QWQER Express Solutions/same-day-deliveries.webp",
+    "to": "/express-solutions/same-day-deliveries.webp"
+  },
+  {
+    "from": "/QWQER Express Solutions/scheduled-deliveries.webp",
+    "to": "/express-solutions/scheduled-deliveries.webp"
+  },
+  {
+    "from": "/Trusted by top companies Fleet/berger.webp",
+    "to": "/fleet-trusted/berger.webp"
+  },
+  {
+    "from": "/Trusted by top companies Fleet/bigbasket.webp",
+    "to": "/fleet-trusted/bigbasket.webp"
+  },
+  {
+    "from": "/Trusted by top companies Fleet/epsilon.webp",
+    "to": "/fleet-trusted/epsilon.webp"
+  },
+  {
+    "from": "/Trusted by top companies Fleet/flipkart.webp",
+    "to": "/fleet-trusted/flipkart.webp"
+  },
+  {
+    "from": "/Trusted by top companies Fleet/greenlam.webp",
+    "to": "/fleet-trusted/greenlam.webp"
+  },
+  {
+    "from": "/Trusted by top companies Fleet/pidilite.webp",
+    "to": "/fleet-trusted/pidilite.webp"
+  },
+  {
+    "from": "/Trusted by top companies Fleet/saint-gobain.webp",
+    "to": "/fleet-trusted/saint-gobain.webp"
+  },
+  {
+    "from": "/Trusted by top companies Fleet/yokohama.webp",
+    "to": "/fleet-trusted/yokohama.webp"
+  },
+  {
+    "from": "/Trusted by top companies Fleet/zepto.webp",
+    "to": "/fleet-trusted/zepto.webp"
+  },
+  {
+    "from": "/Trusted by top companies Fleet/zomato.webp",
+    "to": "/fleet-trusted/zomato.webp"
+  },
+  {
+    "from": "/Types of Fleet Services/full-truck-load.webp",
+    "to": "/fleet-services/full-truck-load.webp"
+  },
+  {
+    "from": "/Types of Fleet Services/intracity-transportation.webp",
+    "to": "/fleet-services/intracity-transportation.webp"
+  },
+  {
+    "from": "/Types of Fleet Services/project-transportation.webp",
+    "to": "/fleet-services/project-transportation.webp"
+  },
+  {
+    "from": "/Why do customers choose us/compliance-safety.webp",
+    "to": "/fleet-why-choose/compliance-safety.webp"
+  },
+  {
+    "from": "/Why do customers choose us/enterprise-reliability.webp",
+    "to": "/fleet-why-choose/enterprise-reliability.webp"
+  },
+  {
+    "from": "/Why do customers choose us/operational-control.webp",
+    "to": "/fleet-why-choose/operational-control.webp"
+  },
+  {
+    "from": "/Why do customers choose us/scalable-solutions.webp",
+    "to": "/fleet-why-choose/scalable-solutions.webp"
+  },
+  {
+    "from": "/Why do customers choose us/trusted-partner.webp",
+    "to": "/fleet-why-choose/trusted-partner.webp"
+  },
+  {
+    "from": "/Why Join QWQER Express as a Rider  Rider Vendor/consistent-order-flow.webp",
+    "to": "/express-rider-vendor/consistent-order-flow.webp"
+  },
+  {
+    "from": "/Why Join QWQER Express as a Rider  Rider Vendor/flexible-working-model.webp",
+    "to": "/express-rider-vendor/flexible-working-model.webp"
+  },
+  {
+    "from": "/Why Join QWQER Express as a Rider  Rider Vendor/grow-with-platform.webp",
+    "to": "/express-rider-vendor/grow-with-platform.webp"
+  },
+  {
+    "from": "/Why Join QWQER Express as a Rider  Rider Vendor/on-time-payouts.webp",
+    "to": "/express-rider-vendor/on-time-payouts.webp"
+  },
+  {
+    "from": "/Why Join QWQER Express as a Rider  Rider Vendor/tech-enabled-operations.webp",
+    "to": "/express-rider-vendor/tech-enabled-operations.webp"
+  },
+  {
+    "from": "/Why vendors work with us/consistent-opportunities.webp",
+    "to": "/fleet-vendor-benefits/consistent-opportunities.webp"
+  },
+  {
+    "from": "/Why vendors work with us/on-time-payments.webp",
+    "to": "/fleet-vendor-benefits/on-time-payments.webp"
+  },
+  {
+    "from": "/Why vendors work with us/operational-support.webp",
+    "to": "/fleet-vendor-benefits/operational-support.webp"
+  },
+  {
+    "from": "/Why vendors work with us/scalable-growth.webp",
+    "to": "/fleet-vendor-benefits/scalable-growth.webp"
+  },
+  {
+    "from": "/Why vendors work with us/transparent-processes.webp",
+    "to": "/fleet-vendor-benefits/transparent-processes.webp"
+  },
+  {
+    "from": "/Fleet truck mascot.png",
+    "to": "/fleet-truck-mascot.png"
+  },
+  {
+    "from": "/Fleet truck mascot.webp",
+    "to": "/fleet-truck-mascot.webp"
+  },
+  {
+    "from": "/illustration_mascot_3d.png",
+    "to": "/mascot-3d-illustration.png"
+  },
+  {
+    "from": "/illustration_mascot_3d.webp",
+    "to": "/mascot-3d-illustration.webp"
+  },
+  {
+    "from": "/Express clients/apollo-phar.webp",
+    "to": "/express-clients/apollo-pharmacy.webp"
+  },
+  {
+    "from": "/Express clients/Bakingo.webp",
+    "to": "/express-clients/bakingo.webp"
+  },
+  {
+    "from": "/Express clients/Bigbask.webp",
+    "to": "/express-clients/bigbasket.webp"
+  },
+  {
+    "from": "/Express clients/Fnp.webp",
+    "to": "/express-clients/fnp.webp"
+  },
+  {
+    "from": "/Express clients/KFC.webp",
+    "to": "/express-clients/kfc.webp"
+  },
+  {
+    "from": "/Express clients/Magicpin.webp",
+    "to": "/express-clients/magicpin.webp"
+  },
+  {
+    "from": "/Express clients/mcd.webp",
+    "to": "/express-clients/mcdonalds.webp"
+  },
+  {
+    "from": "/Express clients/More.webp",
+    "to": "/express-clients/more.webp"
+  },
+  {
+    "from": "/Express clients/Ratnadeep.webp",
+    "to": "/express-clients/ratnadeep.webp"
+  },
+  {
+    "from": "/Express clients/Rebel.webp",
+    "to": "/express-clients/rebel-foods.webp"
+  },
+  {
+    "from": "/Express clients/Spar.webp",
+    "to": "/express-clients/spar.webp"
+  },
+  {
+    "from": "/Express clients/Sweet_karam_coffee.webp",
+    "to": "/express-clients/sweet-karam-coffee.webp"
+  },
+  {
+    "from": "/Express clients/Tata 1mg.webp",
+    "to": "/express-clients/tata-1mg.webp"
+  },
+  {
+    "from": "/Express clients/zepto (1).webp",
+    "to": "/express-clients/zepto.webp"
+  },
+  {
+    "from": "/QWQER Express Solutions/Batch Deliveries.webp",
+    "to": "/express-solutions/batch-deliveries.webp"
+  },
+  {
+    "from": "/QWQER Express Solutions/Mid-mile to Last-mile Fulfilment.webp",
+    "to": "/express-solutions/mid-mile-last-mile-fulfilment.webp"
+  },
+  {
+    "from": "/QWQER Express Solutions/Multi-drop Distribution.webp",
+    "to": "/express-solutions/multi-drop-distribution.webp"
+  },
+  {
+    "from": "/QWQER Express Solutions/On-Demand Deliveries.webp",
+    "to": "/express-solutions/on-demand-deliveries.webp"
+  },
+  {
+    "from": "/QWQER Express Solutions/Same-Day Deliveries.webp",
+    "to": "/express-solutions/same-day-deliveries.webp"
+  },
+  {
+    "from": "/QWQER Express Solutions/Scheduled Deliveries.webp",
+    "to": "/express-solutions/scheduled-deliveries.webp"
+  },
+  {
+    "from": "/Types of Fleet Services/Full Truck Load transportation.webp",
+    "to": "/fleet-services/full-truck-load.webp"
+  },
+  {
+    "from": "/Types of Fleet Services/Intracity transportation.webp",
+    "to": "/fleet-services/intracity-transportation.webp"
+  },
+  {
+    "from": "/Types of Fleet Services/Project Transportation.webp",
+    "to": "/fleet-services/project-transportation.webp"
+  },
+  {
+    "from": "/Why do customers choose us/Compliance & Safety First.webp",
+    "to": "/fleet-why-choose/compliance-safety.webp"
+  },
+  {
+    "from": "/Why do customers choose us/Customisable and Scalable Solutions.webp",
+    "to": "/fleet-why-choose/scalable-solutions.webp"
+  },
+  {
+    "from": "/Why do customers choose us/Enterprise-Grade Reliability.webp",
+    "to": "/fleet-why-choose/enterprise-reliability.webp"
+  },
+  {
+    "from": "/Why do customers choose us/Operational Control & Visibility.webp",
+    "to": "/fleet-why-choose/operational-control.webp"
+  },
+  {
+    "from": "/Why do customers choose us/Trusted Partner Mindset.webp",
+    "to": "/fleet-why-choose/trusted-partner.webp"
+  },
+  {
+    "from": "/Why Join QWQER Express as a Rider  Rider Vendor/Consistent Order Flow.webp",
+    "to": "/express-rider-vendor/consistent-order-flow.webp"
+  },
+  {
+    "from": "/Why Join QWQER Express as a Rider  Rider Vendor/Flexible Working Model.webp",
+    "to": "/express-rider-vendor/flexible-working-model.webp"
+  },
+  {
+    "from": "/Why Join QWQER Express as a Rider  Rider Vendor/Grow With the Platform.webp",
+    "to": "/express-rider-vendor/grow-with-platform.webp"
+  },
+  {
+    "from": "/Why Join QWQER Express as a Rider  Rider Vendor/On-Time, Transparent Payouts.webp",
+    "to": "/express-rider-vendor/on-time-payouts.webp"
+  },
+  {
+    "from": "/Why Join QWQER Express as a Rider  Rider Vendor/Tech-Enabled Operations.webp",
+    "to": "/express-rider-vendor/tech-enabled-operations.webp"
+  },
+  {
+    "from": "/Why vendors work with us/Consistent Business Opportunities.webp",
+    "to": "/fleet-vendor-benefits/consistent-opportunities.webp"
+  },
+  {
+    "from": "/Why vendors work with us/On-Time Payments.webp",
+    "to": "/fleet-vendor-benefits/on-time-payments.webp"
+  },
+  {
+    "from": "/Why vendors work with us/Operational Support.webp",
+    "to": "/fleet-vendor-benefits/operational-support.webp"
+  },
+  {
+    "from": "/Why vendors work with us/Scalable Growth.webp",
+    "to": "/fleet-vendor-benefits/scalable-growth.webp"
+  },
+  {
+    "from": "/Why vendors work with us/Transparent Processes.webp",
+    "to": "/fleet-vendor-benefits/transparent-processes.webp"
+  },
+  {
+    "from": "/fleet-clients/Berger-1.webp",
+    "to": "/fleet-clients/berger.webp"
+  },
+  {
+    "from": "/fleet-clients/Bigbask.webp",
+    "to": "/fleet-clients/bigbasket.webp"
+  },
+  {
+    "from": "/fleet-clients/Blue-Dart.webp",
+    "to": "/fleet-clients/blue-dart.webp"
+  },
+  {
+    "from": "/fleet-clients/Epsilon-1.webp",
+    "to": "/fleet-clients/epsilon.webp"
+  },
+  {
+    "from": "/fleet-clients/Flipkart.webp",
+    "to": "/fleet-clients/flipkart.webp"
+  },
+  {
+    "from": "/fleet-clients/Greenlam-1.webp",
+    "to": "/fleet-clients/greenlam.webp"
+  },
+  {
+    "from": "/fleet-clients/pidilite-1.webp",
+    "to": "/fleet-clients/pidilite.webp"
+  },
+  {
+    "from": "/fleet-clients/Saint-Gobain-1.webp",
+    "to": "/fleet-clients/saint-gobain.webp"
+  },
+  {
+    "from": "/fleet-clients/Yokohama-1.webp",
+    "to": "/fleet-clients/yokohama.webp"
+  },
+  {
+    "from": "/fleet-clients/zepto-1.webp",
+    "to": "/fleet-clients/zepto.webp"
+  },
+  {
+    "from": "/leaders/Aditya.webp",
+    "to": "/leaders/aditya.webp"
+  },
+  {
+    "from": "/leaders/Prakash.jpg.webp",
+    "to": "/leaders/prakash.webp"
+  },
+  {
+    "from": "/leaders/Rakesh.jpg.webp",
+    "to": "/leaders/rakesh.webp"
+  },
+  {
+    "from": "/leaders/Vineetha Chidambaran - COO Express.webp",
+    "to": "/leaders/vineetha-chidambaran.webp"
+  },
+  {
+    "from": "/clients/697841be7293923c88b98940_qwqer-w-p-500.png",
+    "to": "/clients/qwqer-client-logo.png"
+  },
+  {
+    "from": "/clients/697841be7293923c88b98940_qwqer-w-p-500.webp",
+    "to": "/clients/qwqer-client-logo.webp"
+  },
+  {
+    "from": "/clients/apollo-phar.webp",
+    "to": "/clients/apollo-pharmacy.webp"
+  },
+  {
+    "from": "/clients/mcd.webp",
+    "to": "/clients/mcdonalds.webp"
+  }
+]

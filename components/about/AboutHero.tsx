@@ -10,19 +10,19 @@ const MILESTONES = [
   },
   {
     year: "2021",
-    items: ["Spread Express across South India"],
+    items: ["Spread Express across South India", "Started QWQER Fleet in 1 location"],
   },
   {
     year: "2022",
-    items: ["Launch of transportation offering"],
+    items: ["Expanded QWQER Fleet to multiple locations.", "Launch of Q com offering"],
   },
   {
     year: "2023",
     items: ["Started Pan India operations with marquee clients"],
   },
   {
-    year: "2024",
-    items: ["Presence across all major transportation lanes", "200+ satisfied customers", "3 Lakh+ successful trips"],
+    year: "2025",
+    items: ["Presence across all major transportation lanes, 200+ satisfied customers 3 Lakh+ successful trips"],
   },
 ];
 

@@ -3,21 +3,21 @@
 import Image from "next/image";
 
 const clients = [
-    { name: "KFC", src: "/Express clients/KFC.png" },
-    { name: "Rebel Foods", src: "/Express clients/Rebel.png" },
-    { name: "Tata 1mg", src: "/Express clients/Tata 1mg.png" },
+    { name: "KFC", src: "/express-clients/kfc.webp" },
+    { name: "Rebel Foods", src: "/express-clients/rebel-foods.webp" },
+    { name: "Tata 1mg", src: "/express-clients/tata-1mg.webp" },
     { name: "Zomato", src: "/fleet-clients/zomato.webp" },
-    { name: "Zepto", src: "/Express clients/zepto (1).png" },
-    { name: "Apollo Pharmacy", src: "/Express clients/apollo-phar.png" },
-    { name: "McDonald's", src: "/Express clients/mcd.png" },
-    { name: "BigBasket", src: "/Express clients/Bigbask.png" },
-    { name: "Magicpin", src: "/Express clients/Magicpin.png" },
-    { name: "Bakingo", src: "/Express clients/Bakingo.png" },
-    { name: "FnP", src: "/Express clients/Fnp.png" },
-    { name: "More", src: "/Express clients/More.png" },
-    { name: "Ratnadeep", src: "/Express clients/Ratnadeep.png" },
-    { name: "Spar", src: "/Express clients/Spar.png" },
-    { name: "Sweet Karam Coffee", src: "/Express clients/Sweet_karam_coffee.png" },
+    { name: "Zepto", src: "/express-clients/zepto.webp" },
+    { name: "Apollo Pharmacy", src: "/express-clients/apollo-pharmacy.webp" },
+    { name: "McDonald's", src: "/express-clients/mcdonalds.webp" },
+    { name: "BigBasket", src: "/express-clients/bigbasket.webp" },
+    { name: "Magicpin", src: "/express-clients/magicpin.webp" },
+    { name: "Bakingo", src: "/express-clients/bakingo.webp" },
+    { name: "FnP", src: "/express-clients/fnp.webp" },
+    { name: "More", src: "/express-clients/more.webp" },
+    { name: "Ratnadeep", src: "/express-clients/ratnadeep.webp" },
+    { name: "Spar", src: "/express-clients/spar.webp" },
+    { name: "Sweet Karam Coffee", src: "/express-clients/sweet-karam-coffee.webp" },
 ];
 
 export default function ExpressTrusted() {

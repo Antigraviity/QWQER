@@ -17,22 +17,22 @@ import {
 } from "react-icons/fa";
 import { IconType } from "react-icons";
 
-const industries: { name: string; Icon: IconType }[] = [
-    { name: "Manufacturing", Icon: FaCogs },
-    { name: "FMCG & E-commerce", Icon: FaBoxOpen },
-    { name: "Automotive", Icon: FaCar },
-    { name: "Construction", Icon: FaHardHat },
-    { name: "Mining", Icon: FaMountain },
-    { name: "Agri Products", Icon: FaSeedling },
-    { name: "Pharma", Icon: FaCapsules },
-    { name: "Textiles", Icon: FaScroll },
-    { name: "Apparels", Icon: FaTshirt },
-    { name: "Heavy Industry", Icon: FaIndustry },
-    { name: "Steel", Icon: FaWrench },
+const industries: { name: string; Icon: IconType; desc: string }[] = [
+    { name: "Manufacturing", Icon: FaCogs, desc: "Factory-to-warehouse and inter-plant movement with scheduled, damage-free delivery across production hubs." },
+    { name: "FMCG & E-commerce", Icon: FaBoxOpen, desc: "High-frequency distribution from fulfilment centres to retail points and dark stores with real-time visibility." },
+    { name: "Automotive", Icon: FaCar, desc: "Spare parts logistics and CKD/SKD shipments with precision handling for assembly-line continuity." },
+    { name: "Construction", Icon: FaHardHat, desc: "Heavy material haulage — cement, fixtures and equipment moved on-time to keep project timelines intact." },
+    { name: "Mining", Icon: FaMountain, desc: "Bulk cargo transport from mine-head to processing units with fleet suited for rugged terrain and heavy loads." },
+    { name: "Agri Products", Icon: FaSeedling, desc: "Farm-to-market and cold-chain compatible transport for perishables, grains, and agricultural inputs." },
+    { name: "Pharma", Icon: FaCapsules, desc: "Temperature-sensitive, compliance-ready shipments for medicines, medical devices, and healthcare supplies." },
+    { name: "Textiles", Icon: FaScroll, desc: "Fabric rolls and raw material movement from mills to garment units with careful handling and on-time dispatch." },
+    { name: "Apparels", Icon: FaTshirt, desc: "Seasonal and bulk apparel shipments from manufacturing hubs to brand warehouses and retail destinations." },
+    { name: "Heavy Industry", Icon: FaIndustry, desc: "Oversized and heavy machinery transport with specialised fleet and route planning for industrial corridors." },
+    { name: "Steel", Icon: FaWrench, desc: "Coil, sheet, and structural steel logistics with flatbed and trailer fleet built for safe, high-tonnage movement." },
 ];
 
 /* Single industry card with scroll-based reveal */
-const IndustryCard = ({ industry, index }: { industry: { name: string; Icon: IconType }; index: number }) => {
+const IndustryCard = ({ industry, index }: { industry: { name: string; Icon: IconType; desc: string }; index: number }) => {
     const ref = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
         target: ref,
@@ -60,10 +60,15 @@ const IndustryCard = ({ industry, index }: { industry: { name: string; Icon: Ico
                 {/* Divider */}
                 <div className="w-[1px] h-8 bg-white/10 flex-shrink-0" />
 
-                {/* Name */}
-                <span className="text-white/70 group-hover:text-white font-inter font-semibold text-sm md:text-base transition-colors duration-300">
-                    {industry.name}
-                </span>
+                {/* Name & Description */}
+                <div className="flex flex-col gap-1 min-w-0">
+                    <span className="text-white/70 group-hover:text-white font-inter font-semibold text-sm md:text-base transition-colors duration-300">
+                        {industry.name}
+                    </span>
+                    <span className="text-white/40 group-hover:text-white/55 text-xs md:text-[13px] leading-relaxed transition-colors duration-300 line-clamp-2">
+                        {industry.desc}
+                    </span>
+                </div>
 
                 {/* Arrow on hover */}
                 <svg
