@@ -1,5 +1,12 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Terms of Service",
+    description: "Read QWQER's terms of service. Understand the terms and conditions for using our express delivery and fleet logistics platform.",
+    alternates: { canonical: "https://qwqer.in/terms" },
+};
 
 export default function TermsPage() {
     return (

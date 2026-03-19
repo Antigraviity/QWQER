@@ -8,8 +8,14 @@ import type { Metadata } from "next";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: 'Resources | QWQER - Insights on Logistics & Delivery',
-    description: 'Explore insights, guides, and industry trends to fuel your logistics strategy.',
+    title: 'Resources - Insights on Logistics & Delivery',
+    description: 'Explore insights, guides, and industry trends to fuel your logistics strategy. Expert articles on fleet management, hyperlocal delivery, and transportation solutions.',
+    openGraph: {
+        title: 'QWQER Resources - Logistics & Delivery Insights',
+        description: 'Explore insights, guides, and industry trends to fuel your logistics strategy.',
+        url: 'https://qwqer.in/resources',
+    },
+    alternates: { canonical: 'https://qwqer.in/resources' },
 };
 
 export default async function ResourcesPage() {

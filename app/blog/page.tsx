@@ -9,7 +9,7 @@ import type { Metadata } from "next";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: 'Blog | QWQER - Insights on Logistics & Hyperlocal Delivery',
+    title: 'Blog - Insights on Logistics & Hyperlocal Delivery',
     description: 'Explore insights, updates, and stories from QWQER on logistics, fleet management, hyperlocal delivery, and transportation solutions in India.',
     openGraph: {
         title: 'QWQER Blog - Logistics & Delivery Insights',

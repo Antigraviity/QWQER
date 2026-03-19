@@ -9,6 +9,20 @@ import Trusted from "@/components/Trusted";
 import Stats from "@/components/Stats";
 import Footer from "@/components/Footer";
 import ConnectingPath from "@/components/ConnectingPath";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "QWQER - Transportation Solutions Built to Move Businesses",
+  description: "From intercity FTL operations to hyperlocal deliveries, QWQER helps businesses move goods across India with visibility, control, and consistency.",
+  openGraph: {
+    title: "QWQER - Transportation Solutions Built to Move Businesses",
+    description: "From intercity FTL operations to hyperlocal deliveries, QWQER helps businesses move goods across India.",
+    url: "https://qwqer.in",
+  },
+  alternates: {
+    canonical: "https://qwqer.in",
+  },
+};
 
 export default function Home() {
   return (

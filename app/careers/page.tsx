@@ -10,8 +10,14 @@ import { db } from "@/lib/db";
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: "Careers | QWQER - Solve Real Problems, Build Real Impact",
+  title: "Careers - Solve Real Problems, Build Real Impact",
   description: "Join QWQER and work on real transportation challenges across on-demand express delivery and fleet logistics. We value execution, ownership, and structured growth.",
+  openGraph: {
+    title: "Careers at QWQER - Solve Real Problems, Build Real Impact",
+    description: "Work on real transportation challenges across express delivery and fleet logistics.",
+    url: "https://qwqer.in/careers",
+  },
+  alternates: { canonical: "https://qwqer.in/careers" },
 };
 
 export default async function CareersPage() {

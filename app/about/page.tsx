@@ -7,8 +7,14 @@ import CorporateStructure from "@/components/about/CorporateStructure";
 import MeetTheTeam from "@/components/about/MeetTheTeam";
 
 export const metadata = {
-  title: "About Us | QWQER - Built by Operators, Powered by Precision",
+  title: "About Us - Built by Operators, Powered by Precision",
   description: "QWQER is led by seasoned transportation operators, logistics professionals and technology leaders delivering disciplined mid-mile and last-mile logistics at scale.",
+  openGraph: {
+    title: "About QWQER - Built by Operators, Powered by Precision",
+    description: "Seasoned transportation operators delivering disciplined mid-mile and last-mile logistics at scale.",
+    url: "https://qwqer.in/about",
+  },
+  alternates: { canonical: "https://qwqer.in/about" },
 };
 
 export default function AboutPage() {

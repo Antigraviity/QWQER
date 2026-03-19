@@ -1,5 +1,12 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Privacy Policy",
+    description: "Read QWQER's privacy policy. Learn how we collect, use, and protect your personal information when using our transportation and delivery services.",
+    alternates: { canonical: "https://qwqer.in/privacy" },
+};
 
 export default function PrivacyPage() {
     return (
