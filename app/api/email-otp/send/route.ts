@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Rate limit: 3 OTP sends per 10 minutes per user
-    const { success: rlOk } = rateLimit(`otp:${session.user.email}`, 3, 10 * 60 * 1000);
+    const { success: rlOk } = rateLimit(`otp:${session?.user?.email}`, 3, 10 * 60 * 1000);
     if (!rlOk) {
         return NextResponse.json({ error: 'Too many attempts. Please wait a few minutes.' }, { status: 429 });
     }

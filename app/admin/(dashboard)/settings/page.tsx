@@ -22,7 +22,7 @@ export default async function SettingsPage() {
     // Fallback: try by user ID from JWT
     if (!currentUser && (session?.user as any)?.id) {
         currentUser = await db.user.findUnique({
-            where: { id: (session.user as any).id },
+            where: { id: (session?.user as any)?.id },
             select: { id: true, name: true, email: true, role: true },
         });
     }

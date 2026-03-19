@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Rate limit: 5 verify attempts per 10 minutes per user
-    const { success: rlOk } = rateLimit(`otp-verify:${session.user.email}`, 5, 10 * 60 * 1000);
+    const { success: rlOk } = rateLimit(`otp-verify:${session?.user?.email}`, 5, 10 * 60 * 1000);
     if (!rlOk) {
         return NextResponse.json({ error: 'Too many attempts. Please wait a few minutes.' }, { status: 429 });
     }
