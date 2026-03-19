@@ -3,6 +3,7 @@ import { auth } from '@/auth';
 import { db } from '@/lib/db';
 import { sendOtpEmail } from '@/lib/email';
 import { rateLimit } from '@/lib/rate-limit';
+import { createHash } from 'crypto';
 
 function generateOtp(): string {
     // Generate 6-digit OTP using Math.random as a safe fallback
@@ -36,10 +37,16 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 });
     }
 
-    const { newEmail, userId } = body;
+    const { newEmail } = body;
 
-    if (!newEmail || !userId) {
-        return NextResponse.json({ error: 'Email and user ID are required.' }, { status: 400 });
+    if (!newEmail) {
+        return NextResponse.json({ error: 'Email is required.' }, { status: 400 });
+    }
+
+    // Use session user ID — never trust client-provided userId
+    const userId = (session?.user as any)?.id;
+    if (!userId) {
+        return NextResponse.json({ error: 'Session user ID not found. Please log in again.' }, { status: 401 });
     }
 
     // Validate email format
@@ -73,12 +80,13 @@ export async function POST(request: NextRequest) {
             where: { userId, email: newEmail },
         });
 
-        // Store OTP
+        // Hash OTP before storing (never store plaintext)
+        const otpHash = createHash('sha256').update(otp).digest('hex');
         await db.emailOtp.create({
             data: {
                 userId,
                 email: newEmail,
-                otp,
+                otp: otpHash,
                 expiresAt,
             },
         });

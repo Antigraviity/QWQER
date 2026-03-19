@@ -3,7 +3,7 @@ import { MetadataRoute } from 'next';
 
 const BASE_URL = 'https://qwqer.in';
 
-export default async function sitemap(): Promise<MetadataRoute['sitemap']> {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Static pages
     const staticPages = [
         { url: BASE_URL, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 1.0 },
@@ -20,7 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute['sitemap']> {
     ];
 
     // Dynamic blog posts
-    let blogPages: MetadataRoute['sitemap'] = [];
+    let blogPages: MetadataRoute.Sitemap = [];
     try {
         const posts = await db.post.findMany({
             where: { published: true },
@@ -37,7 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute['sitemap']> {
     }
 
     // Dynamic career pages
-    let careerPages: MetadataRoute['sitemap'] = [];
+    let careerPages: MetadataRoute.Sitemap = [];
     try {
         const careers = await db.career.findMany({
             where: { published: true },

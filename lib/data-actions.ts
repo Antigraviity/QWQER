@@ -3,6 +3,23 @@
 import { db } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { auth } from '@/auth';
+
+// Helper: verify admin session for protected actions
+async function requireAdmin(): Promise<string> {
+    const session = await auth();
+    if (!session?.user?.email) {
+        throw new Error('Unauthorized: Admin access required.');
+    }
+    const user = await db.user.findUnique({
+        where: { email: session.user.email },
+        select: { id: true, role: true },
+    });
+    if (!user || user.role !== 'ADMIN') {
+        throw new Error('Unauthorized: Admin access required.');
+    }
+    return user.id;
+}
 import { z } from 'zod';
 import { State } from '@/lib/definitions';
 import bcrypt from 'bcryptjs';
@@ -22,6 +39,7 @@ const PostSchema = z.object({
 const CreatePost = PostSchema;
 
 export async function createPost(prevState: State, formData: FormData): Promise<State> {
+    await requireAdmin();
     const validatedFields = CreatePost.safeParse({
         title: formData.get('title'),
         slug: formData.get('slug'),
@@ -69,6 +87,7 @@ export async function createPost(prevState: State, formData: FormData): Promise<
 }
 
 export async function updatePost(id: string, prevState: State, formData: FormData): Promise<State> {
+    await requireAdmin();
     const validatedFields = PostSchema.safeParse({
         title: formData.get('title'),
         slug: formData.get('slug'),
@@ -116,6 +135,7 @@ export async function updatePost(id: string, prevState: State, formData: FormDat
 }
 
 export async function deletePost(id: string) {
+    await requireAdmin();
     try {
         await db.post.delete({
             where: { id },
@@ -137,6 +157,7 @@ const EnquirySchema = z.object({
 });
 
 export async function markEnquiryRead(id: string) {
+    await requireAdmin();
     try {
         await db.enquiry.update({
             where: { id },
@@ -225,6 +246,7 @@ const UserSchema = z.object({
 });
 
 export async function createUser(prevState: State, formData: FormData): Promise<State> {
+    await requireAdmin();
     const validatedFields = UserSchema.safeParse({
         name: formData.get('name'),
         email: formData.get('email'),
@@ -265,6 +287,7 @@ export async function createUser(prevState: State, formData: FormData): Promise<
 }
 
 export async function updateAdminProfile(prevState: State, formData: FormData): Promise<State> {
+    await requireAdmin();
     const id = formData.get('id') as string;
     const name = formData.get('name') as string;
     const newEmail = formData.get('email') as string;
@@ -292,6 +315,7 @@ export async function updateAdminProfile(prevState: State, formData: FormData): 
 }
 
 export async function changePassword(prevState: State, formData: FormData): Promise<State> {
+    await requireAdmin();
     const email = formData.get('email') as string;
     const currentPassword = formData.get('currentPassword') as string;
     const newPassword = formData.get('newPassword') as string;
@@ -333,6 +357,7 @@ export async function changePassword(prevState: State, formData: FormData): Prom
 }
 
 export async function revokeUser(id: string) {
+    await requireAdmin();
     try {
         await db.user.delete({
             where: { id },
@@ -356,6 +381,7 @@ const CareerSchema = z.object({
 });
 
 export async function createCareer(prevState: State, formData: FormData): Promise<State> {
+    await requireAdmin();
     const validatedFields = CareerSchema.safeParse({
         title: formData.get('title'),
         slug: formData.get('slug'),
@@ -398,6 +424,7 @@ export async function createCareer(prevState: State, formData: FormData): Promis
 }
 
 export async function updateCareer(id: string, prevState: State, formData: FormData): Promise<State> {
+    await requireAdmin();
     const validatedFields = CareerSchema.safeParse({
         title: formData.get('title'),
         slug: formData.get('slug'),
@@ -440,6 +467,7 @@ export async function updateCareer(id: string, prevState: State, formData: FormD
 }
 
 export async function updateCareerStatus(id: string, published: boolean) {
+    await requireAdmin();
     try {
         await db.career.update({
             where: { id },
@@ -454,6 +482,7 @@ export async function updateCareerStatus(id: string, published: boolean) {
 }
 
 export async function deleteCareer(id: string) {
+    await requireAdmin();
     try {
         await db.career.delete({ where: { id } });
         revalidatePath('/careers');

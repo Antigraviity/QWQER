@@ -1,6 +1,5 @@
-// This route has been used and should be deleted.
-// Keeping as placeholder to avoid build errors if referenced.
+// Route removed — this was a temporary utility.
 import { NextResponse } from 'next/server';
 export async function GET() {
-    return NextResponse.json({ error: 'This cleanup route has been disabled.' }, { status: 410 });
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
 }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rate-limit';
+import { createHash } from 'crypto';
 
 export async function POST(request: NextRequest) {
     // Auth check
@@ -18,18 +19,25 @@ export async function POST(request: NextRequest) {
 
     try {
         const body = await request.json();
-        const { otp, newEmail, userId } = body;
+        const { otp, newEmail } = body;
 
-        if (!otp || !newEmail || !userId) {
-            return NextResponse.json({ error: 'OTP, email, and user ID are required.' }, { status: 400 });
+        if (!otp || !newEmail) {
+            return NextResponse.json({ error: 'OTP and email are required.' }, { status: 400 });
         }
 
-        // Find matching OTP record
+        // Use the authenticated session user ID — never trust client-provided userId
+        const userId = (session?.user as any)?.id;
+        if (!userId) {
+            return NextResponse.json({ error: 'Session user ID not found. Please log in again.' }, { status: 401 });
+        }
+
+        // Hash the provided OTP to compare against stored hash
+        const otpHash = createHash('sha256').update(otp).digest('hex');
         const otpRecord = await db.emailOtp.findFirst({
             where: {
                 userId,
                 email: newEmail,
-                otp,
+                otp: otpHash,
                 verified: false,
             },
         });
