@@ -14,13 +14,19 @@ const subsidiaries = [
     name: "Qwy Express Pvt. Ltd.",
     role: "Hyperlocal Subsidiary",
     desc: "Manages time-critical deliveries, real-time tracking, and rapid intracity/hyperlocal last-mile execution.",
-    color: "#5b4bd5",
+    color: "#7c3aed",
   },
   {
     name: "Qwy Fleet Pvt. Ltd.",
     role: "Line/Urban Haul Subsidiary",
     desc: "Manages fleet operations, driver networks, and on-ground execution across all routes.",
-    color: "#3b5ee8",
+    color: "#3b82f6",
+  },
+  {
+    name: "Qwy Software Pvt. Ltd.",
+    role: "Technology Subsidiary",
+    desc: "Develops and maintains the proprietary technology stack powering logistics operations across the group.",
+    color: "#ffffff",
   },
 ];
 
@@ -125,22 +131,25 @@ export default function CorporateStructure() {
             </div>
 
             {/* Horizontal line */}
-            <div className="cs-line-h hidden md:block absolute h-[2px] bg-[#ee3425]/30" style={{ top: "50px", left: "25%", right: "25%" }}>
+            <div className="cs-line-h hidden md:block absolute h-[2px] bg-[#ee3425]/30" style={{ top: "50px", left: "16.67%", right: "16.67%" }}>
               {/* Left node */}
               <div className="cs-node absolute -left-[5px] top-1/2 -translate-y-1/2 w-[10px] h-[10px] rounded-full bg-black border-2 border-[#ee3425]" />
+              {/* Center node */}
+              <div className="cs-node absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[10px] h-[10px] rounded-full bg-black border-2 border-[#ee3425]" />
               {/* Right node */}
               <div className="cs-node absolute -right-[5px] top-1/2 -translate-y-1/2 w-[10px] h-[10px] rounded-full bg-black border-2 border-[#ee3425]" />
             </div>
 
             {/* Branch lines down to children */}
-            <div className="hidden md:flex justify-between absolute" style={{ top: "50px", left: "25%", right: "25%", height: "40px" }}>
+            <div className="hidden md:flex justify-between absolute" style={{ top: "50px", left: "16.67%", right: "16.67%", height: "40px" }}>
+              <div className="cs-line-branch w-[2px] bg-[#ee3425]/30 h-full" />
               <div className="cs-line-branch w-[2px] bg-[#ee3425]/30 h-full" />
               <div className="cs-line-branch w-[2px] bg-[#ee3425]/30 h-full" />
             </div>
           </div>
 
           {/* ── Subsidiary Cards ─────────────────────────────── */}
-          <div className="grid md:grid-cols-2 gap-5 w-full mt-8 md:mt-16">
+          <div className="grid md:grid-cols-3 gap-5 w-full mt-8 md:mt-16">
             {subsidiaries.slice(1).map((s, i) => {
               const c = s.color || "#ee3425";
               return (

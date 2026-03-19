@@ -560,6 +560,26 @@ export default function GlobeFleet() {
       .to(".gf-stat", { opacity: 1, y: 0, duration: 0.5, stagger: 0.12, ease: "power3.out" }, "-=0.3")
       .to(".gf-map", { opacity: 1, scale: 1, duration: 1, ease: "power2.out" }, "-=0.6");
 
+    // Counter animations for stats
+    document.querySelectorAll(".gf-counter").forEach((el) => {
+      const target = parseFloat((el as HTMLElement).dataset.target || "0");
+      const suffix = (el as HTMLElement).dataset.suffix || "";
+      const obj = { val: 0 };
+      gsap.to(obj, {
+        val: target,
+        duration: 2,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 85%",
+          once: true,
+        },
+        onUpdate: () => {
+          (el as HTMLElement).textContent = Math.round(obj.val) + suffix;
+        },
+      });
+    });
+
     /* ── Canvas reveal: animate mapOpacity and reveal progress ── */
     const revealObj = { val: 0, opacity: 0 };
     gsap.to(revealObj, {
@@ -579,7 +599,10 @@ export default function GlobeFleet() {
       },
     });
 
-    const A = { r: 238, g: 52, b: 37 };
+    // White/grey theme for map outlines
+    const A = { r: 255, g: 255, b: 255 };
+    // Red accent for trucks
+    const T = { r: 238, g: 52, b: 37 };
 
     /* Quadratic bezier arc — control point lifted upward-left */
     function getArcPoint(
@@ -709,8 +732,8 @@ export default function GlobeFleet() {
 
         // Glow behind truck
         const glow = tctx.createRadialGradient(0, 0, 0, 0, 0, s * 3);
-        glow.addColorStop(0, `rgba(${A.r},${A.g},${A.b},0.5)`);
-        glow.addColorStop(1, `rgba(${A.r},${A.g},${A.b},0)`);
+        glow.addColorStop(0, `rgba(${T.r},${T.g},${T.b},0.6)`);
+        glow.addColorStop(1, `rgba(${T.r},${T.g},${T.b},0)`);
         tctx.beginPath();
         tctx.arc(0, 0, s * 3, 0, Math.PI * 2);
         tctx.fillStyle = glow;
@@ -721,7 +744,7 @@ export default function GlobeFleet() {
         const bh = s * 1.6; // body height
         tctx.beginPath();
         tctx.roundRect(-bw * 0.3, -bh / 2, bw, bh, s * 0.3);
-        tctx.fillStyle = `rgb(${A.r},${A.g},${A.b})`;
+        tctx.fillStyle = `rgb(${T.r},${T.g},${T.b})`;
         tctx.fill();
 
         // Cabin (smaller rect at front)
@@ -729,19 +752,19 @@ export default function GlobeFleet() {
         const ch = s * 1.2;
         tctx.beginPath();
         tctx.roundRect(bw * 0.5, -ch / 2, cw, ch, [0, s * 0.3, s * 0.3, 0]);
-        tctx.fillStyle = `rgba(255,255,255,0.85)`;
+        tctx.fillStyle = `rgba(180,180,180,0.85)`;
         tctx.fill();
 
         // Windshield line on cabin
         tctx.beginPath();
         tctx.moveTo(bw * 0.5 + cw * 0.3, -ch / 2 + s * 0.2);
         tctx.lineTo(bw * 0.5 + cw * 0.3, ch / 2 - s * 0.2);
-        tctx.strokeStyle = `rgba(${A.r},${A.g},${A.b},0.4)`;
+        tctx.strokeStyle = `rgba(100,100,100,0.4)`;
         tctx.lineWidth = s * 0.15;
         tctx.stroke();
 
         // Wheels (2 small circles)
-        tctx.fillStyle = 'rgba(0,0,0,0.7)';
+        tctx.fillStyle = 'rgba(80,80,80,0.8)';
         tctx.beginPath();
         tctx.arc(-bw * 0.1, bh / 2 + s * 0.1, s * 0.35, 0, Math.PI * 2);
         tctx.fill();
@@ -779,7 +802,7 @@ export default function GlobeFleet() {
           if (i === 0) ctx.moveTo(p.x, p.y);
           else ctx.lineTo(p.x, p.y);
         }
-        ctx.strokeStyle = `rgba(${A.r},${A.g},${A.b},0.18)`;
+        ctx.strokeStyle = `rgba(${T.r},${T.g},${T.b},0.15)`;
         ctx.lineWidth = 1.5;
         ctx.stroke();
         ctx.setLineDash([]);
@@ -796,7 +819,7 @@ export default function GlobeFleet() {
           if (i === 0) ctx.moveTo(p.x, p.y);
           else ctx.lineTo(p.x, p.y);
         }
-        ctx.strokeStyle = `rgba(${A.r},${A.g},${A.b},0.7)`;
+        ctx.strokeStyle = `rgba(${T.r},${T.g},${T.b},0.7)`;
         ctx.lineWidth = 2;
         ctx.stroke();
         ctx.setLineDash([]);
@@ -887,7 +910,7 @@ export default function GlobeFleet() {
     >
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none"
-        style={{ background: "radial-gradient(circle,rgba(238,52,37,0.05) 0%,transparent 60%)", filter: "blur(80px)" }}
+        style={{ background: "radial-gradient(circle,rgba(255,255,255,0.03) 0%,transparent 60%)", filter: "blur(80px)" }}
       />
 
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-14 lg:px-20">
@@ -923,15 +946,15 @@ export default function GlobeFleet() {
 
             <div className="flex gap-8 md:gap-12">
               <div className="gf-stat">
-                <div className="text-2xl md:text-3xl font-black text-white">10+</div>
+                <div className="gf-counter text-2xl md:text-3xl font-black text-white" data-target="10" data-suffix="+">0+</div>
                 <div className="text-[12px] text-white/70 mt-1 uppercase tracking-wider">Major Cities</div>
               </div>
               <div className="gf-stat">
-                <div className="text-2xl md:text-3xl font-black text-white">200+</div>
+                <div className="gf-counter text-2xl md:text-3xl font-black text-white" data-target="200" data-suffix="+">0+</div>
                 <div className="text-[12px] text-white/70 mt-1 uppercase tracking-wider">Clients Served</div>
               </div>
               <div className="gf-stat">
-                <div className="text-2xl md:text-3xl font-black text-white">3L+</div>
+                <div className="gf-counter text-2xl md:text-3xl font-black text-white" data-target="300000" data-suffix="+">0+</div>
                 <div className="text-[12px] text-white/70 mt-1 uppercase tracking-wider">Trips Completed</div>
               </div>
             </div>

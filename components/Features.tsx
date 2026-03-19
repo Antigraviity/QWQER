@@ -73,7 +73,7 @@ export default function Features() {
             desc: "Fast, reliable local deliveries combined with large-scale intercity logistics.",
             stat: "2x",
             statLabel: "Faster Delivery",
-            color: "#a78bfa"
+            color: "#ee3425"
         },
         {
             title: "Built for Reliability at Every Scale",
@@ -81,7 +81,7 @@ export default function Features() {
             desc: "Field-tested operations that adapt to your business volume seamlessly.",
             stat: "99.5%",
             statLabel: "Uptime Rate",
-            color: "#818cf8"
+            color: "#ee3425"
         },
         {
             title: "Nationwide Reach, Local Execution",
@@ -89,7 +89,7 @@ export default function Features() {
             desc: "Operate seamlessly across India while benefiting from strong regional oversight.",
             stat: "500+",
             statLabel: "Cities Covered",
-            color: "#6ee7b7"
+            color: "#ee3425"
         },
         {
             title: "Full Operational Visibility",
@@ -97,7 +97,7 @@ export default function Features() {
             desc: "Track shipments in real time, with proactive updates and issue resolution.",
             stat: "100%",
             statLabel: "Transparency",
-            color: "#67e8f9"
+            color: "#ee3425"
         },
         {
             title: "Technology-Driven Operations",
@@ -105,7 +105,7 @@ export default function Features() {
             desc: "Tools and systems designed to optimize routes, fleet management and planning.",
             stat: "AI",
             statLabel: "Powered Routing",
-            color: "#c084fc"
+            color: "#ee3425"
         },
         {
             title: "24/7 Dedicated Support",
@@ -113,7 +113,7 @@ export default function Features() {
             desc: "Our teams are always ready to assist, ensuring smooth operations from start to finish.",
             stat: "365",
             statLabel: "Days Active",
-            color: "#f9a8d4"
+            color: "#ee3425"
         }
     ];
 
