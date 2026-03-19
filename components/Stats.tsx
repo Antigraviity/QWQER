@@ -56,10 +56,12 @@ export default function Stats() {
     }, []);
 
     const metrics = [
-        { num: 99.6, suffix: "%", decimals: 1, label: "On-Time Delivery Rate" },
-        { num: 5000, suffix: "+", decimals: 0, label: "Successful Deliveries Completed" },
-        { num: 120, suffix: "+", decimals: 0, label: "Active Fleet Vehicles" },
-        { num: 0, suffix: "", decimals: 0, label: "Operations & Tracking Support", static: "24/7" },
+        { num: 0, suffix: "", decimals: 0, label: "Successful Deliveries", static: "2cr+" },
+        { num: 14, suffix: "", decimals: 0, label: "Active Cities of Operation" },
+        { num: 6000, suffix: "+", decimals: 0, label: "Delivery Partners" },
+        { num: 0, suffix: "", decimals: 0, label: "Operations and Tracking Support", static: "365 days" },
+        { num: 6000, suffix: "+", decimals: 0, label: "Active Fleet Vehicles" },
+        { num: 1000, suffix: "+", decimals: 0, label: "Lanes We Operate in" },
     ];
 
     return (
@@ -90,15 +92,15 @@ export default function Stats() {
                         </div>
 
                         {/* Grid Layout */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
                             {metrics.map((m, i) => (
                                 <div
                                     key={i}
-                                    className="stat-item group relative p-8 rounded-[2rem] bg-white/[0.03] border border-white/5 backdrop-blur-sm hover:bg-white/[0.08] hover:border-[#ee3425]/30 transition-all duration-500 hover:-translate-y-2"
+                                    className="stat-item group relative aspect-square rounded-2xl bg-white/[0.03] border border-white/5 backdrop-blur-sm hover:bg-white/[0.08] hover:border-[#ee3425]/30 transition-all duration-500 hover:-translate-y-1"
                                 >
-                                    <div className="flex flex-col items-center justify-center text-center h-full min-h-[160px]">
+                                    <div className="flex flex-col items-center justify-center text-center h-full p-4">
                                         <span
-                                            className="stat-counter text-5xl md:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-b from-white to-white/40 group-hover:from-white group-hover:to-[#ee3425] transition-all duration-500 mb-4 block pr-2"
+                                            className="stat-counter text-3xl md:text-4xl font-black bg-clip-text text-transparent bg-gradient-to-b from-white to-white/40 group-hover:from-white group-hover:to-[#ee3425] transition-all duration-500 mb-2 block"
                                             data-target={m.num}
                                             data-decimals={m.decimals}
                                             data-suffix={m.suffix}
@@ -106,7 +108,7 @@ export default function Stats() {
                                         >
                                             {m.static || `0${m.suffix}`}
                                         </span>
-                                        <span className="text-white/50 text-[10px] md:text-xs font-bold uppercase tracking-[0.15em] group-hover:text-white transition-colors duration-300">
+                                        <span className="text-white/50 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.12em] leading-tight group-hover:text-white transition-colors duration-300">
                                             {m.label}
                                         </span>
                                     </div>

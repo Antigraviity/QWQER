@@ -3,7 +3,7 @@
 import { useFormState, useFormStatus } from 'react-dom';
 import Image from 'next/image';
 import { authenticate } from '@/lib/actions';
-import { FaArrowRight, FaExclamationCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaArrowRight, FaExclamationCircle, FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 import { useState } from 'react';
 
 export default function LoginPage() {
@@ -61,9 +61,9 @@ export default function LoginPage() {
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none transition-colors"
                                     >
-                                        {showPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
+                                        {showPassword ? <FaRegEye className="h-4 w-4" /> : <FaRegEyeSlash className="h-4 w-4" />}
                                     </button>
                                 </div>
                             </div>
@@ -93,10 +93,20 @@ function LoginButton() {
 
     return (
         <button
-            className="mt-4 w-full flex items-center justify-center rounded-lg bg-[#ee3425] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
-            aria-disabled={pending}
+            className="mt-4 w-full flex items-center justify-center rounded-lg bg-[#ee3425] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 disabled:cursor-not-allowed disabled:opacity-60"
+            disabled={pending}
         >
-            Log in <FaArrowRight className="ml-auto h-5 w-5 text-gray-50" />
+            {pending ? (
+                <>
+                    <svg className="animate-spin h-5 w-5 mr-2 text-white" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Logging in...
+                </>
+            ) : (
+                <>Log in <FaArrowRight className="ml-auto h-5 w-5 text-gray-50" /></>
+            )}
         </button>
     );
 }

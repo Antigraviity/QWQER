@@ -73,11 +73,23 @@ export default function AboutHero() {
       // Track draws in
       gsap.fromTo(".ah-track", { scaleX: 0 }, { scaleX: 1, duration: TRACK_DUR, ease: "power2.inOut", delay: TRACK_DELAY, transformOrigin: "left center" });
 
-      // Trail follows truck
+      // Trail follows vehicles
       gsap.fromTo(".ah-trail", { scaleX: 0 }, { scaleX: 1, duration: TRUCK_DUR, ease: "power1.inOut", delay: TRUCK_DELAY, transformOrigin: "left center" });
 
-      // Truck drives across
-      gsap.fromTo(".ah-truck", { left: "-2%", opacity: 1 }, { left: "97%", duration: TRUCK_DUR, ease: "power1.inOut", delay: TRUCK_DELAY });
+      // 2022 is index 2 (0-based), milestone position = ((2+1)/(5+1))*100 = 50%
+      const swapPos = ((2 + 1) / (TOTAL + 1)) * 100; // 50% — at 2022
+      const swapProgress = (swapPos - (-2)) / (97 - (-2)); // ~0.525
+      const swapTime = TRUCK_DELAY + TRUCK_DUR * swapProgress;
+
+      // Scooter drives from start to 2022 milestone
+      gsap.fromTo(".ah-scooter", { left: "-2%", opacity: 1 }, { left: `${swapPos}%`, duration: TRUCK_DUR * swapProgress, ease: "power1.inOut", delay: TRUCK_DELAY });
+      // Fade out scooter at swap point
+      gsap.to(".ah-scooter", { opacity: 0, duration: 0.3, delay: swapTime - 0.15 });
+
+      // Truck appears at 2022 and drives to the end
+      gsap.set(".ah-truck", { left: `${swapPos}%`, opacity: 0 });
+      gsap.to(".ah-truck", { opacity: 1, duration: 0.3, delay: swapTime - 0.15 });
+      gsap.to(".ah-truck", { left: "97%", duration: TRUCK_DUR * (1 - swapProgress), ease: "power1.inOut", delay: swapTime });
 
       // Milestones appear as truck passes
       MILESTONES.forEach((_, i) => {
@@ -312,11 +324,63 @@ export default function AboutHero() {
               );
             })}
 
-            {/* ── Truck ───────────────────────────────────────── */}
-            <div className="ah-truck absolute top-1/2 z-10" style={{ left: "-2%", transform: "translateY(-50%)" }}>
-              <div className="relative -top-[12px] -left-[15px]">
-                <div className="absolute top-1 -left-1 w-14 h-8 rounded-full blur-md" style={{ backgroundColor: "rgba(238,52,37,0.25)" }} />
-                <svg width="46" height="30" viewBox="0 0 30 20" fill="none">
+            {/* ── Scooter (2019–2022) ─────────────────────────── */}
+            <div className="ah-scooter absolute top-1/2 z-10" style={{ left: "-2%", transform: "translateY(-50%)", opacity: 1 }}>
+              <div className="relative -top-[24px] -left-[22px]">
+                <div className="absolute top-3 left-0 w-18 h-10 rounded-full blur-lg" style={{ backgroundColor: "rgba(238,52,37,0.25)" }} />
+                <svg width="70" height="50" viewBox="0 0 70 50" fill="none">
+                  {/* Rear wheel */}
+                  <circle cx="16" cy="40" r="8" fill="#1a1a1a" />
+                  <circle cx="16" cy="40" r="6" fill="#2a2a2a" />
+                  <circle cx="16" cy="40" r="3" fill="#3a3a3a" />
+                  <circle cx="16" cy="40" r="1.2" fill="#555" />
+                  {/* Front wheel */}
+                  <circle cx="54" cy="40" r="7" fill="#1a1a1a" />
+                  <circle cx="54" cy="40" r="5" fill="#2a2a2a" />
+                  <circle cx="54" cy="40" r="2.5" fill="#3a3a3a" />
+                  <circle cx="54" cy="40" r="1" fill="#555" />
+                  {/* Mudguard rear */}
+                  <path d="M8 37 Q16 28 24 37" fill="none" stroke="#444" strokeWidth="1.5" />
+                  {/* Mudguard front */}
+                  <path d="M47 37 Q54 29 61 37" fill="none" stroke="#444" strokeWidth="1.2" />
+                  {/* Body frame — lower curved body */}
+                  <path d="M18 38 L22 28 L42 26 L48 22 L52 34" fill={A} opacity="0.9" />
+                  {/* Footrest platform */}
+                  <rect x="24" y="34" width="18" height="3" rx="1.5" fill="#333" />
+                  {/* Seat */}
+                  <path d="M20 24 Q22 20 30 19 L38 19 Q40 19 40 22 L40 24 Q40 26 38 26 L22 26 Q20 26 20 24Z" fill="#222" />
+                  <path d="M21 23 Q23 20.5 30 20 L37 20 Q39 20 39 22 L39 23 Q39 24.5 37 24.5 L23 24.5 Q21 24.5 21 23Z" fill="#333" />
+                  {/* Handlebar stem */}
+                  <line x1="48" y1="24" x2="52" y2="10" stroke="#bbb" strokeWidth="2" strokeLinecap="round" />
+                  {/* Handlebar */}
+                  <line x1="48" y1="10" x2="58" y2="9" stroke="#bbb" strokeWidth="2.5" strokeLinecap="round" />
+                  {/* Handlebar grip left */}
+                  <rect x="47" y="8.5" width="4" height="3" rx="1.5" fill="#555" />
+                  {/* Handlebar grip right */}
+                  <rect x="55" y="7.5" width="4" height="3" rx="1.5" fill="#555" />
+                  {/* Mirror */}
+                  <ellipse cx="58" cy="7" rx="2" ry="1.5" fill="#666" stroke="#888" strokeWidth="0.5" />
+                  {/* Headlight */}
+                  <ellipse cx="56" cy="18" rx="2.5" ry="2" fill="#ffdd44" opacity="0.9" />
+                  <ellipse cx="56" cy="18" rx="1.5" ry="1.2" fill="white" opacity="0.5" />
+                  {/* Delivery box on rear */}
+                  <rect x="4" y="14" width="16" height="14" rx="2" fill={A} />
+                  <rect x="5" y="15" width="14" height="12" rx="1.5" fill="#c92a1c" />
+                  {/* Box QWQER branding */}
+                  <text x="12" y="23" textAnchor="middle" fill="white" fontSize="5" fontWeight="bold" fontFamily="sans-serif">Q</text>
+                  {/* Exhaust */}
+                  <rect x="10" y="34" width="6" height="2" rx="1" fill="#444" />
+                  {/* Tail light */}
+                  <rect x="6" y="29" width="3" height="2" rx="1" fill="#ff4444" opacity="0.8" />
+                </svg>
+              </div>
+            </div>
+
+            {/* ── Truck (2022 onwards) ─────────────────────────── */}
+            <div className="ah-truck absolute top-1/2 z-10" style={{ left: "-2%", transform: "translateY(-50%)", opacity: 0 }}>
+              <div className="relative -top-[20px] -left-[22px]">
+                <div className="absolute top-2 -left-1 w-20 h-12 rounded-full blur-lg" style={{ backgroundColor: "rgba(238,52,37,0.3)" }} />
+                <svg width="72" height="48" viewBox="0 0 30 20" fill="none">
                   <rect x="0" y="3" width="18" height="11" rx="2" fill={A} />
                   <line x1="4" y1="6" x2="14" y2="6" stroke="white" strokeWidth="0.6" opacity="0.3" />
                   <line x1="4" y1="8.5" x2="14" y2="8.5" stroke="white" strokeWidth="0.6" opacity="0.3" />

@@ -19,7 +19,7 @@ export default function AboutPage() {
       <AboutCard />
       <DisciplinedExecution />
       <CorporateStructure />
-      <MeetTheTeam />
+      {/* <MeetTheTeam /> */}
       <Footer />
     </main>
   );

@@ -62,7 +62,7 @@ export default function Services() {
                                 </div>
                             </div>
                             <div className="inline-block px-3 py-1 bg-[#3b82f6] text-white text-xs font-bold rounded-full mb-6">
-                                Mid-Mile & Intercity Logistics
+                                First-mile FTL & LCV Based Intracity Logistics
                             </div>
                             <ul className="space-y-4 text-white/60 text-sm mb-8">
                                 <li className="flex gap-3"><span className="text-[#3b82f6]">•</span> Structured operations for predictable, large-scale movement</li>

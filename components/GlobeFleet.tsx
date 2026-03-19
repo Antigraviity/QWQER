@@ -806,7 +806,7 @@ export default function GlobeFleet() {
         // Get direction angle from a point slightly behind
         const ahead = getArcPoint(fx, fy, tx, ty, Math.min(1, truck.progress + 0.02), w, h);
         const angle = Math.atan2(ahead.y - tp.y, ahead.x - tp.x);
-        drawTruckIcon(ctx, tp.x, tp.y, angle, 3);
+        drawTruckIcon(ctx, tp.x, tp.y, angle, 5.5);
 
         ctx.globalAlpha = mapAlpha;
       });

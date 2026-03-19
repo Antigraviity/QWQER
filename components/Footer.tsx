@@ -275,7 +275,7 @@ export default function Footer() {
     }, []);
 
     return (
-        <footer ref={footerRef} className="bg-[#ee3425] text-white pt-12 pb-32 relative overflow-hidden">
+        <footer ref={footerRef} className="text-white pt-12 pb-32 relative overflow-hidden" style={{ background: 'linear-gradient(to right, #f17126, #ed3825)' }}>
             <div className="max-w-7xl mx-auto px-6 relative z-10">
                 <div className="grid md:grid-cols-3 gap-12 lg:gap-24 mb-8 border-b border-white/20 pb-12 relative">
                     {/* Column 1: Brand Info */}
@@ -318,9 +318,26 @@ export default function Footer() {
                                 Our Locations
                                 <span className="absolute -bottom-1.5 left-0 w-1/2 h-0.5 bg-white rounded-full"></span>
                             </h4>
-                            <p className="text-white/80 leading-relaxed font-medium text-lg">
-                                Karnataka, Kerala, Tamilnadu, Telangana
-                            </p>
+                            <div className="flex flex-wrap gap-2">
+                                {[
+                                    { name: "Bengaluru", address: "1st Floor, Anthill IQ, 20, SR-2 Cunningham Rd, Vasanth Nagar, Bengaluru, Karnataka 560052" },
+                                    { name: "Chennai", address: "QWQER, Cabin No 11, VVM Towers, Logas Coworking, 3rd Floor, No.22A, Pattulos Road, Anna Salai, Chennai, Tamil Nadu 600002" },
+                                    { name: "Kochi", address: "Ground floor, InnerSpace Coworking, Sivarama Menon Road, Kaloor, Kochi, Kerala 682018" },
+                                    { name: "Hyderabad", address: "105, 1st Floor, AltF Green Towers, Municipal No. 1-10-176/4A, 4B, 4C & 4D, Begumpet Main Road, Mayur Marg, Begumpet, Hyderabad-500016" },
+                                ].map((loc) => (
+                                    <div key={loc.name} className="relative group">
+                                        <span className="inline-block px-3 py-1.5 rounded-full border border-white/20 text-white/80 text-sm font-medium cursor-default hover:bg-white/10 hover:border-white/40 hover:text-white transition-all duration-300">
+                                            {loc.name}
+                                        </span>
+                                        {/* Tooltip */}
+                                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 w-64 px-4 py-3 rounded-xl bg-black/90 backdrop-blur-md border border-white/10 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-50 pointer-events-none">
+                                            <p className="text-white font-bold text-xs mb-1">{loc.name}</p>
+                                            <p className="text-white/60 text-[11px] leading-relaxed">{loc.address}</p>
+                                            <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-transparent border-t-black/90" />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
 
                         {/* Quick Links - Vertical Alignment */}

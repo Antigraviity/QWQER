@@ -12,13 +12,13 @@ const subsidiaries = [
   },
   {
     name: "Qwy Express Pvt. Ltd.",
-    role: "Line Haul Subsidiary",
+    role: "Hyperlocal Subsidiary",
     desc: "Manages time-critical deliveries, real-time tracking, and rapid intracity/hyperlocal last-mile execution.",
     color: "#5b4bd5",
   },
   {
     name: "Qwy Fleet Pvt. Ltd.",
-    role: "Urban Haul Subsidiary",
+    role: "Line/Urban Haul Subsidiary",
     desc: "Manages fleet operations, driver networks, and on-ground execution across all routes.",
     color: "#3b5ee8",
   },

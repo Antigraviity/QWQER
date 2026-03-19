@@ -6,6 +6,7 @@ import Image from "next/image";
 import CityAnimation from "./CityAnimation";
 
 const TYPEWRITER_PHRASES = [
+    "to move businesses.",
     "for speed and scale.",
     "for seamless delivery.",
     "for enterprise reliability.",

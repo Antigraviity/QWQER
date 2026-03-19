@@ -104,7 +104,7 @@ export default function CustomSplitServices() {
                         <div className="relative z-10 flex flex-col h-full items-start">
                             <h3 className="text-4xl md:text-5xl font-semibold text-[#3b82f6] mb-2">QWQER Fleet</h3>
                             <div className="text-[#3b82f6] bg-[#3b82f6]/10 border border-[#3b82f6]/25 px-4 py-1.5 rounded-full text-sm font-bold mb-8">
-                                Mid-Mile & Intercity Logistics
+                                First-mile FTL & LCV Based Intracity Logistics
                             </div>
 
                             <ul className="space-y-4 text-black/60 text-sm md:text-base mb-10 flex-grow">

@@ -18,18 +18,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
     }
 
-    // Only accept PDF
-    if (file.type !== 'application/pdf') {
+    // Accept PDF, DOC, DOCX
+    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    const allowedExtensions = /\.(pdf|doc|docx)$/i;
+    if (!allowedTypes.includes(file.type) && !allowedExtensions.test(file.name)) {
       return NextResponse.json(
-        { error: 'Only PDF format is accepted.' },
+        { error: 'Only PDF, DOC, or DOCX files are accepted.' },
         { status: 400 }
       );
     }
 
-    // Max 2MB
-    if (file.size > 2 * 1024 * 1024) {
+    // Max 5MB (matching frontend limit)
+    if (file.size > 5 * 1024 * 1024) {
       return NextResponse.json(
-        { error: 'File too large. Maximum size is 2MB.' },
+        { error: 'File too large. Maximum size is 5MB.' },
         { status: 400 }
       );
     }
@@ -40,7 +42,7 @@ export async function POST(request: NextRequest) {
     // Generate unique public_id
     const timestamp = Date.now();
     const safeName = file.name
-      .replace(/\.pdf$/i, '')
+      .replace(/\.(pdf|doc|docx)$/i, '')
       .toLowerCase()
       .replace(/[^a-z0-9-]/g, '-')
       .replace(/-+/g, '-')

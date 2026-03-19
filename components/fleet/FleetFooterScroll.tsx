@@ -64,7 +64,7 @@ export default function FleetFooterScroll() {
 
         for (let i = 0; i < FRAME_COUNT; i++) {
             const img = new Image();
-            const paddedNumber = i.toString().padStart(3, '0');
+            const paddedNumber = i.toString().padStart(2, '0');
             img.src = `${FOLDER_PATH}/${FILE_PREFIX}${paddedNumber}.${FILE_EXTENSION}`;
 
             img.onload = () => {

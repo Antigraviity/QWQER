@@ -36,10 +36,13 @@ async function sendEmail(payload: {
 
     if (!res.ok) {
         const error = await res.json();
-        console.error('Resend API error:', error);
+        console.error('Resend API error:', JSON.stringify(error));
+        console.error('Attempted to send from:', payload.from, 'to:', payload.to);
         return { success: false, error };
     }
-    return { success: true };
+    const result = await res.json();
+    console.log('Email sent successfully, id:', result.id);
+    return { success: true, id: result.id };
 }
 
 export async function sendEnquiryNotification(data: EnquiryEmailData) {
@@ -306,6 +309,48 @@ export async function sendJobApplicationNotification(data: JobApplicationEmailDa
         return { success: true };
     } catch (error) {
         console.error('Failed to send job application emails:', error);
+        return { success: false, error };
+    }
+}
+
+// OTP Email for Admin Email Change Verification
+export async function sendOtpEmail(email: string, otp: string) {
+    if (!RESEND_API_KEY) {
+        console.error('RESEND_API_KEY not set, skipping OTP email');
+        return { success: false, error: 'API key not configured' };
+    }
+
+    const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 480px; margin: 0 auto; background: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #e5e7eb;">
+        <div style="background: #ee3425; padding: 28px 32px; text-align: center;">
+            <h1 style="color: white; margin: 0; font-size: 20px; font-weight: 700;">Verify Your Email</h1>
+        </div>
+        <div style="padding: 32px; text-align: center;">
+            <p style="font-size: 14px; color: #4b5563; margin: 0 0 24px; line-height: 1.6;">
+                Use the code below to verify your new email address. This code expires in <strong>10 minutes</strong>.
+            </p>
+            <div style="background: #f9fafb; border: 2px dashed #d1d5db; border-radius: 12px; padding: 20px; margin: 0 auto 24px; display: inline-block; min-width: 200px;">
+                <span style="font-size: 32px; font-weight: 800; letter-spacing: 8px; color: #111827; font-family: 'Courier New', monospace;">${otp}</span>
+            </div>
+            <p style="font-size: 13px; color: #9ca3af; margin: 0;">
+                If you didn&rsquo;t request this, you can safely ignore this email.
+            </p>
+        </div>
+        <div style="background: #f9fafb; padding: 16px 32px; text-align: center;">
+            <p style="margin: 0; font-size: 11px; color: #9ca3af;">QWQER Admin Security</p>
+        </div>
+    </div>`;
+
+    try {
+        const result = await sendEmail({
+            from: FROM_EMAIL,
+            to: [email],
+            subject: `${otp} — QWQER Email Verification Code`,
+            html,
+        });
+        return result;
+    } catch (error) {
+        console.error('Failed to send OTP email:', error);
         return { success: false, error };
     }
 }

@@ -26,7 +26,6 @@ export default async function CareersPage() {
       <CareersHero />
       <CareersWhy />
       <CareersValues />
-      <CareersProcess />
       {careers.length > 0 && <CareersOpenings careers={careers} />}
       <Footer />
     </main>
