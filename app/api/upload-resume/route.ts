@@ -3,9 +3,9 @@ import { uploadToCloudinary } from '@/lib/cloudinary';
 import { rateLimit } from '@/lib/rate-limit';
 
 export async function POST(request: NextRequest) {
-  // Rate limit: 5 uploads per 10 minutes per IP
-  const ip = request.headers.get('x-forwarded-for') || 'unknown';
-  const { success } = rateLimit(`resume:${ip}`, 5, 10 * 60 * 1000);
+  // Rate limit: 3 uploads per 10 minutes per IP (use multiple headers for accuracy)
+  const ip = request.headers.get('x-real-ip') || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+  const { success } = rateLimit(`resume:${ip}`, 3, 10 * 60 * 1000);
   if (!success) {
     return NextResponse.json({ error: 'Too many uploads. Please try again later.' }, { status: 429 });
   }
@@ -39,6 +39,18 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
+    // Validate file magic bytes (header signature)
+    const header = buffer.subarray(0, 8);
+    const isPdf = header[0] === 0x25 && header[1] === 0x50 && header[2] === 0x44 && header[3] === 0x46; // %PDF
+    const isDoc = header[0] === 0xD0 && header[1] === 0xCF && header[2] === 0x11 && header[3] === 0xE0; // DOC (OLE2)
+    const isDocx = header[0] === 0x50 && header[1] === 0x4B && header[2] === 0x03 && header[3] === 0x04; // DOCX (ZIP/PK)
+    if (!isPdf && !isDoc && !isDocx) {
+      return NextResponse.json(
+        { error: 'Invalid file content. The file does not appear to be a valid document.' },
+        { status: 400 }
+      );
+    }
+
     // Generate unique public_id
     const timestamp = Date.now();
     const safeName = file.name
@@ -60,7 +72,7 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error('Resume upload error:', error);
     return NextResponse.json(
-      { error: 'Failed to upload resume: ' + error.message },
+      { error: 'Failed to upload resume. Please try again.' },
       { status: 500 }
     );
   }

@@ -6,8 +6,9 @@ import { rateLimit } from '@/lib/rate-limit';
 import { createHash } from 'crypto';
 
 function generateOtp(): string {
-    // Generate 6-digit OTP using Math.random as a safe fallback
-    return Math.floor(100000 + Math.random() * 900000).toString();
+    // Cryptographically secure 6-digit OTP
+    const { randomInt } = require('crypto');
+    return randomInt(100000, 999999).toString();
 }
 
 export async function POST(request: NextRequest) {
@@ -94,39 +95,25 @@ export async function POST(request: NextRequest) {
         // Send OTP email
         const result = await sendOtpEmail(newEmail, otp);
         if (!result.success) {
-            console.error('OTP email send failed:', JSON.stringify(result.error));
-            // In development, log OTP so the flow can still be tested
+            console.error('OTP email send failed');
+            // In development only, log OTP to server console (NEVER expose in response in production)
             if (process.env.NODE_ENV === 'development') {
-                console.log(`\n========================================`);
-                console.log(`  DEV OTP for ${newEmail}: ${otp}`);
-                console.log(`========================================\n`);
+                console.log(`[DEV] OTP for ${newEmail}: ${otp}`);
                 return NextResponse.json({
                     success: true,
-                    message: 'OTP sent! (Dev mode: check server console if email not received)',
+                    message: 'OTP sent! (Dev: check server console)',
                     devOtp: otp,
                 });
             }
             return NextResponse.json(
-                { error: 'Failed to send verification email. Please verify your domain in Resend (resend.com/domains).' },
+                { error: 'Failed to send verification email. Please try again later.' },
                 { status: 500 }
             );
-        }
-
-        // Also log in dev for convenience
-        if (process.env.NODE_ENV === 'development') {
-            console.log(`[DEV] OTP for ${newEmail}: ${otp}`);
         }
 
         return NextResponse.json({ success: true, message: 'OTP sent to your new email address.' });
     } catch (error: any) {
         console.error('Send OTP error:', error?.message || error);
-        // Check if it's a Prisma model not found error
-        if (error?.message?.includes('emailOtp') || error?.message?.includes('does not exist')) {
-            return NextResponse.json(
-                { error: 'Database not migrated. Please run: npx prisma db push && npx prisma generate' },
-                { status: 500 }
-            );
-        }
         return NextResponse.json({ error: 'Something went wrong. Please try again.' }, { status: 500 });
     }
 }

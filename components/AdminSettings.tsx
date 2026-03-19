@@ -82,7 +82,7 @@ function EmailSection({ user }: { user: User }) {
             const res = await fetch('/api/email-otp/send', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ newEmail, userId: user.id }),
+                body: JSON.stringify({ newEmail }),
             });
             const data = await res.json();
             if (!res.ok) {
@@ -147,7 +147,7 @@ function EmailSection({ user }: { user: User }) {
             const res = await fetch('/api/email-otp/verify', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ otp: otpCode, newEmail, userId: user.id }),
+                body: JSON.stringify({ otp: otpCode, newEmail }),
             });
             const data = await res.json();
             if (!res.ok) {
