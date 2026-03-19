@@ -3,33 +3,33 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-const BASE = "/Why Join QWQER Express as a Rider  Rider Vendor";
+const BASE = "/express-rider-vendor";
 
 const benefits = [
     {
         title: "Consistent Order Flow",
         description: "Access steady delivery demand across food, e-commerce, pharma and other hyperlocal categories.",
-        image: `${BASE}/Consistent Order Flow.png`,
+        image: `${BASE}/consistent-order-flow.webp`,
     },
     {
         title: "Flexible Working Model",
         description: "Work on your own schedule — suitable for individual riders as well as fleet vendors.",
-        image: `${BASE}/Flexible Working Model.png`,
+        image: `${BASE}/flexible-working-model.webp`,
     },
     {
         title: "On-Time, Transparent Payouts",
         description: "Weekly settlements with clear earnings visibility and no hidden deductions.",
-        image: `${BASE}/On-Time, Transparent Payouts.png`,
+        image: `${BASE}/on-time-payouts.webp`,
     },
     {
         title: "Tech-Enabled Operations",
         description: "A simple rider app with optimized routing, real-time support and minimal downtime.",
-        image: `${BASE}/Tech-Enabled Operations.png`,
+        image: `${BASE}/tech-enabled-operations.webp`,
     },
     {
         title: "Grow With the Platform",
         description: "Whether you're an individual rider or managing a fleet, QWQER Express supports your growth at every stage.",
-        image: `${BASE}/Grow With the Platform.png`,
+        image: `${BASE}/grow-with-platform.webp`,
     },
 ];
 
