@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence, MotionValue } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent, MotionValue } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -24,9 +24,7 @@ export default function ExpressIndustries() {
     const headingRef = useRef<HTMLHeadingElement>(null);
     const headingRevealDone = useRef(false);
     const prevIndex = useRef(-1);
-    const listRefs = useRef<(HTMLDivElement | null)[]>([]);
     const orbitDotsRef = useRef<(HTMLDivElement | null)[]>([]);
-    const centerEmojiRef = useRef<HTMLDivElement>(null);
     const centerNameRef = useRef<HTMLDivElement>(null);
     const centerDescRef = useRef<HTMLParagraphElement>(null);
     const connectorRef = useRef<SVGLineElement>(null);
@@ -87,45 +85,6 @@ export default function ExpressIndustries() {
 
         if (idx !== prevIndex.current && idx >= 0) {
             prevIndex.current = idx;
-
-            // Animate list items
-            listRefs.current.forEach((el, i) => {
-                if (!el) return;
-                const isActive = i === idx;
-                gsap.to(el, {
-                    opacity: isActive ? 1 : 0.25,
-                    x: isActive ? 8 : 0,
-                    duration: 0.4,
-                    ease: "power2.out",
-                });
-                // Toggle active bar
-                const bar = el.querySelector(".ind-bar") as HTMLElement;
-                if (bar) {
-                    bar.style.background = isActive ? "#7c3aed" : "rgba(255,255,255,0.06)";
-                    bar.style.boxShadow = isActive ? "0 0 12px rgba(124,58,237,0.5)" : "none";
-                    bar.style.height = isActive ? "32px" : "20px";
-                }
-                // Toggle icon
-                const icon = el.querySelector(".ind-icon") as HTMLElement;
-                if (icon) {
-                    icon.style.transform = isActive ? "scale(1.15)" : "scale(1)";
-                    icon.style.opacity = isActive ? "1" : "0.3";
-                    icon.style.color = isActive ? "#7c3aed" : "rgba(255,255,255,0.3)";
-                }
-                // Toggle description
-                const desc = el.querySelector(".ind-desc") as HTMLElement;
-                if (desc) {
-                    desc.style.maxHeight = isActive ? "40px" : "0px";
-                    desc.style.opacity = isActive ? "1" : "0";
-                    desc.style.marginTop = isActive ? "2px" : "0px";
-                }
-                // Toggle arrow
-                const arrow = el.querySelector(".ind-arrow") as HTMLElement;
-                if (arrow) {
-                    arrow.style.opacity = isActive ? "1" : "0";
-                    arrow.style.transform = isActive ? "translateX(0)" : "translateX(-8px)";
-                }
-            });
 
             // Animate orbital dots
             orbitDotsRef.current.forEach((dot, i) => {
@@ -189,10 +148,10 @@ export default function ExpressIndustries() {
                 </div>
 
                 {/* Content */}
-                <div className="relative z-10 flex flex-col h-full max-w-[1400px] mx-auto px-6 md:px-16 pt-16 md:pt-20">
+                <div className="relative z-10 flex flex-col h-full max-w-[1400px] mx-auto px-6 md:px-16 pt-24 md:pt-28">
 
                     {/* ── Header ── */}
-                    <motion.div className="mb-4" style={{ opacity: headerOpacity, y: headerY }}>
+                    <motion.div className="mb-2 text-center" style={{ opacity: headerOpacity, y: headerY }}>
                         <h2
                             ref={headingRef}
                             className="text-4xl md:text-[48px] font-extrabold tracking-tight leading-[1.1]"
@@ -200,14 +159,14 @@ export default function ExpressIndustries() {
                             <span className="ei-line inline text-white">Industries </span>
                             <span className="ei-line inline text-[#7c3aed]" data-color="#7c3aed">We Serve</span>
                         </h2>
-                        <p className="text-white/70 text-base max-w-lg leading-relaxed mt-4">
+                        <p className="text-white/70 text-base max-w-lg leading-relaxed mt-4 mx-auto">
                             Delivering across every sector — from food platforms to pharma,
                             we power hyperlocal fulfilment at scale.
                         </p>
                     </motion.div>
 
                     {/* ── Progress bar ── */}
-                    <div className="relative mb-6 hidden md:block">
+                    <div className="relative mb-8 hidden md:block">
                         <div className="h-[2px] w-full bg-white/[0.05] rounded-full overflow-hidden">
                             <motion.div
                                 className="h-full rounded-full"
@@ -220,182 +179,111 @@ export default function ExpressIndustries() {
                         </div>
                     </div>
 
-                    {/* ── Main: Left list + Right orbital ── */}
-                    <div className="flex flex-col lg:flex-row items-center flex-1 gap-6 lg:gap-4 min-h-0">
+                    {/* ── Centered orbital visualization ── */}
+                    <div className="flex-1 flex items-center justify-center">
+                        <div className="relative w-[340px] h-[340px] md:w-[440px] md:h-[440px]">
 
-                        {/* Left — scrolling industry list */}
-                        <div className="w-full lg:w-[38%] flex flex-col justify-center overflow-hidden">
-                            <div className="flex flex-col gap-0.5">
-                                {industries.map((ind, i) => (
-                                    <div
-                                        key={i}
-                                        ref={(el) => { listRefs.current[i] = el; }}
-                                        className="flex items-center gap-3 py-3 px-4 rounded-lg transition-colors duration-300"
-                                        style={{ opacity: i === 0 ? 1 : 0.25 }}
-                                    >
-                                        {/* Active bar */}
-                                        <div
-                                            className="ind-bar w-[3px] rounded-full transition-all duration-500 flex-shrink-0"
-                                            style={{
-                                                height: i === 0 ? "32px" : "20px",
-                                                background: i === 0 ? "#7c3aed" : "rgba(255,255,255,0.06)",
-                                                boxShadow: i === 0 ? "0 0 12px rgba(124,58,237,0.5)" : "none",
-                                            }}
-                                        />
+                            {/* Outer rotating ring */}
+                            <motion.div
+                                className="absolute inset-0 rounded-full border border-[#7c3aed]/10"
+                                style={{ rotate: ringRotation }}
+                            />
 
-                                        {/* Icon */}
-                                        <div
-                                            className="ind-icon transition-all duration-500 flex-shrink-0"
-                                            style={{
-                                                transform: i === 0 ? "scale(1.15)" : "scale(1)",
-                                                opacity: i === 0 ? 1 : 0.3,
-                                                color: i === 0 ? "#7c3aed" : "rgba(255,255,255,0.3)",
-                                            }}
-                                        >
-                                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                                                <path d={ind.icon} />
-                                            </svg>
-                                        </div>
+                            {/* Middle ring */}
+                            <div className="absolute inset-10 rounded-full border border-dashed border-[#7c3aed]/[0.06]" />
 
-                                        {/* Name + Desc */}
-                                        <div className="flex flex-col min-w-0">
-                                            <span className="text-sm md:text-base font-semibold text-white truncate">
-                                                {ind.name}
-                                            </span>
-                                            <span
-                                                className="ind-desc text-xs md:text-sm text-white/70 leading-snug overflow-hidden transition-all duration-500"
-                                                style={{
-                                                    maxHeight: i === 0 ? "40px" : "0px",
-                                                    opacity: i === 0 ? 1 : 0,
-                                                    marginTop: i === 0 ? "2px" : "0px",
-                                                }}
-                                            >
-                                                {ind.desc}
-                                            </span>
-                                        </div>
+                            {/* Inner glow */}
+                            <div className="absolute inset-20 rounded-full bg-[#7c3aed]/[0.03] blur-[30px]" />
 
-                                        {/* Arrow */}
-                                        <svg
-                                            className="ind-arrow w-4 h-4 ml-auto text-[#7c3aed] flex-shrink-0 transition-all duration-300"
-                                            style={{
-                                                opacity: i === 0 ? 1 : 0,
-                                                transform: i === 0 ? "translateX(0)" : "translateX(-8px)",
-                                            }}
-                                            fill="none" viewBox="0 0 16 16"
-                                        >
-                                            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                        </svg>
-                                    </div>
-                                ))}
+                            {/* Center content */}
+                            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-12 pointer-events-none">
+                                <span ref={centerNameRef} className="text-white font-bold text-xl md:text-2xl tracking-tight">
+                                    {industries[0].name}
+                                </span>
+                                <div className="mt-3 h-[2px] w-12 bg-gradient-to-r from-transparent via-[#7c3aed] to-transparent rounded-full" />
+                                <p ref={centerDescRef} className="text-white/70 text-sm md:text-base leading-relaxed mt-3 max-w-[240px]">
+                                    {industries[0].desc}
+                                </p>
                             </div>
-                        </div>
 
-                        {/* Right — Orbital visualization */}
-                        <div className="w-full lg:w-[62%] flex items-center justify-center">
-                            <div className="relative w-[340px] h-[340px] md:w-[440px] md:h-[440px]">
-
-                                {/* Outer rotating ring */}
-                                <motion.div
-                                    className="absolute inset-0 rounded-full border border-[#7c3aed]/10"
-                                    style={{ rotate: ringRotation }}
+                            {/* Connector line from above center to active dot */}
+                            <svg className="absolute inset-0 w-full h-full pointer-events-none">
+                                <line
+                                    ref={connectorRef}
+                                    x1="50%" y1="35%"
+                                    x2={`${50 + 48 * Math.cos((-90 * Math.PI) / 180)}%`}
+                                    y2={`${50 + 48 * Math.sin((-90 * Math.PI) / 180)}%`}
+                                    stroke="#7c3aed"
+                                    strokeWidth="1.5"
+                                    strokeDasharray="4 4"
+                                    opacity="0.5"
                                 />
-
-                                {/* Middle ring */}
-                                <div className="absolute inset-10 rounded-full border border-dashed border-[#7c3aed]/[0.06]" />
-
-                                {/* Inner glow */}
-                                <div className="absolute inset-20 rounded-full bg-[#7c3aed]/[0.03] blur-[30px]" />
-
-                                {/* Center content */}
-                                <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-8 pointer-events-none">
-                                    <span ref={centerNameRef} className="text-white font-bold text-lg md:text-xl tracking-tight">
-                                        {industries[0].name}
-                                    </span>
-                                    <div className="mt-2 h-[2px] w-10 bg-gradient-to-r from-transparent via-[#7c3aed] to-transparent rounded-full" />
-                                    <p ref={centerDescRef} className="text-white/70 text-sm leading-relaxed mt-2 max-w-[200px]">
-                                        {industries[0].desc}
-                                    </p>
-                                </div>
-
-                                {/* Connector line from above center to active dot */}
-                                <svg className="absolute inset-0 w-full h-full pointer-events-none">
-                                    <line
-                                        ref={connectorRef}
-                                        x1="50%" y1="35%"
-                                        x2={`${50 + 48 * Math.cos((-90 * Math.PI) / 180)}%`}
-                                        y2={`${50 + 48 * Math.sin((-90 * Math.PI) / 180)}%`}
-                                        stroke="#7c3aed"
-                                        strokeWidth="1.5"
-                                        strokeDasharray="4 4"
-                                        opacity="0.5"
-                                    />
-                                    {/* Faint lines to all dots */}
-                                    {industries.map((_, i) => {
-                                        const angle = (i / TOTAL) * 360 - 90;
-                                        const rad = (angle * Math.PI) / 180;
-                                        const x = 50 + 48 * Math.cos(rad);
-                                        const y = 50 + 48 * Math.sin(rad);
-                                        return (
-                                            <line
-                                                key={i}
-                                                x1="50%" y1="35%"
-                                                x2={`${x}%`} y2={`${y}%`}
-                                                stroke="rgba(255,255,255,0.03)"
-                                                strokeWidth="0.5"
-                                            />
-                                        );
-                                    })}
-                                </svg>
-
-                                {/* Orbiting dots */}
-                                {industries.map((ind, i) => {
+                                {/* Faint lines to all dots */}
+                                {industries.map((_, i) => {
                                     const angle = (i / TOTAL) * 360 - 90;
                                     const rad = (angle * Math.PI) / 180;
                                     const x = 50 + 48 * Math.cos(rad);
                                     const y = 50 + 48 * Math.sin(rad);
-
                                     return (
-                                        <div
+                                        <line
                                             key={i}
-                                            ref={(el) => { orbitDotsRef.current[i] = el; }}
-                                            className="absolute"
-                                            style={{
-                                                left: `${x}%`,
-                                                top: `${y}%`,
-                                                transform: "translate(-50%, -50%)",
-                                            }}
-                                        >
-                                            <div
-                                                className="orbit-inner relative flex items-center justify-center rounded-full transition-all duration-500"
-                                                style={{
-                                                    width: "40px",
-                                                    height: "40px",
-                                                    borderWidth: "2px",
-                                                    borderStyle: "solid",
-                                                    borderColor: i === 0 ? "#7c3aed" : "rgba(255,255,255,0.1)",
-                                                    background: i === 0 ? "rgba(124,58,237,0.2)" : "rgba(255,255,255,0.04)",
-                                                    boxShadow: i === 0 ? "0 0 20px rgba(124,58,237,0.4)" : "none",
-                                                    color: i === 0 ? "#7c3aed" : "rgba(255,255,255,0.3)",
-                                                }}
-                                            >
-                                                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                                                    <path d={ind.icon} />
-                                                </svg>
-                                                {/* Ping */}
-                                                <div
-                                                    className="orbit-ping absolute inset-0 rounded-full border border-[#7c3aed]/40 animate-ping"
-                                                    style={{ display: i === 0 ? "block" : "none" }}
-                                                />
-                                            </div>
-                                        </div>
+                                            x1="50%" y1="35%"
+                                            x2={`${x}%`} y2={`${y}%`}
+                                            stroke="rgba(255,255,255,0.03)"
+                                            strokeWidth="0.5"
+                                        />
                                     );
                                 })}
-                            </div>
+                            </svg>
+
+                            {/* Orbiting dots */}
+                            {industries.map((ind, i) => {
+                                const angle = (i / TOTAL) * 360 - 90;
+                                const rad = (angle * Math.PI) / 180;
+                                const x = 50 + 48 * Math.cos(rad);
+                                const y = 50 + 48 * Math.sin(rad);
+
+                                return (
+                                    <div
+                                        key={i}
+                                        ref={(el) => { orbitDotsRef.current[i] = el; }}
+                                        className="absolute"
+                                        style={{
+                                            left: `${x}%`,
+                                            top: `${y}%`,
+                                            transform: "translate(-50%, -50%)",
+                                        }}
+                                    >
+                                        <div
+                                            className="orbit-inner relative flex items-center justify-center rounded-full transition-all duration-500"
+                                            style={{
+                                                width: "44px",
+                                                height: "44px",
+                                                borderWidth: "2px",
+                                                borderStyle: "solid",
+                                                borderColor: i === 0 ? "#7c3aed" : "rgba(255,255,255,0.1)",
+                                                background: i === 0 ? "rgba(124,58,237,0.2)" : "rgba(255,255,255,0.04)",
+                                                boxShadow: i === 0 ? "0 0 20px rgba(124,58,237,0.4)" : "none",
+                                                color: i === 0 ? "#7c3aed" : "rgba(255,255,255,0.3)",
+                                            }}
+                                        >
+                                            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d={ind.icon} />
+                                            </svg>
+                                            {/* Ping */}
+                                            <div
+                                                className="orbit-ping absolute inset-0 rounded-full border border-[#7c3aed]/40 animate-ping"
+                                                style={{ display: i === 0 ? "block" : "none" }}
+                                            />
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
 
                     {/* ── Bottom dot navigation ── */}
-                    <div className="flex items-center justify-center gap-2 pb-6 md:pb-10">
+                    <div className="flex items-center justify-center gap-2 pt-8 pb-6 md:pt-10 md:pb-10">
                         {industries.map((_, i) => (
                             <DotNav key={i} index={i} scrollYProgress={scrollYProgress} />
                         ))}

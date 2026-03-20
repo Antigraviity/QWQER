@@ -3,7 +3,7 @@
 import Image from "next/image";
 
 const clients = [
-    { name: "KFC", src: "/express-clients/kfc.webp" },
+    { name: "KFC", src: "/express-clients/KFC.webp" },
     { name: "Rebel Foods", src: "/express-clients/rebel-foods.webp" },
     { name: "Tata 1mg", src: "/express-clients/tata-1mg.webp" },
     { name: "Zomato", src: "/fleet-clients/zomato.webp" },
@@ -11,12 +11,12 @@ const clients = [
     { name: "Apollo Pharmacy", src: "/express-clients/apollo-pharmacy.webp" },
     { name: "McDonald's", src: "/express-clients/mcdonalds.webp" },
     { name: "BigBasket", src: "/express-clients/bigbasket.webp" },
-    { name: "Magicpin", src: "/express-clients/magicpin.webp" },
-    { name: "Bakingo", src: "/express-clients/bakingo.webp" },
-    { name: "FnP", src: "/express-clients/fnp.webp" },
-    { name: "More", src: "/express-clients/more.webp" },
-    { name: "Ratnadeep", src: "/express-clients/ratnadeep.webp" },
-    { name: "Spar", src: "/express-clients/spar.webp" },
+    { name: "Magicpin", src: "/express-clients/Magicpin.webp" },
+    { name: "Bakingo", src: "/express-clients/Bakingo.webp" },
+    { name: "FnP", src: "/express-clients/Fnp.webp" },
+    { name: "More", src: "/express-clients/More.webp" },
+    { name: "Ratnadeep", src: "/express-clients/Ratnadeep.webp" },
+    { name: "Spar", src: "/express-clients/Spar.webp" },
     { name: "Sweet Karam Coffee", src: "/express-clients/sweet-karam-coffee.webp" },
 ];
 

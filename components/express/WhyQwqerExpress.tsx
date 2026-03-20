@@ -143,8 +143,8 @@ export default function WhyQwqerExpress() {
         }
 
         // Active card — map scroll to card index
-        const scrollRange = 0.80 - 0.15;
-        const normalized = Math.max(0, Math.min(1, (latest - 0.15) / scrollRange));
+        const scrollRange = 0.90 - 0.08;
+        const normalized = Math.max(0, Math.min(1, (latest - 0.08) / scrollRange));
         const idx = Math.min(TOTAL - 1, Math.floor(normalized * TOTAL));
 
         if (idx !== prevIndex.current && idx >= 0) {
@@ -192,10 +192,10 @@ export default function WhyQwqerExpress() {
     });
 
     // Progress bar
-    const progressWidth = useTransform(scrollYProgress, [0.15, 0.80], ["0%", "100%"]);
+    const progressWidth = useTransform(scrollYProgress, [0.08, 0.90], ["0%", "100%"]);
 
     return (
-        <section ref={sectionRef} className="relative h-[350vh] bg-black">
+        <section ref={sectionRef} className="relative h-[800vh] bg-black">
             {/* Sticky viewport */}
             <div className="sticky top-0 left-0 w-full h-screen overflow-hidden">
                 {/* Background */}
@@ -322,8 +322,8 @@ function DotIndicator({
 
     useMotionValueEvent(scrollYProgress, "change", (latest: number) => {
         if (!dotRef.current) return;
-        const scrollRange = 0.80 - 0.15;
-        const normalized = Math.max(0, Math.min(1, (latest - 0.15) / scrollRange));
+        const scrollRange = 0.90 - 0.08;
+        const normalized = Math.max(0, Math.min(1, (latest - 0.08) / scrollRange));
         const activeIdx = Math.min(TOTAL - 1, Math.floor(normalized * TOTAL));
         const isActive = activeIdx === index;
 
