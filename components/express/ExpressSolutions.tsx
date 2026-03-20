@@ -210,7 +210,7 @@ export default function ExpressSolutions() {
                     <div className="flex flex-1 min-h-0">
 
                     {/* ─── LEFT: Text list ─── */}
-                    <div className="flex flex-col justify-center w-full md:w-[45%] pr-0 md:pr-12">
+                    <div className="flex flex-col justify-center w-full md:w-1/2 pr-0 md:pr-12">
 
                         {/* Solution list with vertical progress bar */}
                         <div className="flex gap-5">
@@ -256,12 +256,12 @@ export default function ExpressSolutions() {
                     </div>
 
                     {/* ─── RIGHT: Image ─── */}
-                    <div className="hidden md:flex w-[55%] items-center justify-center relative">
+                    <div className="hidden md:flex w-1/2 items-center justify-center relative">
                         {/* Glow behind image */}
                         <div className="absolute w-[400px] h-[400px] bg-[#7c3aed]/[0.04] blur-[100px] rounded-full pointer-events-none" />
 
                         {/* Image stack — all positioned absolutely, opacity controlled by GSAP */}
-                        <div className="relative w-full h-[60vh] max-h-[500px]">
+                        <div className="relative w-full max-w-[520px] h-[55vh] max-h-[440px]">
                             {solutions.map((sol, i) => (
                                 <div
                                     key={i}
