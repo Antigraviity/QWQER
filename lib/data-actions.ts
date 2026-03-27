@@ -564,3 +564,189 @@ export async function submitJobApplication(prevState: State, formData: FormData)
     revalidatePath('/admin/careers');
     return { message: 'Application submitted successfully! We will get back to you soon.' };
 }
+
+// ═══════════════════════════════════════════
+// PR Post Actions
+// ═══════════════════════════════════════════
+
+export async function createPrPost(prevState: State, formData: FormData): Promise<State> {
+    await requireAdmin();
+    const validatedFields = CreatePost.safeParse({
+        title: formData.get('title'),
+        slug: formData.get('slug'),
+        excerpt: formData.get('excerpt'),
+        content: formData.get('content'),
+        image: formData.get('image'),
+        readTime: formData.get('readTime'),
+        date: formData.get('date'),
+    });
+
+    if (!validatedFields.success) {
+        return { errors: validatedFields.error.flatten().fieldErrors, message: 'Missing Fields. Failed to Create PR Post.' };
+    }
+
+    const { title, slug, excerpt, content, image, readTime, date } = validatedFields.data;
+
+    try {
+        await db.prPost.create({
+            data: {
+                title, slug, excerpt, content, image,
+                readTime: readTime || '5 min read',
+                date: date
+                    ? new Date(date + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+                    : new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+                published: true,
+            },
+        });
+    } catch (error) {
+        return { message: 'Database Error: Failed to Create PR Post.' };
+    }
+
+    revalidatePath('/resources');
+    revalidatePath('/admin/pr');
+    redirect('/admin/pr');
+}
+
+export async function updatePrPost(id: string, prevState: State, formData: FormData): Promise<State> {
+    await requireAdmin();
+    const validatedFields = PostSchema.safeParse({
+        title: formData.get('title'),
+        slug: formData.get('slug'),
+        excerpt: formData.get('excerpt'),
+        content: formData.get('content'),
+        image: formData.get('image'),
+        readTime: formData.get('readTime'),
+        date: formData.get('date'),
+    });
+
+    if (!validatedFields.success) {
+        return { errors: validatedFields.error.flatten().fieldErrors, message: 'Missing Fields. Failed to Update PR Post.' };
+    }
+
+    const { title, slug, excerpt, content, image, readTime, date } = validatedFields.data;
+
+    try {
+        await db.prPost.update({
+            where: { id },
+            data: {
+                title, slug, excerpt, content, image,
+                readTime: readTime || '5 min read',
+                date: date
+                    ? new Date(date + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+                    : undefined,
+            },
+        });
+    } catch (error) {
+        return { message: 'Database Error: Failed to Update PR Post.' };
+    }
+
+    revalidatePath('/resources');
+    revalidatePath('/admin/pr');
+    revalidatePath(`/post/${slug}`);
+    redirect('/admin/pr');
+}
+
+export async function deletePrPost(id: string) {
+    await requireAdmin();
+    try {
+        await db.prPost.delete({ where: { id } });
+        revalidatePath('/resources');
+        revalidatePath('/admin/pr');
+    } catch (error) {
+        console.error('Database Error: Failed to Delete PR Post.', error);
+        throw new Error('Failed to delete PR post');
+    }
+}
+
+// ═══════════════════════════════════════════
+// News Post Actions
+// ═══════════════════════════════════════════
+
+export async function createNewsPost(prevState: State, formData: FormData): Promise<State> {
+    await requireAdmin();
+    const validatedFields = CreatePost.safeParse({
+        title: formData.get('title'),
+        slug: formData.get('slug'),
+        excerpt: formData.get('excerpt'),
+        content: formData.get('content'),
+        image: formData.get('image'),
+        readTime: formData.get('readTime'),
+        date: formData.get('date'),
+    });
+
+    if (!validatedFields.success) {
+        return { errors: validatedFields.error.flatten().fieldErrors, message: 'Missing Fields. Failed to Create News Post.' };
+    }
+
+    const { title, slug, excerpt, content, image, readTime, date } = validatedFields.data;
+
+    try {
+        await db.newsPost.create({
+            data: {
+                title, slug, excerpt, content, image,
+                readTime: readTime || '5 min read',
+                date: date
+                    ? new Date(date + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+                    : new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+                published: true,
+            },
+        });
+    } catch (error) {
+        return { message: 'Database Error: Failed to Create News Post.' };
+    }
+
+    revalidatePath('/resources');
+    revalidatePath('/admin/news');
+    redirect('/admin/news');
+}
+
+export async function updateNewsPost(id: string, prevState: State, formData: FormData): Promise<State> {
+    await requireAdmin();
+    const validatedFields = PostSchema.safeParse({
+        title: formData.get('title'),
+        slug: formData.get('slug'),
+        excerpt: formData.get('excerpt'),
+        content: formData.get('content'),
+        image: formData.get('image'),
+        readTime: formData.get('readTime'),
+        date: formData.get('date'),
+    });
+
+    if (!validatedFields.success) {
+        return { errors: validatedFields.error.flatten().fieldErrors, message: 'Missing Fields. Failed to Update News Post.' };
+    }
+
+    const { title, slug, excerpt, content, image, readTime, date } = validatedFields.data;
+
+    try {
+        await db.newsPost.update({
+            where: { id },
+            data: {
+                title, slug, excerpt, content, image,
+                readTime: readTime || '5 min read',
+                date: date
+                    ? new Date(date + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+                    : undefined,
+            },
+        });
+    } catch (error) {
+        return { message: 'Database Error: Failed to Update News Post.' };
+    }
+
+    revalidatePath('/resources');
+    revalidatePath('/admin/news');
+    revalidatePath(`/post/${slug}`);
+    redirect('/admin/news');
+}
+
+export async function deleteNewsPost(id: string) {
+    await requireAdmin();
+    try {
+        await db.newsPost.delete({ where: { id } });
+        revalidatePath('/resources');
+        revalidatePath('/admin/news');
+    } catch (error) {
+        console.error('Database Error: Failed to Delete News Post.', error);
+        throw new Error('Failed to delete news post');
+    }
+}

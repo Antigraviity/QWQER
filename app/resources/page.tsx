@@ -18,25 +18,20 @@ export const metadata: Metadata = {
     alternates: { canonical: 'https://qwqer.in/resources' },
 };
 
+const postSelect = { title: true, slug: true, image: true, date: true, readTime: true, excerpt: true };
+
 export default async function ResourcesPage() {
-    const posts = await db.post.findMany({
-        where: { published: true },
-        orderBy: { createdAt: 'desc' },
-        select: {
-            title: true,
-            slug: true,
-            image: true,
-            date: true,
-            readTime: true,
-            excerpt: true,
-        },
-    });
+    const [posts, prPosts, newsPosts] = await Promise.all([
+        db.post.findMany({ where: { published: true }, orderBy: { createdAt: 'desc' }, select: postSelect }),
+        db.prPost.findMany({ where: { published: true }, orderBy: { createdAt: 'desc' }, select: postSelect }).catch(() => []),
+        db.newsPost.findMany({ where: { published: true }, orderBy: { createdAt: 'desc' }, select: postSelect }).catch(() => []),
+    ]);
 
     return (
         <main className="min-h-screen bg-white text-gray-900 selection:bg-[#ee3425] selection:text-white relative font-sans overflow-x-hidden">
             <Navbar />
             <ResourcesHero />
-            <BlogGrid posts={posts} />
+            <BlogGrid posts={posts} prPosts={prPosts} newsPosts={newsPosts} />
             <Footer />
         </main>
     );

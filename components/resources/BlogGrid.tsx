@@ -37,14 +37,14 @@ type BlogPost = {
     excerpt: string | null;
 };
 
-export default function BlogGrid({ posts }: { posts: BlogPost[] }) {
+export default function BlogGrid({ posts, prPosts = [], newsPosts = [] }: { posts: BlogPost[]; prPosts?: BlogPost[]; newsPosts?: BlogPost[] }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [activeTab, setActiveTab] = useState("Blogs");
 
     const TAB_CONTENT: Record<string, BlogPost[]> = {
         Blogs: posts,
-        "Public Relations": [],
-        News: [],
+        "Public Relations": prPosts,
+        News: newsPosts,
     };
 
     const currentPosts = TAB_CONTENT[activeTab] || [];
@@ -89,8 +89,10 @@ export default function BlogGrid({ posts }: { posts: BlogPost[] }) {
                 {/* Content grid or empty state */}
                 {paginatedPosts.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-                        {paginatedPosts.map((post: any, i: number) => (
-                            <Link key={`${post.slug}-${i}`} href={`/post/${post.slug}`} className="group block rounded-2xl overflow-hidden border border-gray-200 bg-white hover:border-[#ee3425]/30 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1">
+                        {paginatedPosts.map((post: any, i: number) => {
+                            const linkPrefix = activeTab === "Public Relations" ? "/pr" : activeTab === "News" ? "/news" : "/post";
+                            return (
+                            <Link key={`${post.slug}-${i}`} href={`${linkPrefix}/${post.slug}`} className="group block rounded-2xl overflow-hidden border border-gray-200 bg-white hover:border-[#ee3425]/30 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1">
                                 <div className="relative h-44 w-full overflow-hidden">
                                     {post.image ? (
                                         <Image src={post.image} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -110,7 +112,8 @@ export default function BlogGrid({ posts }: { posts: BlogPost[] }) {
                                     </span>
                                 </div>
                             </Link>
-                        ))}
+                            );
+                        })}
                     </div>
                 ) : (
                     <div className="flex flex-col items-center justify-center py-24 mb-10">

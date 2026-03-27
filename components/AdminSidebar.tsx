@@ -3,12 +3,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { FaChartBar, FaNewspaper, FaEnvelope, FaSignOutAlt, FaCog, FaBriefcase } from 'react-icons/fa';
+import { FaChartBar, FaNewspaper, FaEnvelope, FaSignOutAlt, FaCog, FaBriefcase, FaBullhorn, FaRegNewspaper } from 'react-icons/fa';
 import { signOut } from 'next-auth/react';
 
 const navItems = [
     { href: '/admin', label: 'Overview', icon: FaChartBar, exact: true },
     { href: '/admin/blog', label: 'Blogs', icon: FaNewspaper },
+    { href: '/admin/pr', label: 'Public Relations', icon: FaBullhorn },
+    { href: '/admin/news', label: 'News', icon: FaRegNewspaper },
     { href: '/admin/careers', label: 'Careers', icon: FaBriefcase },
     { href: '/admin/enquiries', label: 'Enquiries', icon: FaEnvelope },
     { href: '/admin/settings', label: 'Settings', icon: FaCog },

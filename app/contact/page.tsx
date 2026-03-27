@@ -41,25 +41,25 @@ export default function ContactPage() {
                             <div className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-white/10" />
                             <div className="relative z-10 space-y-7">
                                 <div>
-                                    <h3 className="text-base font-bold mb-3">Express Customer Support</h3>
+                                    <h3 className="text-base font-bold mb-3">Express Business Enquiry</h3>
                                     <div className="space-y-2">
                                         <a href="tel:02250534575" className="flex items-center gap-3 text-sm text-white/90 hover:text-white transition-colors"><FaPhone className="text-xs" /> 02250534575</a>
                                         <a href="https://wa.me/917356124443" className="flex items-center gap-3 text-sm text-white/90 hover:text-white transition-colors"><FaWhatsapp className="text-sm" /> +91 7356124443</a>
-                                        <a href="mailto:info@qwqer.in" className="flex items-center gap-3 text-sm text-white/90 hover:text-white transition-colors"><FaEnvelope className="text-xs" /> info@qwqer.in</a>
+                                        <a href="mailto:ask.express@qwqer.in" className="flex items-center gap-3 text-sm text-white/90 hover:text-white transition-colors"><FaEnvelope className="text-xs" /> ask.express@qwqer.in</a>
                                     </div>
                                 </div>
                                 <div>
                                     <h3 className="text-base font-bold mb-3">Fleet Business Enquiry</h3>
                                     <div className="space-y-2">
                                         <a href="tel:+918138023019" className="flex items-center gap-3 text-sm text-white/90 hover:text-white transition-colors"><FaPhone className="text-xs" /> +91 81380 23019</a>
-                                        <a href="mailto:ask.fleet@qwqtech.com" className="flex items-center gap-3 text-sm text-white/90 hover:text-white transition-colors"><FaEnvelope className="text-xs" /> ask.fleet@qwqtech.com</a>
+                                        <a href="mailto:ask.fleet@qwytech.com" className="flex items-center gap-3 text-sm text-white/90 hover:text-white transition-colors"><FaEnvelope className="text-xs" /> ask.fleet@qwytech.com</a>
                                     </div>
                                 </div>
                                 <div>
                                     <h3 className="text-base font-bold mb-3">Fleet Customer Support</h3>
                                     <div className="space-y-2">
-                                        <a href="tel:+918138023019" className="flex items-center gap-3 text-sm text-white/90 hover:text-white transition-colors"><FaPhone className="text-xs" /> +91 81380 23019</a>
-                                        <a href="mailto:ask.fleet@qwqtech.com" className="flex items-center gap-3 text-sm text-white/90 hover:text-white transition-colors"><FaEnvelope className="text-xs" /> ask.fleet@qwqtech.com</a>
+                                        <a href="tel:+917356324756" className="flex items-center gap-3 text-sm text-white/90 hover:text-white transition-colors"><FaPhone className="text-xs" /> +91 73563 24756</a>
+                                        <a href="mailto:ask.fleet@qwytech.com" className="flex items-center gap-3 text-sm text-white/90 hover:text-white transition-colors"><FaEnvelope className="text-xs" /> ask.fleet@qwytech.com</a>
                                     </div>
                                 </div>
                                 <div>

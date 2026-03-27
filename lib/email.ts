@@ -1,6 +1,6 @@
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || 'qwqer.marketing@gmail.com';
-const FROM_EMAIL = process.env.FROM_EMAIL || 'QWQER <onboarding@resend.dev>';
+const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || 'resmi.remasen@qwytech.com';
+const FROM_EMAIL = process.env.FROM_EMAIL || 'QWQER <noreply@qwqer.in>';
 
 function esc(str: string): string {
     return str
@@ -90,7 +90,7 @@ export async function sendEnquiryNotification(data: EnquiryEmailData) {
             </table>
             <div style="margin-top: 24px; padding: 16px; background: #fef2f2; border-radius: 8px; border-left: 4px solid #ee3425;">
                 <p style="margin: 0; font-size: 13px; color: #991b1b;">
-                    Reply directly to this email or view in the <a href="https://qwqer.antigraviity.com/admin/enquiries" style="color: #ee3425; font-weight: 600;">Admin Dashboard</a>
+                    Reply directly to this email or view in the <a href="https://qwqer.in/admin/enquiries" style="color: #ee3425; font-weight: 600;">Admin Dashboard</a>
                 </p>
             </div>
         </div>
@@ -120,8 +120,8 @@ export async function sendEnquiryNotification(data: EnquiryEmailData) {
                 In the meantime, feel free to explore our services:
             </p>
             <div style="text-align: center; margin: 24px 0;">
-                <a href="https://qwqer.antigraviity.com/express" style="display: inline-block; background: #ee3425; color: white; text-decoration: none; padding: 12px 32px; border-radius: 8px; font-size: 14px; font-weight: 600; margin: 0 6px 8px;">Express Delivery</a>
-                <a href="https://qwqer.antigraviity.com/fleet" style="display: inline-block; background: #111827; color: white; text-decoration: none; padding: 12px 32px; border-radius: 8px; font-size: 14px; font-weight: 600; margin: 0 6px 8px;">Fleet Services</a>
+                <a href="https://qwqer.in/express" style="display: inline-block; background: #ee3425; color: white; text-decoration: none; padding: 12px 32px; border-radius: 8px; font-size: 14px; font-weight: 600; margin: 0 6px 8px;">Express Delivery</a>
+                <a href="https://qwqer.in/fleet" style="display: inline-block; background: #111827; color: white; text-decoration: none; padding: 12px 32px; border-radius: 8px; font-size: 14px; font-weight: 600; margin: 0 6px 8px;">Fleet Services</a>
             </div>
             <hr style="border: none; border-top: 1px solid #f3f4f6; margin: 24px 0;" />
             <p style="font-size: 13px; color: #6b7280; margin: 0 0 4px;">Need urgent help?</p>
@@ -236,7 +236,7 @@ export async function sendJobApplicationNotification(data: JobApplicationEmailDa
             </table>
             <div style="margin-top: 24px; padding: 16px; background: #fef2f2; border-radius: 8px; border-left: 4px solid #ee3425;">
                 <p style="margin: 0; font-size: 13px; color: #991b1b;">
-                    View all applications in the <a href="https://qwqer.antigraviity.com/admin/careers?tab=applications" style="color: #ee3425; font-weight: 600;">Admin Dashboard</a>
+                    View all applications in the <a href="https://qwqer.in/admin/careers?tab=applications" style="color: #ee3425; font-weight: 600;">Admin Dashboard</a>
                 </p>
             </div>
         </div>
@@ -273,7 +273,7 @@ export async function sendJobApplicationNotification(data: JobApplicationEmailDa
             <hr style="border: none; border-top: 1px solid #f3f4f6; margin: 24px 0;" />
             <p style="font-size: 13px; color: #6b7280; margin: 0 0 4px;">Questions about your application?</p>
             <p style="font-size: 13px; color: #111827; margin: 0;">
-                Email us at <a href="mailto:qwqer.marketing@gmail.com" style="color: #ee3425; text-decoration: none; font-weight: 600;">qwqer.marketing@gmail.com</a>
+                Email us at <a href="mailto:resmi.remasen@qwytech.com" style="color: #ee3425; text-decoration: none; font-weight: 600;">resmi.remasen@qwytech.com</a>
             </p>
         </div>
         <div style="background: #111827; padding: 24px 32px; text-align: center;">

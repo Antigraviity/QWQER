@@ -75,6 +75,34 @@ model Enquiry {
   updatedAt DateTime @updatedAt
 }
 
+model PrPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String   @db.VarChar(500)
+  excerpt     String?  @db.Text
+  content     String   @db.LongText
+  image       String?  @db.VarChar(500)
+  readTime    String?  @default("5 min read")
+  published   Boolean  @default(false)
+  date        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model NewsPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String   @db.VarChar(500)
+  excerpt     String?  @db.Text
+  content     String   @db.LongText
+  image       String?  @db.VarChar(500)
+  readTime    String?  @default("5 min read")
+  published   Boolean  @default(false)
+  date        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 model EmailOtp {
   id        String   @id @default(cuid())
   userId    String

@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { FaNewspaper, FaEnvelope, FaBriefcase, FaUsers, FaCircle } from 'react-icons/fa';
+import { FaNewspaper, FaEnvelope, FaBriefcase, FaUsers, FaCircle, FaBullhorn, FaRegNewspaper } from 'react-icons/fa';
 import Link from 'next/link';
 import AutoRefresh from '@/components/AutoRefresh';
 
@@ -9,6 +9,13 @@ export default async function AdminPage() {
     const postCount = await db.post.count();
     const enquiryCount = await db.enquiry.count();
     const newEnquiryCount = await db.enquiry.count({ where: { status: 'NEW' } });
+
+    let prCount = 0;
+    let newsCount = 0;
+    try {
+        prCount = await db.prPost.count();
+        newsCount = await db.newsPost.count();
+    } catch (e) { /* tables may not exist yet */ }
 
     let careerCount = 0;
     let applicationCount = 0;
@@ -66,6 +73,30 @@ export default async function AdminPage() {
                         )}
                     </div>
                     <p className="text-3xl font-bold text-gray-900">{enquiryCount}</p>
+                </Link>
+
+                <Link href="/admin/pr" className="rounded-xl bg-white p-5 shadow-sm border border-gray-200 hover:border-[#ee3425]/30 transition-colors group">
+                    <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                            <div className="w-9 h-9 rounded-lg bg-yellow-50 flex items-center justify-center">
+                                <FaBullhorn className="h-4 w-4 text-yellow-600" />
+                            </div>
+                            <h3 className="text-sm font-medium text-gray-600">PR Posts</h3>
+                        </div>
+                    </div>
+                    <p className="text-3xl font-bold text-gray-900">{prCount}</p>
+                </Link>
+
+                <Link href="/admin/news" className="rounded-xl bg-white p-5 shadow-sm border border-gray-200 hover:border-[#ee3425]/30 transition-colors group">
+                    <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                            <div className="w-9 h-9 rounded-lg bg-indigo-50 flex items-center justify-center">
+                                <FaRegNewspaper className="h-4 w-4 text-indigo-500" />
+                            </div>
+                            <h3 className="text-sm font-medium text-gray-600">News Posts</h3>
+                        </div>
+                    </div>
+                    <p className="text-3xl font-bold text-gray-900">{newsCount}</p>
                 </Link>
 
                 <Link href="/admin/careers" className="rounded-xl bg-white p-5 shadow-sm border border-gray-200 hover:border-[#ee3425]/30 transition-colors group">
