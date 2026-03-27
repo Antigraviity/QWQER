@@ -7,37 +7,28 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const steps = [
     {
-        title: "Real Time Tracking",
+        title: "Vast Rider Network",
         description:
-            "Track every shipment live and maintain full visibility across business delivery workflows.",
+            "A vast rider network built to handle hyperlocal deliveries at scale, without ever missing a beat.",
         icon: (
             <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="24" cy="24" r="18" stroke="#7c3aed" strokeWidth="2.5" />
-                <path d="M24 14v10l6 4" stroke="#7c3aed" strokeWidth="2.5" strokeLinecap="round" />
-                <circle cx="24" cy="24" r="2" fill="#7c3aed" />
-                <path d="M24 6a18 18 0 0 1 12.7 30.7" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" opacity="0.3" />
+                <circle cx="16" cy="16" r="5" stroke="#7c3aed" strokeWidth="2" />
+                <circle cx="32" cy="16" r="5" stroke="#7c3aed" strokeWidth="2" />
+                <circle cx="24" cy="32" r="5" stroke="#7c3aed" strokeWidth="2" />
+                <path d="M20 18l4 10M28 18l-4 10" stroke="#7c3aed" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
+                <path d="M11 16h-3M40 16h-3M24 40v3" stroke="#7c3aed" strokeWidth="2" strokeLinecap="round" />
+                <circle cx="24" cy="24" r="18" stroke="#7c3aed" strokeWidth="1.5" opacity="0.2" />
             </svg>
         ),
     },
     {
         title: "System-Ready Integration",
         description:
-            "Integrate seamlessly with your OMS, ERP, or internal tools to automate delivery allocation and tracking.",
+            "Integrate seamlessly with your OMS, ERP or internal tools to automate delivery allocation and tracking, with AI-driven processes engineered to accelerate speed and keep your operations running without interruption.",
         icon: (
             <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" xmlns="http://www.w3.org/2000/svg">
                 <path d="M24 8l4 4-4 4-4-4 4-4zm10 10l4 4-4 4-4-4 4-4zm-20 0l4 4-4 4-4-4 4-4zm10 10l4 4-4 4-4-4 4-4z" stroke="#7c3aed" strokeWidth="2" strokeLinejoin="round" />
                 <circle cx="24" cy="24" r="4" fill="#7c3aed" opacity="0.25" />
-            </svg>
-        ),
-    },
-    {
-        title: "High-Volume Fulfilment Efficiency",
-        description:
-            "Manage hyperlocal deliveries at scale through our vast rider network.",
-        icon: (
-            <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="24" cy="24" r="14" stroke="#7c3aed" strokeWidth="2.5" />
-                <path d="M24 14l2.4 7.2H34l-6.2 4.6 2.4 7.2L24 29l-6.2 4.8 2.4-7.2L14 21.2h7.6L24 14z" fill="#7c3aed" opacity="0.8" />
             </svg>
         ),
     },
@@ -55,39 +46,13 @@ const steps = [
         ),
     },
     {
-        title: "Scalable Solutions That Grow with Your Business",
+        title: "High-Volume Fulfilment Efficiency",
         description:
-            "Scalable solutions that grow with your business — from a few deliveries a day to thousands.",
+            "Manage hyperlocal deliveries at scale through our vast rider network.",
         icon: (
             <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" xmlns="http://www.w3.org/2000/svg">
-                <path d="M24 10a14 14 0 100 28 14 14 0 000-28z" stroke="#7c3aed" strokeWidth="2.5" />
-                <circle cx="24" cy="24" r="5" stroke="#7c3aed" strokeWidth="2" />
-                <path d="M24 4v4M24 40v4M4 24h4M40 24h4" stroke="#7c3aed" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-        ),
-    },
-    {
-        title: "Streamlined Processes for Faster Turnaround",
-        description:
-            "Streamlined processes for faster turnaround — reducing delays and improving delivery speed at every step.",
-        icon: (
-            <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" xmlns="http://www.w3.org/2000/svg">
-                <rect x="8" y="6" width="32" height="26" rx="3" stroke="#7c3aed" strokeWidth="2.5" />
-                <path d="M18 38h12M24 32v6" stroke="#7c3aed" strokeWidth="2" strokeLinecap="round" />
-                <path d="M16 18l4 4 8-8" stroke="#7c3aed" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-        ),
-    },
-    {
-        title: "Proactive Problem Solving and Continuous Improvement",
-        description:
-            "Proactive problem solving and continuous improvement — we identify issues before they impact your operations.",
-        icon: (
-            <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="24" cy="24" r="18" stroke="#7c3aed" strokeWidth="2.5" />
-                <path d="M24 12v12l8 4" stroke="#7c3aed" strokeWidth="2.5" strokeLinecap="round" />
-                <path d="M36 10l2-2M12 10l-2-2" stroke="#7c3aed" strokeWidth="2" strokeLinecap="round" />
-                <path d="M24 6v2" stroke="#7c3aed" strokeWidth="2" strokeLinecap="round" />
+                <circle cx="24" cy="24" r="14" stroke="#7c3aed" strokeWidth="2.5" />
+                <path d="M24 14l2.4 7.2H34l-6.2 4.6 2.4 7.2L24 29l-6.2 4.8 2.4-7.2L14 21.2h7.6L24 14z" fill="#7c3aed" opacity="0.8" />
             </svg>
         ),
     },
@@ -195,7 +160,7 @@ export default function WhyQwqerExpress() {
     const progressWidth = useTransform(scrollYProgress, [0.08, 0.90], ["0%", "100%"]);
 
     return (
-        <section ref={sectionRef} className="relative h-[800vh] bg-black">
+        <section ref={sectionRef} className="relative h-[500vh] bg-black">
             {/* Sticky viewport */}
             <div className="sticky top-0 left-0 w-full h-screen overflow-hidden">
                 {/* Background */}

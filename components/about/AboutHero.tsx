@@ -257,7 +257,7 @@ export default function AboutHero() {
       </div>
 
       {/* ── Milestone Timeline ──────────────────────────────────── */}
-      <div className="relative z-10 w-full mt-10 md:mt-14 pb-10 md:pb-14">
+      <div className="relative z-10 w-full mt-6 md:mt-8 pb-4 md:pb-6">
         <div className="relative mx-6 md:mx-14 lg:mx-20 max-w-[1300px] xl:mx-auto">
           <div className="relative w-full" style={{ minHeight: "280px" }}>
 
@@ -411,7 +411,7 @@ export default function AboutHero() {
 
       {/* ── Bottom separator ──────────────────────────────────── */}
       <div className="absolute bottom-0 left-0 w-full z-20 pointer-events-none">
-        <div className="w-full h-28" style={{ background: "linear-gradient(to bottom, transparent 0%, #000 100%)" }} />
+        <div className="w-full h-16" style={{ background: "linear-gradient(to bottom, transparent 0%, #000 100%)" }} />
         {/* Accent line */}
         <div
           className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[1px]"

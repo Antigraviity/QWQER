@@ -7,40 +7,28 @@ import gsap from "gsap";
 
 const solutions = [
     {
-        title: "On-Demand Deliveries",
+        title: "On-Demand Delivery",
         description:
-            "Instant pickup and delivery for time-sensitive orders, enabled by rapid rider allocation and flexible capacity.",
+            "No waiting, no delays. Instant pickup and delivery powered by rapid rider allocation and a flexible capacity network ready to move the moment an order comes in.",
         image: "/express-solutions/on-demand-deliveries.webp",
     },
     {
-        title: "Batch Deliveries",
+        title: "Batch Delivery",
         description:
-            "Efficient single-pickup, multi-drop deliveries designed to handle high-volume dispatches at scale.",
+            "One pickup, multiple drops. QWQER Express consolidates high volume dispatches into a single efficient run, cutting costs and keeping fulfilment fast at scale.",
         image: "/express-solutions/batch-deliveries.webp",
     },
     {
-        title: "Same-Day Deliveries",
+        title: "Same-Day Delivery",
         description:
-            "Reliable same-day fulfilment for intra-city orders, ensuring faster turnaround without compromising scale or reliability.",
+            "Order placed today, delivered today. QWQER Express ensures intra-city orders reach their destination the same day, keeping customers satisfied and operations running at full speed.",
         image: "/express-solutions/same-day-deliveries.webp",
-    },
-    {
-        title: "Mid-mile to Last-mile Fulfilment",
-        description:
-            "End-to-end movement from hubs to stores and from stores to customers within city limits.",
-        image: "/express-solutions/mid-mile-last-mile-fulfilment.webp",
     },
     {
         title: "Scheduled Deliveries",
         description:
-            "Planned, same-day and next-day routes designed for predictable, recurring operations.",
+            "Lock in same-day and next-day delivery routes in advance, ensuring predictable, recurring operations run like clockwork without any last-minute surprises.",
         image: "/express-solutions/scheduled-deliveries.webp",
-    },
-    {
-        title: "Multi-drop Distribution",
-        description:
-            "Single-pickup, multiple-drop delivery models optimised for efficiency and cost control.",
-        image: "/express-solutions/multi-drop-distribution.webp",
     },
 ];
 
@@ -164,7 +152,7 @@ export default function ExpressSolutions() {
                 // Expand description
                 const activeDesc = titleRefs.current[idx]?.querySelector(".es-desc") as HTMLElement;
                 if (activeDesc) {
-                    activeDesc.style.maxHeight = "80px";
+                    activeDesc.style.maxHeight = "120px";
                     activeDesc.style.opacity = "1";
                 }
             }
@@ -241,7 +229,7 @@ export default function ExpressSolutions() {
                                         </h3>
                                         <p className="text-white/70 text-sm leading-relaxed es-desc max-w-sm"
                                             style={{
-                                                maxHeight: i === 0 ? "80px" : "0px",
+                                                maxHeight: i === 0 ? "120px" : "0px",
                                                 overflow: "hidden",
                                                 opacity: i === 0 ? 1 : 0,
                                                 transition: "max-height 0.5s ease, opacity 0.4s ease",

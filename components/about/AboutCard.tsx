@@ -101,7 +101,7 @@ export default function AboutCard() {
   return (
     <section
       ref={sectionRef}
-      className="bg-black py-14 md:py-16 px-4 md:px-8 relative overflow-hidden"
+      className="bg-black py-6 md:py-8 px-4 md:px-8 relative overflow-hidden"
     >
       {/* Ambient */}
       <div

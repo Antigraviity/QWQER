@@ -25,6 +25,7 @@ const CITIES = [
   { name: "Lucknow",   x: latLonToNorm(26.85, 80.95)[0], y: latLonToNorm(26.85, 80.95)[1] },
   { name: "Kochi",     x: latLonToNorm(9.93, 76.27)[0],  y: latLonToNorm(9.93, 76.27)[1] },
   { name: "Indore",    x: latLonToNorm(22.72, 75.86)[0], y: latLonToNorm(22.72, 75.86)[1] },
+  { name: "Srinagar",  x: latLonToNorm(34.08, 74.79)[0], y: latLonToNorm(34.08, 74.79)[1] },
 ];
 
 const ROUTES = [
@@ -40,6 +41,7 @@ const ROUTES = [
   [5, 2],  // Kolkata → Bangalore
   [10, 2], // Kochi → Bangalore
   [11, 0], // Indore → Mumbai
+  [12, 1], // Srinagar → Delhi
 ];
 
 /* India outline — highly detailed polygon traced from actual boundary coordinates.
@@ -724,6 +726,57 @@ export default function GlobeFleet() {
       if (reveal < 0.6) { rafRef.current = requestAnimationFrame(draw); ctx.globalAlpha = 1; return; }
       const truckAlpha = Math.min(1, (reveal - 0.6) / 0.4);
 
+      // South Indian Express cities use scooter icons
+      const SCOOTER_CITIES = new Set([2, 3, 4, 10]); // Bangalore, Chennai, Hyderabad, Kochi
+
+      /* Helper: draw a scooter icon at position, rotated to face direction */
+      function drawScooterIcon(tctx: CanvasRenderingContext2D, px: number, py: number, angle: number, s: number) {
+        tctx.save();
+        tctx.translate(px, py);
+        tctx.rotate(angle);
+
+        // Glow behind scooter (purple for Express)
+        const glow = tctx.createRadialGradient(0, 0, 0, 0, 0, s * 3);
+        glow.addColorStop(0, `rgba(108,58,224,0.6)`);
+        glow.addColorStop(1, `rgba(108,58,224,0)`);
+        tctx.beginPath();
+        tctx.arc(0, 0, s * 3, 0, Math.PI * 2);
+        tctx.fillStyle = glow;
+        tctx.fill();
+
+        // Scooter body (sleek elongated shape)
+        const bw = s * 2.2;
+        const bh = s * 1.0;
+        tctx.beginPath();
+        tctx.roundRect(-bw * 0.4, -bh / 2, bw, bh, s * 0.4);
+        tctx.fillStyle = `rgb(108,58,224)`;
+        tctx.fill();
+
+        // Handlebar (front)
+        tctx.beginPath();
+        tctx.roundRect(bw * 0.45, -bh * 0.8, s * 0.5, bh * 1.6, s * 0.2);
+        tctx.fillStyle = `rgba(200,200,200,0.8)`;
+        tctx.fill();
+
+        // Seat (small bump on top)
+        tctx.beginPath();
+        tctx.ellipse(-s * 0.1, -bh * 0.5, s * 0.6, s * 0.25, 0, 0, Math.PI * 2);
+        tctx.fillStyle = `rgba(60,30,120,0.9)`;
+        tctx.fill();
+
+        // Front wheel
+        tctx.fillStyle = 'rgba(80,80,80,0.9)';
+        tctx.beginPath();
+        tctx.arc(bw * 0.35, bh / 2 + s * 0.15, s * 0.3, 0, Math.PI * 2);
+        tctx.fill();
+        // Rear wheel
+        tctx.beginPath();
+        tctx.arc(-bw * 0.25, bh / 2 + s * 0.15, s * 0.3, 0, Math.PI * 2);
+        tctx.fill();
+
+        tctx.restore();
+      }
+
       /* Helper: draw a small truck icon at position, rotated to face direction */
       function drawTruckIcon(tctx: CanvasRenderingContext2D, px: number, py: number, angle: number, s: number) {
         tctx.save();
@@ -824,12 +877,18 @@ export default function GlobeFleet() {
         ctx.stroke();
         ctx.setLineDash([]);
 
-        // ── Draw truck icon at current position ──
+        // ── Draw vehicle icon at current position ──
         const tp = getArcPoint(fx, fy, tx, ty, truck.progress, w, h);
         // Get direction angle from a point slightly behind
         const ahead = getArcPoint(fx, fy, tx, ty, Math.min(1, truck.progress + 0.02), w, h);
         const angle = Math.atan2(ahead.y - tp.y, ahead.x - tp.x);
-        drawTruckIcon(ctx, tp.x, tp.y, angle, 5.5);
+        // Use scooter for routes where BOTH cities are South Indian Express cities
+        const isScooterRoute = SCOOTER_CITIES.has(truck.from) && SCOOTER_CITIES.has(truck.to);
+        if (isScooterRoute) {
+          drawScooterIcon(ctx, tp.x, tp.y, angle, 5.5);
+        } else {
+          drawTruckIcon(ctx, tp.x, tp.y, angle, 5.5);
+        }
 
         ctx.globalAlpha = mapAlpha;
       });
@@ -938,26 +997,10 @@ export default function GlobeFleet() {
             </h2>
 
             <p className="gf-desc text-white/70 text-[15px] md:text-base leading-[1.8] mb-8">
-              Our fleet network spans major Indian cities, delivering goods
-              across intercity corridors with real-time tracking, optimized
-              routes, and operational precision — from first mile to final
-              doorstep.
+              From hyperlocal last mile deliveries across South India to intercity full truckload trips spanning corridors across India, QWQER Fleet and Express together cover every mile of your supply chain. Backed by real-time visibility, optimised routing and operational precision, the network is built to keep commerce moving seamlessly across every corridor, every city and every doorstep, ensuring your business never misses a beat.
             </p>
 
-            <div className="flex gap-8 md:gap-12">
-              <div className="gf-stat">
-                <div className="gf-counter text-2xl md:text-3xl font-black text-white" data-target="10" data-suffix="+">0+</div>
-                <div className="text-[12px] text-white/70 mt-1 uppercase tracking-wider">Major Cities</div>
-              </div>
-              <div className="gf-stat">
-                <div className="gf-counter text-2xl md:text-3xl font-black text-white" data-target="200" data-suffix="+">0+</div>
-                <div className="text-[12px] text-white/70 mt-1 uppercase tracking-wider">Clients Served</div>
-              </div>
-              <div className="gf-stat">
-                <div className="gf-counter text-2xl md:text-3xl font-black text-white" data-target="300000" data-suffix="+">0+</div>
-                <div className="text-[12px] text-white/70 mt-1 uppercase tracking-wider">Trips Completed</div>
-              </div>
-            </div>
+
           </div>
 
           {/* Right: India Map Canvas */}

@@ -60,69 +60,68 @@ export default function CustomSplitServices() {
             <div ref={containerRef} className="max-w-7xl mx-auto px-6 relative z-10">
                 <div className="flex flex-col md:flex-row gap-0 rounded-[3rem] overflow-hidden shadow-2xl relative">
 
-                    {/* Center divider line */}
-                    <div className="absolute top-8 bottom-8 left-1/2 -translate-x-1/2 w-[1px] bg-gradient-to-b from-transparent via-black/10 to-transparent z-10 hidden md:block" />
+
 
 
                     {/* QWQER Express Card (Purple Theme) */}
-                    <div ref={leftCardRef} className="flex-1 bg-white/90 backdrop-blur-sm rounded-l-[3rem] md:rounded-l-[3rem] rounded-r-none p-8 md:p-12 lg:p-16 relative group">
+                    <div ref={leftCardRef} className="flex-1 bg-gradient-to-b from-[#6C3AE0] to-[#3a1a7a] backdrop-blur-sm rounded-l-[3rem] md:rounded-l-[3rem] rounded-r-none p-8 md:p-12 lg:p-16 relative group">
                         {/* Decorative Circles */}
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-[#7c3aed]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
 
                         <div className="relative z-10 flex flex-col h-full items-start">
-                            <h3 className="text-4xl md:text-5xl font-semibold text-[#7c3aed] mb-2">QWQER Express</h3>
-                            <div className="text-[#7c3aed] bg-[#7c3aed]/10 border border-[#7c3aed]/25 px-4 py-1.5 rounded-full text-sm font-bold mb-8">
+                            <h3 className="text-4xl md:text-5xl font-semibold text-white mb-2">QWQER Express</h3>
+                            <div className="text-white bg-white/15 border border-white/25 px-4 py-1.5 rounded-full text-sm font-bold mb-8">
                                 Hyperlocal Delivery, On-Demand
                             </div>
 
-                            <ul className="space-y-4 text-black/60 text-sm md:text-base mb-10 flex-grow">
+                            <ul className="space-y-4 text-white/80 text-sm md:text-base mb-10 flex-grow">
                                 <li className="flex items-start gap-3">
-                                    <span className="mt-1.5 w-1.5 h-1.5 bg-[#7c3aed] rounded-full flex-shrink-0"></span>
-                                    <span>Fast, flexible and reliable last-mile delivery across cities</span>
+                                    <span className="mt-1.5 w-1.5 h-1.5 bg-white rounded-full flex-shrink-0"></span>
+                                    <span>On Demand deliveries dispatched instantly for every fulfilment need.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <span className="mt-1.5 w-1.5 h-1.5 bg-[#7c3aed] rounded-full flex-shrink-0"></span>
-                                    <span>Real-time tracking and delivery confirmation</span>
+                                    <span className="mt-1.5 w-1.5 h-1.5 bg-white rounded-full flex-shrink-0"></span>
+                                    <span>Same Day and Next Day delivery options built for businesses that cannot afford to wait.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <span className="mt-1.5 w-1.5 h-1.5 bg-[#7c3aed] rounded-full flex-shrink-0"></span>
-                                    <span>Optimized routes for efficiency and speed</span>
+                                    <span className="mt-1.5 w-1.5 h-1.5 bg-white rounded-full flex-shrink-0"></span>
+                                    <span>Batch Deliveries built for single pickup and multi-drop efficiency at high volumes.</span>
                                 </li>
                             </ul>
 
-                            <button className="px-8 py-3 bg-[#7c3aed] text-white font-bold rounded-full shadow-lg hover:bg-[#6d2ed4] hover:scale-105 transition-all mb-8 md:mb-0">
+                            <button className="px-8 py-3 bg-white text-[#6C3AE0] font-bold rounded-full shadow-lg hover:bg-white/90 hover:scale-105 transition-all mb-8 md:mb-0">
                                 Explore
                             </button>
                         </div>
                     </div>
 
                     {/* QWQER Fleet Card (Blue Theme) */}
-                    <div ref={rightCardRef} className="flex-1 bg-white/90 backdrop-blur-sm rounded-r-[3rem] md:rounded-r-[3rem] rounded-l-none p-8 md:p-12 lg:p-16 relative group">
+                    <div ref={rightCardRef} className="flex-1 bg-gradient-to-b from-[#4355B9] to-[#1e2a6e] backdrop-blur-sm rounded-r-[3rem] md:rounded-r-[3rem] rounded-l-none p-8 md:p-12 lg:p-16 relative group">
                         {/* Decorative Circles */}
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-[#3b82f6]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
 
                         <div className="relative z-10 flex flex-col h-full items-start">
-                            <h3 className="text-4xl md:text-5xl font-semibold text-[#3b82f6] mb-2">QWQER Fleet</h3>
-                            <div className="text-[#3b82f6] bg-[#3b82f6]/10 border border-[#3b82f6]/25 px-4 py-1.5 rounded-full text-sm font-bold mb-8">
+                            <h3 className="text-4xl md:text-5xl font-semibold text-white mb-2">QWQER Fleet</h3>
+                            <div className="text-white bg-white/15 border border-white/25 px-4 py-1.5 rounded-full text-sm font-bold mb-8">
                                 First-mile FTL & LCV Based Intracity Logistics
                             </div>
 
-                            <ul className="space-y-4 text-black/60 text-sm md:text-base mb-10 flex-grow">
+                            <ul className="space-y-4 text-white/80 text-sm md:text-base mb-10 flex-grow">
                                 <li className="flex items-start gap-3">
-                                    <span className="mt-1.5 w-1.5 h-1.5 bg-[#3b82f6] rounded-full flex-shrink-0"></span>
+                                    <span className="mt-1.5 w-1.5 h-1.5 bg-white rounded-full flex-shrink-0"></span>
                                     <span>Structured operations for predictable, large-scale movement</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <span className="mt-1.5 w-1.5 h-1.5 bg-[#3b82f6] rounded-full flex-shrink-0"></span>
+                                    <span className="mt-1.5 w-1.5 h-1.5 bg-white rounded-full flex-shrink-0"></span>
                                     <span>Flexible vehicle mix for routine, peak, or specialized requirements</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <span className="mt-1.5 w-1.5 h-1.5 bg-[#3b82f6] rounded-full flex-shrink-0"></span>
+                                    <span className="mt-1.5 w-1.5 h-1.5 bg-white rounded-full flex-shrink-0"></span>
                                     <span>Visibility, planning and human oversight for every shipment</span>
                                 </li>
                             </ul>
 
-                            <button className="px-8 py-3 bg-[#3b82f6] text-white font-bold rounded-full shadow-lg hover:bg-[#2563eb] hover:scale-105 transition-all mb-8 md:mb-0">
+                            <button className="px-8 py-3 bg-white text-[#4355B9] font-bold rounded-full shadow-lg hover:bg-white/90 hover:scale-105 transition-all mb-8 md:mb-0">
                                 Explore
                             </button>
                         </div>

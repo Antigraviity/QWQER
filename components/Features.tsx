@@ -200,23 +200,6 @@ export default function Features() {
                                             </div>
                                         </div>
 
-                                        {/* Stat Badge */}
-                                        <div
-                                            className={`hidden md:flex flex-col items-end shrink-0 transition-all duration-500 ${
-                                                isActive ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4"
-                                            }`}
-                                        >
-                                            <span
-                                                className="text-2xl font-black leading-none"
-                                                style={{ color: f.color }}
-                                            >
-                                                {f.stat}
-                                            </span>
-                                            <span className="text-[10px] text-gray-500 uppercase tracking-wider mt-1">
-                                                {f.statLabel}
-                                            </span>
-                                        </div>
-
                                         {/* Arrow indicator */}
                                         <div
                                             className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-all duration-300"

@@ -315,7 +315,7 @@ export default function Footer() {
                         {/* Locations */}
                         <div>
                             <h4 className="text-2xl font-bold mb-4 relative inline-block">
-                                Our Locations
+                                Our Offices
                                 <span className="absolute -bottom-1.5 left-0 w-1/2 h-0.5 bg-white rounded-full"></span>
                             </h4>
                             <div className="flex flex-wrap gap-2">

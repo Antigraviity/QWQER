@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AboutHero from "@/components/about/AboutHero";
+import WhatIsQwqer from "@/components/about/WhatIsQwqer";
 import AboutCard from "@/components/about/AboutCard";
 import DisciplinedExecution from "@/components/about/DisciplinedExecution";
 import CorporateStructure from "@/components/about/CorporateStructure";
@@ -22,6 +23,7 @@ export default function AboutPage() {
     <main className="min-h-screen bg-black text-white selection:bg-[#ee3425] selection:text-white relative overflow-x-hidden">
       <Navbar />
       <AboutHero />
+      <WhatIsQwqer />
       <AboutCard />
       <DisciplinedExecution />
       <CorporateStructure />

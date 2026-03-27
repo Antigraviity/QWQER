@@ -11,7 +11,7 @@ const subsidiaries = [
     primary: true,
   },
   {
-    name: "Qwy Express Pvt. Ltd.",
+    name: "Qwy Express",
     role: "Hyperlocal Subsidiary",
     desc: "Manages time-critical deliveries, real-time tracking, and rapid intracity/hyperlocal last-mile execution.",
     color: "#7c3aed",

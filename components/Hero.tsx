@@ -189,14 +189,7 @@ export default function Hero() {
                     <p className="animate-word block text-white/70 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
                         From intercity FTL operations to hyperlocal deliveries, QWQER helps businesses move goods across India with visibility, control, and consistency.
                     </p>
-                    <div className="flex gap-4 justify-center animate-word">
-                        <button className="px-8 py-4 bg-[#ee3425] text-white font-bold rounded-full hover:bg-[#c92a1c] transition-all hover:scale-105 active:scale-95 text-lg">
-                            Get Started
-                        </button>
-                        <button className="px-8 py-4 bg-white/5 text-white font-bold rounded-full hover:bg-white/10 transition-all border border-white/10 hover:scale-105 active:scale-95 text-lg backdrop-blur-md">
-                            Learn More
-                        </button>
-                    </div>
+
                 </div>
             </div>
 

@@ -4,12 +4,31 @@ import Image from "next/image";
 export default function Trusted() {
 
     const clients = [
-        { name: "McDonalds", src: "/clients/mcdonalds.webp" },
-        { name: "Apollo", src: "/clients/apollo-pharmacy.webp" },
-        { name: "Pidilite", src: "/clients/pidilite.webp" },
-        { name: "Zepto", src: "/clients/zepto.webp" },
-        { name: "Zomato", src: "/clients/zomato.webp" },
-        // Duplicate for seamless loop if needed, or we just map twice
+        // Express clients
+        { name: "McDonalds", src: "/express-clients/mcdonalds.webp" },
+        { name: "Apollo Pharmacy", src: "/express-clients/apollo-pharmacy.webp" },
+        { name: "Zepto", src: "/express-clients/zepto.webp" },
+        { name: "Zomato", src: "/express-clients/zomato.webp" },
+        { name: "KFC", src: "/express-clients/KFC.webp" },
+        { name: "BigBasket", src: "/express-clients/bigbasket.webp" },
+        { name: "Bakingo", src: "/express-clients/Bakingo.webp" },
+        { name: "FNP", src: "/express-clients/Fnp.webp" },
+        { name: "Magicpin", src: "/express-clients/Magicpin.webp" },
+        { name: "More", src: "/express-clients/More.webp" },
+        { name: "Ratnadeep", src: "/express-clients/Ratnadeep.webp" },
+        { name: "Rebel Foods", src: "/express-clients/rebel-foods.webp" },
+        { name: "Spar", src: "/express-clients/Spar.webp" },
+        { name: "Sweet Karam Coffee", src: "/express-clients/sweet-karam-coffee.webp" },
+        { name: "Tata 1mg", src: "/express-clients/tata-1mg.webp" },
+        // Fleet clients
+        { name: "Pidilite", src: "/fleet-clients/pidilite.webp" },
+        { name: "Flipkart", src: "/fleet-clients/Flipkart.webp" },
+        { name: "Blue Dart", src: "/fleet-clients/Blue-Dart.webp" },
+        { name: "Berger", src: "/fleet-clients/berger.webp" },
+        { name: "Saint Gobain", src: "/fleet-clients/saint-gobain.webp" },
+        { name: "Greenlam", src: "/fleet-clients/greenlam.webp" },
+        { name: "Yokohama", src: "/fleet-clients/yokohama.webp" },
+        { name: "Epsilon", src: "/fleet-clients/epsilon.webp" },
     ];
 
     return (
@@ -63,7 +82,7 @@ export default function Trusted() {
                     100% { transform: translateX(-33.33%); } 
                 }
                 .animate-scroll {
-                    animation: scroll 30s linear infinite;
+                    animation: scroll 60s linear infinite;
                 }
                 .mask-linear-fade {
                     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);

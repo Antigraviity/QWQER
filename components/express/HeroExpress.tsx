@@ -169,6 +169,17 @@ export default function HeroExpress() {
                     style={{ opacity: fadeOpacity }}
                 />
 
+                {/* Dark gradient overlay for text readability */}
+                <motion.div
+                    className="absolute inset-0 z-[1] pointer-events-none"
+                    style={{ opacity: textOpacity }}
+                >
+                    {/* Left-to-right gradient */}
+                    <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.2) 65%, transparent 80%)" }} />
+                    {/* Bottom-to-top gradient */}
+                    <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 30%, transparent 60%)" }} />
+                </motion.div>
+
                 {/* Ambient glow accents */}
                 <div className="absolute inset-0 z-[2] pointer-events-none mix-blend-screen">
                     <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[800px] bg-violet-600/10 blur-[150px] rounded-full" />
