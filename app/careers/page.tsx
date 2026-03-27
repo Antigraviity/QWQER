@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CareersHero from "@/components/careers/CareersHero";
 import CareersWhy from "@/components/careers/CareersWhy";
-import CareersValues from "@/components/careers/CareersValues";
+// import CareersValues from "@/components/careers/CareersValues";
 import CareersProcess from "@/components/careers/CareersProcess";
 import CareersOpenings from "@/components/careers/CareersOpenings";
 import { db } from "@/lib/db";
@@ -31,7 +31,7 @@ export default async function CareersPage() {
       <Navbar />
       <CareersHero />
       <CareersWhy />
-      <CareersValues />
+      {/* <CareersValues /> */}
       {careers.length > 0 && <CareersOpenings careers={careers} />}
       <Footer />
     </main>
