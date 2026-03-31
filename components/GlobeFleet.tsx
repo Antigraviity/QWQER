@@ -997,7 +997,7 @@ export default function GlobeFleet() {
             </h2>
 
             <p className="gf-desc text-white/70 text-[15px] md:text-base leading-[1.8] mb-8">
-              From hyperlocal last mile deliveries across South India to intercity full truckload trips spanning corridors across India, QWQER Fleet and Express together cover every mile of your supply chain. Backed by real-time visibility, optimised routing and operational precision, the network is built to keep commerce moving seamlessly across every corridor, every city and every doorstep, ensuring your business never misses a beat.
+              QWQER Fleet and Express together cover every mile of your supply chain, from hyperlocal last mile to intercity full truckload, backed by real-time visibility and optimised routing.
             </p>
 
 

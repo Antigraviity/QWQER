@@ -12,18 +12,6 @@ export default function Features() {
         gsap.registerPlugin(ScrollTrigger);
 
         const ctx = gsap.context(() => {
-            // Header reveal
-            gsap.from(".features-header", {
-                y: 30,
-                opacity: 0,
-                duration: 0.8,
-                ease: "power3.out",
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top 80%",
-                }
-            });
-
             // Staggered row reveals
             const rows = gsap.utils.toArray(".feature-row");
             rows.forEach((row: any, i) => {
@@ -126,17 +114,7 @@ export default function Features() {
             ></div>
 
             <div className="max-w-7xl mx-auto px-6 relative z-10">
-                {/* Header */}
-                <div className="features-header mb-12 text-center">
-                    <p className="text-[#ee3425] font-bold text-[10px] uppercase tracking-[0.2em] mb-4">Logistics solutions you can trust</p>
-                    <h2 className="text-2xl md:text-[48px] font-bold text-white mb-3 tracking-tight leading-tight">
-                        How <span className="text-[#ee3425]">QWQER</span> Helps<br />
-                        Businesses Deliver Better
-                    </h2>
-                    <p className="text-white/60 max-w-lg mx-auto text-sm">
-                        Whether it&apos;s hyperlocal express delivery or intercity fleet operations, QWQER provides the right solution.
-                    </p>
-                </div>
+
 
                 {/* Interactive Accordion Rows */}
                 <div className="space-y-2">

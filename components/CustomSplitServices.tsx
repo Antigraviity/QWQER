@@ -77,15 +77,15 @@ export default function CustomSplitServices() {
                             <ul className="space-y-4 text-white/80 text-sm md:text-base mb-10 flex-grow">
                                 <li className="flex items-start gap-3">
                                     <span className="mt-1.5 w-1.5 h-1.5 bg-white rounded-full flex-shrink-0"></span>
-                                    <span>On Demand deliveries dispatched instantly for every fulfilment need.</span>
+                                    <span>On Demand deliveries dispatched instantly</span>
                                 </li>
                                 <li className="flex items-start gap-3">
                                     <span className="mt-1.5 w-1.5 h-1.5 bg-white rounded-full flex-shrink-0"></span>
-                                    <span>Same Day and Next Day delivery options built for businesses that cannot afford to wait.</span>
+                                    <span>Same Day and Next Day delivery options</span>
                                 </li>
                                 <li className="flex items-start gap-3">
                                     <span className="mt-1.5 w-1.5 h-1.5 bg-white rounded-full flex-shrink-0"></span>
-                                    <span>Batch Deliveries built for single pickup and multi-drop efficiency at high volumes.</span>
+                                    <span>Batch pickups with multi-drop efficiency</span>
                                 </li>
                             </ul>
 

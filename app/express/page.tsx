@@ -9,6 +9,7 @@ import ExpressSolutions from "@/components/express/ExpressSolutions";
 import ExpressTrusted from "@/components/express/ExpressTrusted";
 import ExpressIndustries from "@/components/express/ExpressIndustries";
 import ExpressJoin from "@/components/express/ExpressJoin";
+import PartnerCTA from "@/components/partner/PartnerCTA";
 
 export default function ExpressPage() {
     return (
@@ -24,6 +25,7 @@ export default function ExpressPage() {
                 <ExpressTrusted />
                 <ExpressIndustries />
                 <ExpressJoin />
+                <PartnerCTA />
             </div>
 
             <Footer />
