@@ -774,7 +774,7 @@ export default function GlobeFleet() {
                 src="/india-map.webp" 
                 alt="India Map" 
                 fill
-                className="absolute inset-0 w-full h-full object-contain opacity-40 pointer-events-none" 
+                className="absolute inset-0 w-full h-full object-contain opacity-70 pointer-events-none" 
                 priority
               />
               {/* Animated overlay canvas for cities, routes, trucks */}
