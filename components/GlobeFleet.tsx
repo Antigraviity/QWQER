@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useCallback } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -53,7 +54,7 @@ const ROUTES = [
 ];
 
 /* India outline data — kept for potential future use but map now uses india-map.webp image */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 const _INDIA_OUTLINE: [number, number][] = [
   // === J&K / Pakistan border start ===
   latLonToNorm(32.87, 74.59), latLonToNorm(33.10, 74.40), latLonToNorm(33.30, 74.25),
@@ -769,7 +770,13 @@ export default function GlobeFleet() {
           <div className="flex-1 w-full lg:w-auto lg:flex-[1.3]">
             <div className="gf-map relative w-full max-w-[700px] mx-auto" style={{ aspectRatio: "0.85" }}>
               {/* Static India map image */}
-              <img src="/india-map.webp" alt="India Map" className="absolute inset-0 w-full h-full object-contain opacity-40 pointer-events-none" />
+              <Image 
+                src="/india-map.webp" 
+                alt="India Map" 
+                fill
+                className="absolute inset-0 w-full h-full object-contain opacity-40 pointer-events-none" 
+                priority
+              />
               {/* Animated overlay canvas for cities, routes, trucks */}
               <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
             </div>
