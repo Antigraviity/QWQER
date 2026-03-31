@@ -4,9 +4,17 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 /* India outline helper: convert lat/lon to normalized 0-1 coordinates */
+/* Uses Mercator projection for a more recognizable India silhouette */
+function latToMercY(lat: number): number {
+  const latRad = (lat * Math.PI) / 180;
+  return Math.log(Math.tan(Math.PI / 4 + latRad / 2));
+}
+const MERC_Y_MIN = latToMercY(6);
+const MERC_Y_MAX = latToMercY(37);
 function latLonToNorm(lat: number, lon: number): [number, number] {
   const x = (lon - 68) / (97.5 - 68);
-  const y = (37 - lat) / (37 - 6);
+  const mercY = latToMercY(lat);
+  const y = 1 - (mercY - MERC_Y_MIN) / (MERC_Y_MAX - MERC_Y_MIN);
   return [x, y];
 }
 
@@ -44,362 +52,159 @@ const ROUTES = [
   [12, 1], // Srinagar → Delhi
 ];
 
-/* India outline — highly detailed polygon traced from actual boundary coordinates.
-   Uses catmull-rom spline interpolation for smooth curves. */
-const INDIA_OUTLINE_RAW: [number, number][] = [
-  // ══════ START: J&K / Ladakh northern tip ══════
-  latLonToNorm(32.87, 74.64),
-  latLonToNorm(33.20, 74.35),
-  latLonToNorm(33.58, 74.10),
-  latLonToNorm(33.90, 74.40),
-  latLonToNorm(34.10, 74.80),
-  latLonToNorm(34.35, 75.40),
-  latLonToNorm(34.60, 75.80),
-  latLonToNorm(34.85, 76.20),
-  latLonToNorm(35.10, 76.70),
-  latLonToNorm(35.30, 77.20),
-  latLonToNorm(35.50, 77.80),
-  // ══════ Aksai Chin / Ladakh east ══════
-  latLonToNorm(35.20, 78.20),
-  latLonToNorm(34.80, 78.60),
-  latLonToNorm(34.30, 78.90),
-  latLonToNorm(33.80, 79.10),
-  latLonToNorm(33.40, 79.10),
-  latLonToNorm(32.70, 79.30),
-  latLonToNorm(32.40, 79.40),
-  // ══════ Himachal / Uttarakhand border ══════
-  latLonToNorm(31.90, 79.50),
-  latLonToNorm(31.40, 79.80),
-  latLonToNorm(30.90, 80.10),
-  latLonToNorm(30.60, 80.30),
-  latLonToNorm(30.40, 80.40),
-  latLonToNorm(30.20, 80.60),
-  latLonToNorm(30.00, 80.80),
-  // ══════ Nepal border ══════
-  latLonToNorm(29.60, 80.90),
-  latLonToNorm(29.30, 81.10),
-  latLonToNorm(29.10, 81.40),
-  latLonToNorm(28.90, 81.80),
-  latLonToNorm(28.60, 82.10),
-  latLonToNorm(28.40, 82.60),
-  latLonToNorm(28.20, 83.00),
-  latLonToNorm(27.90, 83.40),
-  latLonToNorm(27.70, 83.80),
-  latLonToNorm(27.60, 84.20),
-  latLonToNorm(27.50, 84.60),
-  latLonToNorm(27.40, 85.00),
-  latLonToNorm(27.20, 85.40),
-  latLonToNorm(27.00, 85.80),
-  latLonToNorm(26.80, 86.20),
-  latLonToNorm(26.60, 86.60),
-  latLonToNorm(26.50, 87.00),
-  latLonToNorm(26.40, 87.40),
-  latLonToNorm(26.50, 87.80),
-  latLonToNorm(26.60, 88.10),
-  // ══════ Siliguri corridor (narrow neck) ══════
-  latLonToNorm(26.70, 88.30),
-  latLonToNorm(26.90, 88.45),
-  latLonToNorm(27.10, 88.60),
-  latLonToNorm(27.30, 88.70),
-  // ══════ Sikkim / NE entry ══════
-  latLonToNorm(27.50, 88.75),
-  latLonToNorm(27.80, 88.80),
-  latLonToNorm(28.10, 88.90),
-  // ══════ Northeast India (Assam, Arunachal, etc.) ══════
-  latLonToNorm(28.20, 89.50),
-  latLonToNorm(27.80, 90.30),
-  latLonToNorm(27.50, 91.00),
-  latLonToNorm(27.80, 91.60),
-  latLonToNorm(28.00, 92.00),
-  latLonToNorm(28.20, 92.60),
-  latLonToNorm(28.00, 93.20),
-  latLonToNorm(27.80, 93.80),
-  latLonToNorm(27.60, 94.50),
-  latLonToNorm(27.40, 95.00),
-  latLonToNorm(27.60, 95.60),
-  latLonToNorm(27.80, 96.20),
-  latLonToNorm(27.60, 96.60),
-  latLonToNorm(27.20, 97.00),
-  // ══════ NE border — south along Myanmar border ══════
-  latLonToNorm(26.80, 97.10),
-  latLonToNorm(26.40, 96.80),
-  latLonToNorm(26.00, 96.50),
-  latLonToNorm(25.60, 96.10),
-  latLonToNorm(25.20, 95.50),
-  latLonToNorm(24.80, 95.00),
-  latLonToNorm(24.40, 94.60),
-  latLonToNorm(24.00, 94.20),
-  latLonToNorm(23.60, 93.80),
-  latLonToNorm(23.30, 93.40),
-  latLonToNorm(23.00, 93.30),
-  // ══════ Mizoram / Myanmar ══════
-  latLonToNorm(22.50, 93.20),
-  latLonToNorm(22.00, 93.00),
-  latLonToNorm(21.60, 92.60),
-  latLonToNorm(21.30, 92.40),
-  // ══════ Bangladesh SE border / Tripura / Mizoram ══════
-  latLonToNorm(21.20, 92.20),
-  latLonToNorm(21.40, 91.80),
-  latLonToNorm(21.80, 91.50),
-  latLonToNorm(22.10, 91.20),
-  latLonToNorm(22.40, 90.80),
-  latLonToNorm(22.60, 90.60),
-  latLonToNorm(23.00, 90.60),
-  latLonToNorm(23.50, 90.70),
-  latLonToNorm(24.00, 90.80),
-  latLonToNorm(24.30, 91.20),
-  latLonToNorm(24.50, 91.60),
-  latLonToNorm(24.80, 92.00),
-  latLonToNorm(25.10, 92.10),
-  latLonToNorm(25.40, 91.80),
-  latLonToNorm(25.60, 91.40),
-  latLonToNorm(25.70, 91.00),
-  latLonToNorm(25.60, 90.50),
-  latLonToNorm(25.80, 90.00),
-  latLonToNorm(26.00, 89.80),
-  latLonToNorm(26.20, 89.50),
-  // ══════ Back to Siliguri corridor (from NE side) ══════
-  latLonToNorm(26.40, 89.60),
-  latLonToNorm(26.50, 89.80),
-  latLonToNorm(26.60, 89.50),
-  latLonToNorm(26.50, 89.10),
-  latLonToNorm(26.30, 88.80),
-  latLonToNorm(26.10, 88.60),
-  latLonToNorm(25.80, 88.40),
-  latLonToNorm(25.40, 88.30),
-  // ══════ Bangladesh west border ══════
-  latLonToNorm(25.10, 88.60),
-  latLonToNorm(24.80, 88.70),
-  latLonToNorm(24.50, 88.80),
-  latLonToNorm(24.20, 89.00),
-  latLonToNorm(24.00, 88.90),
-  latLonToNorm(23.80, 88.70),
-  latLonToNorm(23.50, 88.60),
-  latLonToNorm(23.20, 88.70),
-  latLonToNorm(23.00, 88.80),
-  latLonToNorm(22.80, 88.90),
-  // ══════ Sundarbans / West Bengal coast ══════
-  latLonToNorm(22.50, 88.80),
-  latLonToNorm(22.20, 88.60),
-  latLonToNorm(21.90, 88.30),
-  latLonToNorm(21.60, 87.80),
-  latLonToNorm(21.50, 87.40),
-  // ══════ Odisha coast ══════
-  latLonToNorm(21.40, 87.00),
-  latLonToNorm(21.20, 86.80),
-  latLonToNorm(20.80, 86.70),
-  latLonToNorm(20.50, 86.60),
-  latLonToNorm(20.20, 86.40),
-  latLonToNorm(19.90, 86.10),
-  latLonToNorm(19.60, 85.60),
-  latLonToNorm(19.30, 85.20),
-  latLonToNorm(19.10, 84.80),
-  latLonToNorm(18.80, 84.40),
-  // ══════ Andhra Pradesh coast ══════
-  latLonToNorm(18.50, 84.00),
-  latLonToNorm(18.20, 83.70),
-  latLonToNorm(17.90, 83.40),
-  latLonToNorm(17.60, 83.20),
-  latLonToNorm(17.30, 82.80),
-  latLonToNorm(17.00, 82.40),
-  latLonToNorm(16.70, 82.20),
-  latLonToNorm(16.40, 81.90),
-  latLonToNorm(16.10, 81.40),
-  latLonToNorm(15.80, 81.00),
-  latLonToNorm(15.50, 80.60),
-  latLonToNorm(15.20, 80.30),
-  latLonToNorm(14.80, 80.10),
-  latLonToNorm(14.50, 80.00),
-  // ══════ Tamil Nadu east coast ══════
-  latLonToNorm(14.10, 80.10),
-  latLonToNorm(13.60, 80.20),
-  latLonToNorm(13.30, 80.30),  // Chennai
-  latLonToNorm(13.00, 80.30),
-  latLonToNorm(12.60, 80.10),
-  latLonToNorm(12.20, 79.90),
-  latLonToNorm(11.80, 79.80),
-  latLonToNorm(11.40, 79.80),
-  latLonToNorm(11.00, 79.80),
-  latLonToNorm(10.60, 79.70),
-  latLonToNorm(10.30, 79.50),
-  latLonToNorm(10.10, 79.40),
-  latLonToNorm(9.80, 79.20),
-  // ══════ Palk Strait / Rameswaram ══════
-  latLonToNorm(9.50, 79.10),
-  latLonToNorm(9.20, 79.00),
-  latLonToNorm(9.00, 78.80),
-  latLonToNorm(8.80, 78.50),
-  latLonToNorm(8.50, 78.10),
-  latLonToNorm(8.30, 77.70),
-  // ══════ Kanyakumari (southern tip) ══════
-  latLonToNorm(8.08, 77.55),
-  latLonToNorm(8.00, 77.40),
-  // ══════ Kerala west coast (going north) ══════
-  latLonToNorm(8.15, 77.15),
-  latLonToNorm(8.30, 77.00),
-  latLonToNorm(8.50, 76.90),
-  latLonToNorm(8.70, 76.70),
-  latLonToNorm(8.90, 76.55),
-  latLonToNorm(9.10, 76.40),
-  latLonToNorm(9.40, 76.30),
-  latLonToNorm(9.60, 76.25),
-  latLonToNorm(9.80, 76.25),
-  latLonToNorm(10.00, 76.20),
-  latLonToNorm(10.30, 76.10),
-  latLonToNorm(10.50, 76.05),
-  latLonToNorm(10.80, 75.90),
-  latLonToNorm(11.10, 75.70),
-  latLonToNorm(11.40, 75.50),
-  latLonToNorm(11.70, 75.30),
-  // ══════ Karnataka coast ══════
-  latLonToNorm(12.00, 75.10),
-  latLonToNorm(12.40, 74.90),
-  latLonToNorm(12.80, 74.80),
-  latLonToNorm(13.20, 74.70),
-  latLonToNorm(13.60, 74.60),
-  latLonToNorm(14.00, 74.40),
-  latLonToNorm(14.40, 74.20),
-  latLonToNorm(14.80, 74.05),
-  // ══════ Goa ══════
-  latLonToNorm(15.20, 73.90),
-  latLonToNorm(15.50, 73.80),
-  latLonToNorm(15.80, 73.70),
-  // ══════ Maharashtra coast (Konkan) ══════
-  latLonToNorm(16.20, 73.40),
-  latLonToNorm(16.60, 73.30),
-  latLonToNorm(17.00, 73.10),
-  latLonToNorm(17.40, 73.00),
-  latLonToNorm(17.70, 73.00),
-  latLonToNorm(18.00, 72.90),
-  latLonToNorm(18.30, 72.85),
-  latLonToNorm(18.60, 72.85),
-  latLonToNorm(18.90, 72.80),  // Mumbai
-  latLonToNorm(19.20, 72.80),
-  latLonToNorm(19.50, 72.85),
-  latLonToNorm(19.80, 72.80),
-  latLonToNorm(20.10, 72.75),
-  latLonToNorm(20.40, 72.65),
-  // ══════ Gujarat south coast ══════
-  latLonToNorm(20.70, 72.50),
-  latLonToNorm(20.90, 72.30),
-  latLonToNorm(21.10, 72.15),
-  latLonToNorm(21.30, 72.00),
-  latLonToNorm(21.50, 71.80),
-  latLonToNorm(21.60, 71.50),
-  // ══════ Gulf of Khambhat (V-shaped inlet) ══════
-  latLonToNorm(21.70, 71.20),
-  latLonToNorm(21.80, 70.90),
-  latLonToNorm(21.90, 70.60),
-  latLonToNorm(22.00, 70.30),
-  latLonToNorm(22.10, 70.00),
-  latLonToNorm(22.25, 69.70),
-  latLonToNorm(22.40, 69.40),
-  latLonToNorm(22.55, 69.10),
-  latLonToNorm(22.70, 68.80),
-  // ══════ Kathiawar peninsula (Saurashtra bulge) ══════
-  latLonToNorm(22.40, 68.60),
-  latLonToNorm(22.00, 68.80),
-  latLonToNorm(21.60, 69.00),
-  latLonToNorm(21.20, 69.30),
-  latLonToNorm(20.90, 69.80),
-  latLonToNorm(20.80, 70.20),
-  latLonToNorm(20.90, 70.70),
-  latLonToNorm(21.10, 71.00),
-  latLonToNorm(21.40, 71.20),
-  latLonToNorm(21.70, 71.50),
-  latLonToNorm(22.00, 71.60),
-  latLonToNorm(22.20, 71.80),
-  latLonToNorm(22.40, 72.10),
-  latLonToNorm(22.50, 72.30),
-  // ══════ Gulf of Khambhat east side going north ══════
-  latLonToNorm(22.30, 72.50),
-  latLonToNorm(22.10, 72.60),
-  latLonToNorm(21.80, 72.70),
-  latLonToNorm(21.50, 72.50),
-  latLonToNorm(21.30, 72.30),
-  latLonToNorm(21.10, 72.15),
-  // ══════ Gujarat north coast to Kutch ══════
-  latLonToNorm(22.50, 72.40),
-  latLonToNorm(22.80, 72.30),
-  latLonToNorm(23.00, 72.10),
-  latLonToNorm(23.20, 71.70),
-  latLonToNorm(23.40, 71.30),
-  // ══════ Rann of Kutch (northern indent) ══════
-  latLonToNorm(23.50, 70.80),
-  latLonToNorm(23.60, 70.30),
-  latLonToNorm(23.70, 69.80),
-  latLonToNorm(23.80, 69.40),
-  latLonToNorm(23.90, 69.00),
-  latLonToNorm(24.00, 68.70),
-  latLonToNorm(24.10, 68.50),
-  // ══════ Pakistan border going north ══════
-  latLonToNorm(24.30, 68.80),
-  latLonToNorm(24.60, 69.20),
-  latLonToNorm(24.80, 69.60),
-  latLonToNorm(24.70, 70.00),
-  latLonToNorm(24.50, 70.30),
-  latLonToNorm(24.30, 70.60),
-  latLonToNorm(24.20, 70.90),
-  latLonToNorm(24.40, 71.10),
-  latLonToNorm(24.60, 71.00),
-  latLonToNorm(24.90, 70.80),
-  latLonToNorm(25.20, 70.60),
-  latLonToNorm(25.50, 70.40),
-  latLonToNorm(25.80, 70.20),
-  latLonToNorm(26.10, 70.10),
-  latLonToNorm(26.40, 70.00),
-  latLonToNorm(26.80, 69.90),
-  latLonToNorm(27.20, 69.90),
-  latLonToNorm(27.60, 70.00),
-  latLonToNorm(28.00, 70.20),
-  latLonToNorm(28.40, 70.40),
-  latLonToNorm(28.70, 70.60),
-  // ══════ Rajasthan / Punjab / Pakistan border ══════
-  latLonToNorm(29.00, 70.80),
-  latLonToNorm(29.30, 71.00),
-  latLonToNorm(29.60, 71.20),
-  latLonToNorm(29.80, 71.50),
-  latLonToNorm(30.00, 71.70),
-  latLonToNorm(30.20, 72.00),
-  latLonToNorm(30.40, 72.30),
-  latLonToNorm(30.60, 72.60),
-  latLonToNorm(30.80, 72.90),
-  latLonToNorm(31.00, 73.20),
-  latLonToNorm(31.20, 73.60),
-  latLonToNorm(31.40, 73.90),
-  latLonToNorm(31.60, 74.20),
-  latLonToNorm(31.80, 74.40),
-  latLonToNorm(32.10, 74.50),
-  latLonToNorm(32.40, 74.55),
-  latLonToNorm(32.70, 74.60),
+/* India outline data — kept for potential future use but map now uses india-map.webp image */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+const _INDIA_OUTLINE: [number, number][] = [
+  // === J&K / Pakistan border start ===
+  latLonToNorm(32.87, 74.59), latLonToNorm(33.10, 74.40), latLonToNorm(33.30, 74.25),
+  latLonToNorm(33.52, 74.15), latLonToNorm(33.73, 74.28), latLonToNorm(33.90, 74.50),
+  latLonToNorm(34.05, 74.75), latLonToNorm(34.20, 75.05), latLonToNorm(34.40, 75.35),
+  latLonToNorm(34.58, 75.65), latLonToNorm(34.75, 76.00), latLonToNorm(34.90, 76.35),
+  latLonToNorm(35.05, 76.65), latLonToNorm(35.18, 77.00), latLonToNorm(35.30, 77.40),
+  latLonToNorm(35.42, 77.80),
+  // === Ladakh east / Aksai Chin ===
+  latLonToNorm(35.30, 78.10), latLonToNorm(35.10, 78.35), latLonToNorm(34.85, 78.55),
+  latLonToNorm(34.55, 78.72), latLonToNorm(34.25, 78.85), latLonToNorm(33.95, 78.97),
+  latLonToNorm(33.65, 79.05), latLonToNorm(33.35, 79.10), latLonToNorm(33.05, 79.18),
+  latLonToNorm(32.75, 79.28), latLonToNorm(32.45, 79.40),
+  // === Uttarakhand / Nepal border ===
+  latLonToNorm(32.10, 79.48), latLonToNorm(31.75, 79.65), latLonToNorm(31.40, 79.82),
+  latLonToNorm(31.10, 79.98), latLonToNorm(30.80, 80.15), latLonToNorm(30.50, 80.35),
+  latLonToNorm(30.20, 80.58), latLonToNorm(29.90, 80.80),
+  // === Nepal border (east) ===
+  latLonToNorm(29.60, 80.92), latLonToNorm(29.30, 81.10), latLonToNorm(29.00, 81.40),
+  latLonToNorm(28.70, 81.75), latLonToNorm(28.40, 82.15), latLonToNorm(28.15, 82.55),
+  latLonToNorm(27.90, 82.95), latLonToNorm(27.70, 83.35), latLonToNorm(27.55, 83.75),
+  latLonToNorm(27.42, 84.15), latLonToNorm(27.32, 84.55), latLonToNorm(27.22, 84.95),
+  latLonToNorm(27.08, 85.35), latLonToNorm(26.90, 85.75), latLonToNorm(26.72, 86.15),
+  latLonToNorm(26.55, 86.55), latLonToNorm(26.45, 86.95), latLonToNorm(26.42, 87.30),
+  latLonToNorm(26.50, 87.65), latLonToNorm(26.60, 88.00),
+  // === Siliguri corridor ===
+  latLonToNorm(26.70, 88.20), latLonToNorm(26.82, 88.35), latLonToNorm(26.95, 88.48),
+  latLonToNorm(27.10, 88.58), latLonToNorm(27.28, 88.68),
+  // === Sikkim / Bhutan border ===
+  latLonToNorm(27.48, 88.73), latLonToNorm(27.72, 88.80), latLonToNorm(27.95, 88.88),
+  // === Northeast — Arunachal Pradesh ===
+  latLonToNorm(28.10, 89.30), latLonToNorm(27.90, 89.80), latLonToNorm(27.65, 90.40),
+  latLonToNorm(27.48, 90.95), latLonToNorm(27.65, 91.45), latLonToNorm(27.85, 91.90),
+  latLonToNorm(28.05, 92.35), latLonToNorm(28.15, 92.80), latLonToNorm(28.00, 93.30),
+  latLonToNorm(27.82, 93.80), latLonToNorm(27.60, 94.30), latLonToNorm(27.42, 94.80),
+  latLonToNorm(27.55, 95.30), latLonToNorm(27.72, 95.80), latLonToNorm(27.80, 96.20),
+  latLonToNorm(27.62, 96.60), latLonToNorm(27.35, 96.95),
+  // === NE — Myanmar border (south) ===
+  latLonToNorm(27.05, 97.10), latLonToNorm(26.70, 96.90), latLonToNorm(26.35, 96.65),
+  latLonToNorm(26.00, 96.35), latLonToNorm(25.65, 95.95), latLonToNorm(25.30, 95.50),
+  latLonToNorm(24.95, 95.05), latLonToNorm(24.60, 94.60), latLonToNorm(24.25, 94.22),
+  latLonToNorm(23.90, 93.85), latLonToNorm(23.55, 93.52), latLonToNorm(23.25, 93.30),
+  // === Mizoram / Chin Hills ===
+  latLonToNorm(22.95, 93.22), latLonToNorm(22.60, 93.12), latLonToNorm(22.25, 92.95),
+  latLonToNorm(21.90, 92.72), latLonToNorm(21.55, 92.48), latLonToNorm(21.25, 92.30),
+  // === Chittagong / Bangladesh SE ===
+  latLonToNorm(21.15, 92.10), latLonToNorm(21.30, 91.75), latLonToNorm(21.55, 91.45),
+  latLonToNorm(21.85, 91.18), latLonToNorm(22.15, 90.90), latLonToNorm(22.40, 90.65),
+  latLonToNorm(22.65, 90.55),
+  // === Bangladesh border — north through Sylhet ===
+  latLonToNorm(22.95, 90.55), latLonToNorm(23.30, 90.62), latLonToNorm(23.65, 90.70),
+  latLonToNorm(23.95, 90.80), latLonToNorm(24.22, 91.08), latLonToNorm(24.45, 91.42),
+  latLonToNorm(24.68, 91.78), latLonToNorm(24.90, 92.05),
+  // === Meghalaya / Assam (back west) ===
+  latLonToNorm(25.15, 92.08), latLonToNorm(25.35, 91.80), latLonToNorm(25.50, 91.42),
+  latLonToNorm(25.62, 91.00), latLonToNorm(25.58, 90.55), latLonToNorm(25.70, 90.10),
+  latLonToNorm(25.88, 89.80), latLonToNorm(26.08, 89.55),
+  // === Back to Siliguri (NE side) ===
+  latLonToNorm(26.22, 89.60), latLonToNorm(26.35, 89.72), latLonToNorm(26.42, 89.55),
+  latLonToNorm(26.38, 89.20), latLonToNorm(26.22, 88.90), latLonToNorm(26.00, 88.62),
+  latLonToNorm(25.72, 88.40), latLonToNorm(25.40, 88.28),
+  // === Bangladesh west border ===
+  latLonToNorm(25.10, 88.50), latLonToNorm(24.80, 88.62), latLonToNorm(24.50, 88.75),
+  latLonToNorm(24.20, 88.90), latLonToNorm(23.95, 88.82), latLonToNorm(23.70, 88.65),
+  latLonToNorm(23.42, 88.58), latLonToNorm(23.15, 88.65), latLonToNorm(22.90, 88.78),
+  // === Sundarbans / WB coast ===
+  latLonToNorm(22.55, 88.72), latLonToNorm(22.22, 88.52), latLonToNorm(21.90, 88.22),
+  latLonToNorm(21.62, 87.80), latLonToNorm(21.48, 87.40),
+  // === Odisha coast ===
+  latLonToNorm(21.35, 87.00), latLonToNorm(21.15, 86.72), latLonToNorm(20.85, 86.62),
+  latLonToNorm(20.55, 86.50), latLonToNorm(20.25, 86.32), latLonToNorm(19.95, 86.00),
+  latLonToNorm(19.65, 85.55), latLonToNorm(19.35, 85.10), latLonToNorm(19.10, 84.70),
+  latLonToNorm(18.82, 84.30),
+  // === Andhra coast ===
+  latLonToNorm(18.52, 83.92), latLonToNorm(18.22, 83.60), latLonToNorm(17.92, 83.32),
+  latLonToNorm(17.62, 83.08), latLonToNorm(17.32, 82.72), latLonToNorm(17.02, 82.35),
+  latLonToNorm(16.72, 82.05), latLonToNorm(16.40, 81.72), latLonToNorm(16.10, 81.32),
+  latLonToNorm(15.80, 80.92), latLonToNorm(15.50, 80.52), latLonToNorm(15.22, 80.22),
+  latLonToNorm(14.88, 80.05), latLonToNorm(14.55, 79.95),
+  // === Tamil Nadu east coast ===
+  latLonToNorm(14.18, 80.05), latLonToNorm(13.75, 80.15), latLonToNorm(13.35, 80.25),
+  latLonToNorm(13.00, 80.25), latLonToNorm(12.65, 80.08), latLonToNorm(12.30, 79.88),
+  latLonToNorm(11.95, 79.78), latLonToNorm(11.60, 79.78), latLonToNorm(11.25, 79.78),
+  latLonToNorm(10.90, 79.72), latLonToNorm(10.55, 79.60), latLonToNorm(10.25, 79.42),
+  latLonToNorm(9.95, 79.25), latLonToNorm(9.65, 79.10),
+  // === Palk Strait / south tip ===
+  latLonToNorm(9.35, 79.00), latLonToNorm(9.08, 78.85), latLonToNorm(8.82, 78.55),
+  latLonToNorm(8.55, 78.15), latLonToNorm(8.30, 77.72),
+  // === Kanyakumari ===
+  latLonToNorm(8.08, 77.52), latLonToNorm(7.98, 77.38),
+  // === Kerala west coast ===
+  latLonToNorm(8.10, 77.15), latLonToNorm(8.25, 77.00), latLonToNorm(8.42, 76.88),
+  latLonToNorm(8.62, 76.72), latLonToNorm(8.82, 76.55), latLonToNorm(9.05, 76.40),
+  latLonToNorm(9.30, 76.30), latLonToNorm(9.55, 76.25), latLonToNorm(9.80, 76.22),
+  latLonToNorm(10.05, 76.18), latLonToNorm(10.30, 76.08), latLonToNorm(10.55, 76.00),
+  latLonToNorm(10.82, 75.85), latLonToNorm(11.10, 75.65), latLonToNorm(11.38, 75.45),
+  latLonToNorm(11.65, 75.25),
+  // === Karnataka coast ===
+  latLonToNorm(11.95, 75.08), latLonToNorm(12.28, 74.88), latLonToNorm(12.60, 74.78),
+  latLonToNorm(12.95, 74.68), latLonToNorm(13.30, 74.58), latLonToNorm(13.65, 74.48),
+  latLonToNorm(13.98, 74.35), latLonToNorm(14.32, 74.18), latLonToNorm(14.65, 74.02),
+  // === Goa ===
+  latLonToNorm(14.98, 73.88), latLonToNorm(15.30, 73.78), latLonToNorm(15.58, 73.68),
+  // === Maharashtra / Konkan coast ===
+  latLonToNorm(15.88, 73.48), latLonToNorm(16.20, 73.32), latLonToNorm(16.55, 73.18),
+  latLonToNorm(16.88, 73.05), latLonToNorm(17.20, 72.98), latLonToNorm(17.55, 72.92),
+  latLonToNorm(17.88, 72.88), latLonToNorm(18.20, 72.85), latLonToNorm(18.55, 72.82),
+  latLonToNorm(18.88, 72.80), latLonToNorm(19.18, 72.80), latLonToNorm(19.48, 72.82),
+  latLonToNorm(19.78, 72.78), latLonToNorm(20.08, 72.72), latLonToNorm(20.38, 72.62),
+  // === Gujarat coast ===
+  latLonToNorm(20.65, 72.48), latLonToNorm(20.88, 72.28), latLonToNorm(21.08, 72.12),
+  latLonToNorm(21.25, 71.95), latLonToNorm(21.42, 71.75), latLonToNorm(21.55, 71.50),
+  // === Saurashtra peninsula (simplified — no deep Gulf of Khambhat) ===
+  latLonToNorm(21.62, 71.20), latLonToNorm(21.72, 70.85), latLonToNorm(21.85, 70.50),
+  latLonToNorm(22.00, 70.15), latLonToNorm(22.15, 69.80), latLonToNorm(22.32, 69.45),
+  latLonToNorm(22.50, 69.10), latLonToNorm(22.65, 68.80),
+  // === Kathiawar tip — goes south and comes back ===
+  latLonToNorm(22.42, 68.62), latLonToNorm(22.10, 68.72), latLonToNorm(21.75, 68.88),
+  latLonToNorm(21.40, 69.10), latLonToNorm(21.10, 69.42), latLonToNorm(20.88, 69.80),
+  latLonToNorm(20.80, 70.22), latLonToNorm(20.88, 70.62), latLonToNorm(21.05, 70.95),
+  latLonToNorm(21.28, 71.18), latLonToNorm(21.55, 71.42),
+  // === Gulf of Khambhat (simplified V) ===
+  latLonToNorm(21.82, 71.55), latLonToNorm(22.05, 71.72), latLonToNorm(22.25, 71.92),
+  latLonToNorm(22.42, 72.15), latLonToNorm(22.30, 72.35), latLonToNorm(22.10, 72.48),
+  latLonToNorm(21.85, 72.55), latLonToNorm(21.60, 72.42),
+  // === Kutch / Rann ===
+  latLonToNorm(22.40, 72.30), latLonToNorm(22.70, 72.18), latLonToNorm(22.95, 71.95),
+  latLonToNorm(23.15, 71.60), latLonToNorm(23.35, 71.20),
+  latLonToNorm(23.48, 70.75), latLonToNorm(23.58, 70.25), latLonToNorm(23.68, 69.75),
+  latLonToNorm(23.78, 69.30), latLonToNorm(23.88, 68.88), latLonToNorm(23.98, 68.55),
+  // === Pakistan border going north ===
+  latLonToNorm(24.15, 68.75), latLonToNorm(24.35, 69.00), latLonToNorm(24.55, 69.35),
+  latLonToNorm(24.68, 69.65), latLonToNorm(24.62, 70.00), latLonToNorm(24.45, 70.30),
+  latLonToNorm(24.30, 70.55), latLonToNorm(24.25, 70.85), latLonToNorm(24.40, 71.05),
+  latLonToNorm(24.62, 70.95), latLonToNorm(24.88, 70.78), latLonToNorm(25.15, 70.58),
+  latLonToNorm(25.45, 70.38), latLonToNorm(25.75, 70.18), latLonToNorm(26.05, 70.05),
+  latLonToNorm(26.35, 69.95), latLonToNorm(26.65, 69.88), latLonToNorm(26.95, 69.88),
+  latLonToNorm(27.25, 69.92), latLonToNorm(27.55, 70.00), latLonToNorm(27.85, 70.15),
+  latLonToNorm(28.15, 70.32), latLonToNorm(28.45, 70.52), latLonToNorm(28.72, 70.72),
+  // === Punjab / Rajasthan border ===
+  latLonToNorm(28.98, 70.92), latLonToNorm(29.25, 71.12), latLonToNorm(29.50, 71.32),
+  latLonToNorm(29.72, 71.55), latLonToNorm(29.92, 71.80), latLonToNorm(30.12, 72.08),
+  latLonToNorm(30.32, 72.38), latLonToNorm(30.50, 72.68), latLonToNorm(30.68, 72.98),
+  latLonToNorm(30.88, 73.25), latLonToNorm(31.08, 73.55), latLonToNorm(31.28, 73.85),
+  latLonToNorm(31.48, 74.10), latLonToNorm(31.65, 74.32), latLonToNorm(31.82, 74.48),
+  latLonToNorm(32.05, 74.55), latLonToNorm(32.30, 74.58), latLonToNorm(32.58, 74.60),
+  latLonToNorm(32.87, 74.59),
 ];
 
-/* Smooth the outline using Catmull-Rom spline interpolation */
-function catmullRomSpline(points: [number, number][], segments: number = 4): [number, number][] {
-  const result: [number, number][] = [];
-  const n = points.length;
-  for (let i = 0; i < n; i++) {
-    const p0 = points[(i - 1 + n) % n];
-    const p1 = points[i];
-    const p2 = points[(i + 1) % n];
-    const p3 = points[(i + 2) % n];
-    for (let t = 0; t < segments; t++) {
-      const u = t / segments;
-      const u2 = u * u;
-      const u3 = u2 * u;
-      const x = 0.5 * ((2 * p1[0]) + (-p0[0] + p2[0]) * u + (2 * p0[0] - 5 * p1[0] + 4 * p2[0] - p3[0]) * u2 + (-p0[0] + 3 * p1[0] - 3 * p2[0] + p3[0]) * u3);
-      const y = 0.5 * ((2 * p1[1]) + (-p0[1] + p2[1]) * u + (2 * p0[1] - 5 * p1[1] + 4 * p2[1] - p3[1]) * u2 + (-p0[1] + 3 * p1[1] - 3 * p2[1] + p3[1]) * u3);
-      result.push([x, y]);
-    }
-  }
-  return result;
-}
-
-const INDIA_OUTLINE = catmullRomSpline(INDIA_OUTLINE_RAW, 5);
-
-/* ── Indian state boundaries (simplified internal borders) ── */
-/* Each entry is a polyline of [lat, lon] pairs representing a state border segment */
-const STATE_BORDERS: [number, number][][] = [
+/* State borders data — kept for potential future use */
+const _STATE_BORDERS: [number, number][][] = [
   // ── J&K / Himachal border ──
   [[32.90, 75.30], [32.50, 75.60], [32.10, 76.00], [31.80, 76.40], [31.50, 76.80], [31.20, 77.10]],
   // ── Himachal / Punjab border ──
@@ -653,49 +458,6 @@ export default function GlobeFleet() {
 
       const cx = (nx: number) => pad + nx * mapW;
       const cy = (ny: number) => pad + ny * mapH;
-
-      /* ── India outline (draws progressively) ── */
-      const outlineCount = Math.floor(reveal * INDIA_OUTLINE.length);
-      if (outlineCount > 1) {
-        ctx.beginPath();
-        for (let i = 0; i < outlineCount; i++) {
-          const p = INDIA_OUTLINE[i];
-          const px = cx(p[0]);
-          const py = cy(p[1]);
-          if (i === 0) ctx.moveTo(px, py);
-          else ctx.lineTo(px, py);
-        }
-        if (reveal >= 1) ctx.closePath();
-        ctx.strokeStyle = `rgba(${A.r},${A.g},${A.b},0.12)`;
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-
-        if (reveal >= 1) {
-          ctx.fillStyle = `rgba(${A.r},${A.g},${A.b},0.02)`;
-          ctx.fill();
-        }
-      }
-
-      /* ── State borders (appear after outline) ── */
-      if (reveal >= 0.6) {
-        const borderAlpha = Math.min(1, (reveal - 0.6) / 0.4);
-        ctx.save();
-        ctx.globalAlpha = mapAlpha * borderAlpha;
-        ctx.strokeStyle = `rgba(${A.r},${A.g},${A.b},0.10)`;
-        ctx.lineWidth = 1;
-        STATE_BORDERS.forEach((border) => {
-          if (border.length < 2) return;
-          ctx.beginPath();
-          for (let i = 0; i < border.length; i++) {
-            const px = cx(border[i][0]);
-            const py = cy(border[i][1]);
-            if (i === 0) ctx.moveTo(px, py);
-            else ctx.lineTo(px, py);
-          }
-          ctx.stroke();
-        });
-        ctx.restore();
-      }
 
       /* ── Dashed route arcs (appear after outline is drawn) ── */
       const routeReveal = Math.max(0, (reveal - 0.3) / 0.7); // starts at 30% reveal
@@ -1003,10 +765,13 @@ export default function GlobeFleet() {
 
           </div>
 
-          {/* Right: India Map Canvas */}
+          {/* Right: India Map */}
           <div className="flex-1 w-full lg:w-auto lg:flex-[1.3]">
             <div className="gf-map relative w-full max-w-[700px] mx-auto" style={{ aspectRatio: "0.85" }}>
-              <canvas ref={canvasRef} className="w-full h-full" />
+              {/* Static India map image */}
+              <img src="/india-map.webp" alt="India Map" className="absolute inset-0 w-full h-full object-contain opacity-40 pointer-events-none" />
+              {/* Animated overlay canvas for cities, routes, trucks */}
+              <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
             </div>
           </div>
         </div>

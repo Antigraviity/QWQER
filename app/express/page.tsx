@@ -13,7 +13,7 @@ import PartnerCTA from "@/components/partner/PartnerCTA";
 
 export default function ExpressPage() {
     return (
-        <main className="min-h-screen bg-black text-white selection:bg-[#7c3aed] selection:text-white relative font-sans">
+        <main className="min-h-screen bg-black text-white selection:bg-[#7c3aed] selection:text-white relative">
             <ScrollProgress />
             <Navbar />
 
