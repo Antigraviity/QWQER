@@ -275,15 +275,20 @@ export default function Footer() {
     }, []);
 
     return (
-        <footer ref={footerRef} className="text-white pt-12 pb-32 relative overflow-x-hidden" style={{ background: 'linear-gradient(to right, #f17126, #ed3825)' }}>
+        <footer ref={footerRef} className="text-white pt-10 pb-8 relative overflow-x-hidden overflow-y-hidden" style={{ background: 'linear-gradient(180deg, #111214 0%, #0e0f11 50%, #0b0c0e 100%)' }}>
+            {/* Top partition separator */}
+            <div className="absolute top-0 left-0 right-0">
+                <div className="h-px w-full bg-gradient-to-r from-transparent via-[#ee3425]/30 to-transparent" />
+                <div className="h-8 w-full bg-gradient-to-b from-[#ee3425]/[0.03] to-transparent" />
+            </div>
             <div className="max-w-7xl mx-auto px-6 relative z-10">
-                <div className="grid md:grid-cols-3 gap-12 lg:gap-24 mb-8 border-b border-white/20 pb-12 relative">
+                <div className="grid md:grid-cols-3 gap-10 lg:gap-20 mb-6 border-b border-white/[0.06] pb-8 relative">
                     {/* Column 1: Brand Info */}
                     <div className="footer-col space-y-4 relative">
                         <div className="inline-block">
                             <Image src="/footerlogo.webp" alt="QWQER Logo" width={120} height={40} className="h-10 w-auto object-contain" />
                         </div>
-                        <p className="text-white/90 text-lg leading-relaxed max-w-sm font-medium">
+                        <p className="text-white/40 text-lg leading-relaxed max-w-sm font-medium">
                             A transportation solution provider built for express delivery and fleet operations.
                         </p>
                     </div>
@@ -292,18 +297,18 @@ export default function Footer() {
                     <div className="footer-col">
                         <h4 className="text-2xl font-bold mb-4 relative inline-block">
                             Our Services
-                            <span className="absolute -bottom-1.5 left-0 w-1/2 h-0.5 bg-white rounded-full"></span>
+                            <span className="absolute -bottom-1.5 left-0 w-1/2 h-0.5 bg-[#ee3425] rounded-full"></span>
                         </h4>
-                        <ul className="space-y-3 text-white/80 font-medium text-lg">
+                        <ul className="space-y-3 text-white/50 font-medium text-lg">
                             <li>
                                 <a href="/fleet" className="flex items-center group hover:text-white transition-colors">
-                                    <span className="w-2 h-2 bg-white/50 rounded-full mr-3 group-hover:bg-white transition-colors"></span>
+                                    <span className="w-2 h-2 bg-[#ee3425]/40 rounded-full mr-3 group-hover:bg-[#ee3425] transition-colors"></span>
                                     QWQER Fleet
                                 </a>
                             </li>
                             <li>
                                 <a href="/express" className="flex items-center group hover:text-white transition-colors">
-                                    <span className="w-2 h-2 bg-white/50 rounded-full mr-3 group-hover:bg-white transition-colors"></span>
+                                    <span className="w-2 h-2 bg-[#ee3425]/40 rounded-full mr-3 group-hover:bg-[#ee3425] transition-colors"></span>
                                     QWQER Express
                                 </a>
                             </li>
@@ -316,7 +321,7 @@ export default function Footer() {
                         <div>
                             <h4 className="text-2xl font-bold mb-4 relative inline-block">
                                 Our Offices
-                                <span className="absolute -bottom-1.5 left-0 w-1/2 h-0.5 bg-white rounded-full"></span>
+                                <span className="absolute -bottom-1.5 left-0 w-1/2 h-0.5 bg-[#ee3425] rounded-full"></span>
                             </h4>
                             <div className="flex flex-wrap gap-2">
                                 {[
@@ -326,7 +331,7 @@ export default function Footer() {
                                     { name: "Hyderabad", address: "105, 1st Floor, AltF Green Towers, Municipal No. 1-10-176/4A, 4B, 4C & 4D, Begumpet Main Road, Mayur Marg, Begumpet, Hyderabad-500016" },
                                 ].map((loc) => (
                                     <div key={loc.name} className="relative group">
-                                        <span className="inline-block px-3 py-1.5 rounded-full border border-white/20 text-white/80 text-sm font-medium cursor-default hover:bg-white/10 hover:border-white/40 hover:text-white transition-all duration-300">
+                                        <span className="inline-block px-3 py-1.5 rounded-full border border-white/10 text-white/40 text-sm font-medium cursor-default hover:bg-white/5 hover:border-[#ee3425]/30 hover:text-white/70 transition-all duration-300">
                                             {loc.name}
                                         </span>
                                         {/* Tooltip — appears below */}
@@ -344,9 +349,9 @@ export default function Footer() {
                         <div>
                             <h4 className="text-2xl font-bold mb-4 relative inline-block">
                                 Quick Links
-                                <span className="absolute -bottom-1.5 left-0 w-1/2 h-0.5 bg-white rounded-full"></span>
+                                <span className="absolute -bottom-1.5 left-0 w-1/2 h-0.5 bg-[#ee3425] rounded-full"></span>
                             </h4>
-                            <div className="grid grid-cols-2 gap-x-8 gap-y-2.5 text-base font-medium text-white/80">
+                            <div className="grid grid-cols-2 gap-x-8 gap-y-2.5 text-base font-medium text-white/40">
                                 {[
                                     { label: "About Us", href: "/about" },
                                     { label: "Partner", href: "/partner" },
@@ -576,7 +581,7 @@ export default function Footer() {
                 </div>
 
                 {/* Copyright positioned below the line */}
-                <div className="footer-copyright text-center text-sm text-white/50 font-medium relative z-10">
+                <div className="footer-copyright text-center text-sm text-white/20 font-medium relative z-10">
                     © {new Date().getFullYear()} QWQER. All rights reserved.
                 </div>
             </div>
@@ -584,7 +589,7 @@ export default function Footer() {
             {/* Back to Top Button */}
             <button
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="absolute bottom-8 right-8 z-20 w-12 h-12 rounded-full bg-white/15 backdrop-blur-sm border border-white/25 flex items-center justify-center hover:bg-white/25 hover:scale-110 transition-all duration-300 group"
+                className="absolute bottom-8 right-8 z-20 w-12 h-12 rounded-full bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] flex items-center justify-center hover:bg-[#ee3425]/10 hover:border-[#ee3425]/25 hover:scale-110 transition-all duration-300 group"
                 aria-label="Back to top"
             >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-y-0.5 transition-transform duration-300">
@@ -593,8 +598,8 @@ export default function Footer() {
             </button>
 
             {/* Centered Watermark - maintain 20% bottom clipping */}
-            <div className="footer-watermark absolute -bottom-12 left-1/2 -translate-x-1/2 w-full flex flex-col items-center pointer-events-none select-none z-0">
-                <h1 className="text-[15rem] font-black leading-none text-white opacity-20 tracking-tighter">
+            <div className="footer-watermark absolute -bottom-[5.5rem] left-1/2 -translate-x-1/2 w-full flex flex-col items-center pointer-events-none select-none z-0">
+                <h1 className="text-[12rem] font-black leading-none text-white opacity-[0.03] tracking-tighter">
                     QWQER
                 </h1>
             </div>

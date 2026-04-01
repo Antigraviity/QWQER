@@ -8,6 +8,7 @@ import Trusted from "@/components/Trusted";
 import Stats from "@/components/Stats";
 import Footer from "@/components/Footer";
 import ConnectingPath from "@/components/ConnectingPath";
+import ScrollIndicator from "@/components/ScrollIndicator";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -28,6 +29,7 @@ export default function Home() {
     <main className="min-h-screen bg-black text-white selection:bg-[#ee3425] selection:text-white relative">
       <ConnectingPath />
       <ScrollProgress />
+      <ScrollIndicator />
       <Navbar />
       <Hero />
       <CustomSplitServices />

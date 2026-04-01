@@ -2,6 +2,7 @@
 
 import Navbar from "@/components/Navbar";
 import ScrollProgress from "@/components/ScrollProgress";
+import ScrollIndicator from "@/components/ScrollIndicator";
 import Footer from "@/components/Footer";
 import HeroScroll from "@/components/fleet/HeroScroll";
 import WhyQwqerFleet from "@/components/fleet/WhyQwqerFleet";
@@ -16,6 +17,7 @@ export default function FleetPage() {
     return (
         <main className="min-h-screen bg-black text-white selection:bg-[#3b82f6] selection:text-white relative font-sans">
             <ScrollProgress />
+            <ScrollIndicator />
             <Navbar />
 
             {/* Fleet Page Sections */}
