@@ -9,20 +9,20 @@ const TABS = ["Blogs", "Public Relations", "News"];
 
 function Pagination({ currentPage, totalPages, onPageChange }: { currentPage: number; totalPages: number; onPageChange: (p: number) => void }) {
     return (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
             <button onClick={() => onPageChange(Math.max(1, currentPage - 1))} disabled={currentPage === 1}
-                className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-500 hover:text-[#ee3425] disabled:opacity-30 disabled:cursor-not-allowed transition-colors border border-gray-200 rounded-lg hover:border-[#ee3425]/30">
-                <FaChevronLeft className="w-3 h-3" /> Prev
+                className="flex items-center gap-1 px-2 sm:px-3 py-2 text-xs sm:text-sm font-medium text-gray-500 hover:text-[#ee3425] disabled:opacity-30 disabled:cursor-not-allowed transition-colors border border-gray-200 rounded-lg hover:border-[#ee3425]/30">
+                <FaChevronLeft className="w-3 h-3" /> <span className="hidden xs:inline">Prev</span>
             </button>
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                 <button key={page} onClick={() => onPageChange(page)}
-                    className={`w-9 h-9 rounded-lg text-sm font-bold transition-all ${page === currentPage ? "bg-[#ee3425] text-white" : "text-gray-500 hover:bg-gray-100 border border-gray-200"}`}>
+                    className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg text-xs sm:text-sm font-bold transition-all ${page === currentPage ? "bg-[#ee3425] text-white" : "text-gray-500 hover:bg-gray-100 border border-gray-200"}`}>
                     {page}
                 </button>
             ))}
             <button onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))} disabled={currentPage === totalPages}
-                className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-500 hover:text-[#ee3425] disabled:opacity-30 disabled:cursor-not-allowed transition-colors border border-gray-200 rounded-lg hover:border-[#ee3425]/30">
-                Next <FaChevronRight className="w-3 h-3" />
+                className="flex items-center gap-1 px-2 sm:px-3 py-2 text-xs sm:text-sm font-medium text-gray-500 hover:text-[#ee3425] disabled:opacity-30 disabled:cursor-not-allowed transition-colors border border-gray-200 rounded-lg hover:border-[#ee3425]/30">
+                <span className="hidden xs:inline">Next</span> <FaChevronRight className="w-3 h-3" />
             </button>
         </div>
     );
@@ -62,14 +62,14 @@ export default function BlogGrid({ posts, prPosts = [], newsPosts = [] }: { post
             <div className="max-w-7xl mx-auto">
 
                 {/* Tabs + Pagination row */}
-                <div className="flex items-center justify-between mb-8">
-                    {/* Tabs */}
-                    <div className="flex items-center gap-1 bg-gray-100 rounded-xl p-1">
+                <div className="flex flex-col sm:flex-row items-center sm:justify-between gap-3 mb-8">
+                    {/* Tabs — scrollable on mobile */}
+                    <div className="flex items-center gap-1 bg-gray-100 rounded-xl p-1 overflow-x-auto scrollbar-none min-w-0">
                         {TABS.map((tab) => (
                             <button
                                 key={tab}
                                 onClick={() => { setActiveTab(tab); setCurrentPage(1); }}
-                                className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 ${
+                                className={`flex-shrink-0 px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 whitespace-nowrap ${
                                     activeTab === tab
                                         ? "bg-[#ee3425] text-white shadow-md"
                                         : "text-gray-500 hover:text-gray-900 hover:bg-gray-200/60"
@@ -80,9 +80,11 @@ export default function BlogGrid({ posts, prPosts = [], newsPosts = [] }: { post
                         ))}
                     </div>
 
-                    {/* Pagination - right aligned (only when content exists) */}
+                    {/* Pagination - right aligned on desktop, left on mobile */}
                     {currentPosts.length > POSTS_PER_PAGE && (
-                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                        <div className="flex-shrink-0">
+                            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                        </div>
                     )}
                 </div>
 
@@ -133,7 +135,7 @@ export default function BlogGrid({ posts, prPosts = [], newsPosts = [] }: { post
 
                 {/* Bottom pagination (only when content exists) */}
                 {currentPosts.length > POSTS_PER_PAGE && (
-                    <div className="flex justify-end">
+                    <div className="flex justify-center sm:justify-end">
                         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
                     </div>
                 )}
