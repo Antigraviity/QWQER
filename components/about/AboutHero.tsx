@@ -116,6 +116,55 @@ export default function AboutHero() {
         gsap.to(`.ah-card-${i}`, { y: 0, opacity: 1, duration: 0.6, ease: "back.out(2)", delay: arrivalTime });
       });
 
+      /* ── Mobile vertical timeline scroll reveals ── */
+      const isMobileView = window.innerWidth < 768;
+      if (isMobileView) {
+        // Grow the vertical line
+        gsap.to(".ah-mobile-line", {
+          height: "calc(100% - 8px)",
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".ah-mobile-line",
+            start: "top 80%",
+            end: "bottom 20%",
+            scrub: 1,
+          },
+        });
+
+        // Each milestone item slides in + dot pops on scroll
+        MILESTONES.forEach((_, i) => {
+          const item = document.querySelector(`.ah-mobile-item-${i}`);
+          const dot = document.querySelector(`.ah-mobile-dot-${i}`);
+          if (!item) return;
+
+          // Dot pop
+          gsap.to(dot, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.3,
+            ease: "back.out(2)",
+            scrollTrigger: {
+              trigger: item,
+              start: "top 82%",
+              toggleActions: "play none none reverse",
+            },
+          });
+
+          // Item slide in
+          gsap.to(item, {
+            opacity: 1,
+            x: 0,
+            duration: 0.5,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: item,
+              start: "top 82%",
+              toggleActions: "play none none reverse",
+            },
+          });
+        });
+      }
+
       /* Blob parallax */
       gsap.to(".ah-blob-1", { yPercent: 20, ease: "none", scrollTrigger: { trigger: sectionRef.current, start: "top top", end: "bottom top", scrub: true } });
       gsap.to(".ah-blob-2", { yPercent: -14, ease: "none", scrollTrigger: { trigger: sectionRef.current, start: "top top", end: "bottom top", scrub: true } });
@@ -237,10 +286,10 @@ export default function AboutHero() {
 
         {/* Headline */}
         <h1 className="max-w-4xl">
-          <span className="ah-line block text-4xl md:text-[65px] font-extrabold leading-[1.06] tracking-[-0.025em] text-white">
+          <span className="ah-line block text-[1.9rem] sm:text-4xl md:text-[65px] font-extrabold leading-[1.1] tracking-[-0.02em] text-white">
             Built by operators.
           </span>
-          <span className="ah-line block text-4xl md:text-[65px] font-extrabold leading-[1.06] tracking-[-0.025em] text-white">
+          <span className="ah-line block text-[1.9rem] sm:text-4xl md:text-[65px] font-extrabold leading-[1.1] tracking-[-0.02em] text-white">
             Powered by precision.
           </span>
         </h1>
@@ -257,7 +306,48 @@ export default function AboutHero() {
       </div>
 
       {/* ── Milestone Timeline ──────────────────────────────────── */}
-      <div className="relative z-10 w-full mt-6 md:mt-8 pb-4 md:pb-6">
+
+      {/* MOBILE: vertical stacked timeline */}
+      <div className="md:hidden relative z-10 mx-6 pb-8 mt-4">
+        <div className="relative pl-8">
+          {/* Vertical line — grows on scroll */}
+          <div
+            className="ah-mobile-line absolute left-[7px] top-2 w-[2px] rounded-full"
+            style={{ background: `linear-gradient(to bottom, ${A}, rgba(238,52,37,0.15))`, height: 0 }}
+          />
+          {MILESTONES.map((m, i) => (
+            <div
+              key={m.year}
+              className={`ah-mobile-item-${i} relative mb-7 last:mb-0`}
+              style={{ opacity: 0, transform: 'translateX(-18px)' }}
+            >
+              {/* Dot */}
+              <div
+                className={`ah-mobile-dot-${i} absolute -left-[25px] top-1 w-3 h-3 rounded-full border-2 flex items-center justify-center`}
+                style={{ borderColor: A, backgroundColor: '#0c0c0c', opacity: 0, transform: 'scale(0)' }}
+              >
+                <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: A }} />
+              </div>
+              {/* Year */}
+              <span className="block text-base font-black tracking-tight mb-1.5" style={{ color: A }}>{m.year}</span>
+              {/* Items */}
+              <div className="flex flex-col gap-1.5">
+                {m.items.map((item, j) => (
+                  <div key={j} className="flex items-start gap-2">
+                    <svg className="w-3.5 h-3.5 shrink-0 mt-[3px]" viewBox="0 0 10 10" fill="none">
+                      <path d="M1 5 L4 8 L9 2" stroke={A} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span className="text-[12px] text-white/70 leading-[1.5]">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* DESKTOP: horizontal animated timeline */}
+      <div className="hidden md:block relative z-10 w-full mt-6 md:mt-8 pb-4 md:pb-6">
         <div className="relative mx-6 md:mx-14 lg:mx-20 max-w-[1300px] xl:mx-auto">
           <div className="relative w-full" style={{ minHeight: "280px" }}>
 
