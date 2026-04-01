@@ -264,7 +264,7 @@ export default function HeroScroll() {
                         style={{ opacity: contentOpacity, scale: contentScale }}
                         className="max-w-xl md:max-w-2xl space-y-6"
                     >
-                        <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.25] font-outfit text-white tracking-tight">
+                        <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] font-outfit text-white tracking-[-0.02em]">
                             <motion.span
                                 style={{ opacity: line1Opacity, y: line1Y }}
                                 className="block drop-shadow-[0_0_30px_rgba(59,130,246,0.15)]"
@@ -310,7 +310,7 @@ export default function HeroScroll() {
 
                         <motion.p
                             style={{ opacity: line3Opacity, y: line3Y, filter: line3BlurFilter }}
-                            className="text-base md:text-lg text-white/70 max-w-xl mx-auto font-inter"
+                            className="text-[17px] leading-[1.8] text-white/70 max-w-xl mx-auto font-outfit"
                         >
                             Robust transportation solutions that keep your business moving securely, sustainably, and cost-effectively.
                         </motion.p>

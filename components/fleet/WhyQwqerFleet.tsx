@@ -72,7 +72,7 @@ const ReasonNode = ({
                 <Icon className="text-[20px] text-blue-400" />
             </motion.div>
             <motion.p
-                className="text-white/70 text-sm leading-relaxed font-inter max-w-[260px] pt-2"
+                className="text-white/70 text-sm leading-[1.8] font-outfit max-w-[260px] pt-2"
                 initial={false}
                 animate={visible ? { opacity: 1, x: 0 } : { opacity: 0, x: -14 }}
                 transition={{ duration: 0.45, delay: 0.15, ease: "easeOut" }}
@@ -101,7 +101,7 @@ const MobileNode = ({ reason, visible }: { reason: Reason; visible: boolean }) =
             >
                 <Icon className="text-lg text-blue-400" />
             </div>
-            <p className="text-white/70 text-sm leading-relaxed font-inter pt-2">
+            <p className="text-white/70 text-sm leading-[1.8] font-outfit pt-2">
                 {reason.description}
             </p>
         </motion.div>
@@ -216,7 +216,7 @@ export default function WhyQwqerFleet() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.7, ease: "easeOut" }}
-                        className="text-[48px] font-bold text-white font-outfit tracking-tight leading-tight"
+                        className="text-[48px] font-extrabold text-white font-outfit tracking-[-0.02em] leading-[1.1]"
                     >
                         Why{" "}
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3b82f6] to-blue-400">
@@ -228,7 +228,7 @@ export default function WhyQwqerFleet() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-                        className="text-white/70 mt-4 max-w-2xl text-sm md:text-base leading-relaxed"
+                        className="text-white/70 mt-4 max-w-2xl text-base md:text-[17px] leading-[1.8] font-outfit"
                     >
                         Pioneering logistics through technological innovation, safety, and unwavering reliability.
                     </motion.p>

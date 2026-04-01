@@ -69,7 +69,7 @@ export default function FleetVendors() {
                             initial={{ opacity: 0, y: -20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="text-[48px] font-bold text-white mb-2 font-outfit tracking-tight leading-tight"
+                            className="text-[48px] font-extrabold text-white mb-2 font-outfit tracking-[-0.02em] leading-[1.1]"
                         >
                             Why Vendors <span className="text-[#3b82f6]">Work With Us</span>
                         </motion.h2>
@@ -78,7 +78,7 @@ export default function FleetVendors() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-                            className="text-white/70 mt-4 mb-10 text-sm md:text-base leading-relaxed max-w-lg"
+                            className="text-white/70 mt-4 mb-10 text-base md:text-[17px] leading-[1.8] font-outfit max-w-lg"
                         >
                             Building lasting partnerships through transparency, reliability, and mutual growth.
                         </motion.p>
@@ -154,7 +154,7 @@ export default function FleetVendors() {
                                     </div>
 
                                     <h3
-                                        className={`text-xl md:text-2xl font-bold font-outfit mb-1 md:mb-2 transition-colors duration-500 ${
+                                        className={`text-xl md:text-2xl font-extrabold font-outfit mb-1 md:mb-2 transition-colors duration-500 ${
                                             isActive ? "text-white" : "text-gray-500"
                                         }`}
                                     >
@@ -171,7 +171,7 @@ export default function FleetVendors() {
                                         transition={{ duration: 0.4, ease: "easeInOut" }}
                                         className="overflow-hidden"
                                     >
-                                        <p className="text-white/60 font-inter text-sm md:text-base leading-relaxed">
+                                        <p className="text-white/60 font-outfit text-sm md:text-base leading-[1.8]">
                                             {tab.description}
                                         </p>
                                     </motion.div>

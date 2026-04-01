@@ -62,10 +62,10 @@ const IndustryCard = ({ industry, index }: { industry: { name: string; Icon: Ico
 
                 {/* Name & Description */}
                 <div className="flex flex-col gap-1 min-w-0">
-                    <span className="text-white/70 group-hover:text-white font-inter font-semibold text-sm md:text-base transition-colors duration-300">
+                    <span className="text-white/70 group-hover:text-white font-outfit font-bold text-sm md:text-base transition-colors duration-300">
                         {industry.name}
                     </span>
-                    <span className="text-white/40 group-hover:text-white/55 text-xs md:text-[13px] leading-relaxed transition-colors duration-300 line-clamp-2">
+                    <span className="text-white/40 group-hover:text-white/55 font-outfit text-xs md:text-[13px] leading-[1.8] transition-colors duration-300 line-clamp-2">
                         {industry.desc}
                     </span>
                 </div>
@@ -100,7 +100,7 @@ export default function FleetIndustries() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.7, ease: "easeOut" }}
-                            className="text-[48px] font-bold text-white font-outfit tracking-tight leading-tight"
+                            className="text-[48px] font-extrabold text-white font-outfit tracking-[-0.02em] leading-[1.1]"
                         >
                             Industries We{" "}
                             <span className="text-[#3b82f6]">Serve</span>
@@ -110,7 +110,7 @@ export default function FleetIndustries() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
-                            className="text-white/70 mt-4 text-sm md:text-base leading-relaxed max-w-xl"
+                            className="text-white/70 mt-4 text-base md:text-[17px] leading-[1.8] font-outfit max-w-xl"
                         >
                             Delivering reliable goods transportation across diverse sectors and supply chains.
                         </motion.p>

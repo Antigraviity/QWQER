@@ -113,7 +113,7 @@ export default function FleetCustomers() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.7, ease: "easeOut" }}
-                            className="text-[48px] font-bold text-white font-outfit tracking-tight leading-tight"
+                            className="text-[48px] font-extrabold text-white font-outfit tracking-[-0.02em] leading-[1.1]"
                         >
                             Why do Customers <span className="text-[#3b82f6]">Choose Us?</span>
                         </motion.h2>
@@ -122,7 +122,7 @@ export default function FleetCustomers() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-                            className="text-white/70 mt-4 text-sm md:text-base leading-relaxed max-w-2xl"
+                            className="text-white/70 mt-4 text-base md:text-[17px] leading-[1.8] font-outfit max-w-2xl"
                         >
                             Delivering enterprise-grade logistics that businesses trust to scale, perform, and grow.
                         </motion.p>
@@ -147,7 +147,7 @@ export default function FleetCustomers() {
                                             }`}
                                     >
                                         <div className="relative z-10 flex flex-col gap-1">
-                                            <h3 className={`text-lg md:text-xl font-bold transition-colors duration-300 ${isActive ? "text-white" : ""}`}>
+                                            <h3 className={`text-lg md:text-xl font-extrabold transition-colors duration-300 ${isActive ? "text-white" : ""}`}>
                                                 {tab.title}
                                             </h3>
 
@@ -158,7 +158,7 @@ export default function FleetCustomers() {
                                                         animate={{ height: "auto", opacity: 1 }}
                                                         exit={{ height: 0, opacity: 0 }}
                                                         transition={{ duration: 0.3 }}
-                                                        className="text-sm text-white/60 font-inter leading-relaxed mt-1"
+                                                        className="text-sm text-white/60 font-outfit leading-[1.8] mt-1"
                                                     >
                                                         {tab.description}
                                                     </motion.p>

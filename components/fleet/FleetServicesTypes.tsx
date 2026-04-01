@@ -66,7 +66,7 @@ export default function FleetServicesTypes() {
                             initial={{ opacity: 0, y: -20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="text-[48px] font-bold text-white font-outfit tracking-tight leading-tight"
+                            className="text-[48px] font-extrabold text-white font-outfit tracking-[-0.02em] leading-[1.1]"
                         >
                             Types of{" "}
                             <span className="text-[#3b82f6]">Fleet Services</span>
@@ -76,7 +76,7 @@ export default function FleetServicesTypes() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-                            className="text-white/70 mt-4 text-sm md:text-base leading-relaxed max-w-2xl"
+                            className="text-white/70 mt-4 text-base md:text-[17px] leading-[1.8] font-outfit max-w-2xl"
                         >
                             Comprehensive transportation solutions tailored to every freight need across India.
                         </motion.p>
@@ -159,10 +159,10 @@ export default function FleetServicesTypes() {
                                     <span className="text-[#3b82f6]/30 text-[96px] font-black font-outfit leading-none -mb-4">
                                         {activeTab.label}
                                     </span>
-                                    <h3 className="text-3xl md:text-4xl font-bold font-outfit text-white mb-4 leading-tight">
+                                    <h3 className="text-3xl md:text-4xl font-extrabold font-outfit text-white mb-4 leading-tight">
                                         {activeTab.title}
                                     </h3>
-                                    <p className="text-white/60 font-inter text-base md:text-lg leading-relaxed max-w-md">
+                                    <p className="text-white/60 font-outfit text-base md:text-[17px] leading-[1.8] max-w-md">
                                         {activeTab.description}
                                     </p>
                                 </motion.div>

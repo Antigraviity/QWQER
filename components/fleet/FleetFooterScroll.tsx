@@ -251,7 +251,7 @@ export default function FleetFooterScroll() {
                         transition={{ duration: 1, delay: 0.3 }}
                         className="text-center"
                     >
-                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold font-outfit text-white leading-tight drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)] tracking-tight">
+                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold font-outfit text-white leading-[1.1] drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)] tracking-[-0.02em]">
                             Delivering Your Promises, <br />
                             <span className="text-[#3b82f6]">On Time, Every Time.</span>
                         </h2>
@@ -260,7 +260,7 @@ export default function FleetFooterScroll() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.8, delay: 0.6 }}
-                            className="text-white/50 mt-6 text-lg font-inter max-w-xl mx-auto"
+                            className="text-white/50 mt-6 text-[17px] font-outfit leading-[1.8] max-w-xl mx-auto"
                         >
                             Enterprise-grade goods transportation built for scale, speed, and reliability.
                         </motion.p>
