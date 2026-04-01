@@ -597,9 +597,9 @@ export default function Footer() {
                 </svg>
             </button>
 
-            {/* Centered Watermark - maintain 20% bottom clipping */}
-            <div className="footer-watermark absolute -bottom-[5.5rem] left-1/2 -translate-x-1/2 w-full flex flex-col items-center pointer-events-none select-none z-0">
-                <h1 className="text-[12rem] font-black leading-none text-white opacity-[0.03] tracking-tighter">
+            {/* Centered Watermark */}
+            <div className="footer-watermark absolute bottom-2 left-1/2 -translate-x-1/2 w-full flex flex-col items-center pointer-events-none select-none z-0">
+                <h1 className="text-[6rem] md:text-[8rem] lg:text-[10rem] font-black leading-none text-white opacity-[0.03] tracking-tighter">
                     QWQER
                 </h1>
             </div>
