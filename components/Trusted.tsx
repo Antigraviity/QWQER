@@ -39,7 +39,7 @@ export default function Trusted() {
 
             <div className="relative w-full overflow-hidden mask-linear-fade">
                 {/* Marquee Track */}
-                <div className="flex w-max animate-scroll items-center gap-2 md:gap-3 hover:[animation-play-state:paused]">
+                <div className="flex w-max animate-scroll items-center gap-4 md:gap-6">
                     {/* First Set */}
                     {clients.map((c, i) => (
                         <div key={`a-${i}`} className="relative w-48 h-28 md:w-[200px] md:h-32 transition-transform duration-300 hover:scale-105 cursor-pointer flex items-center justify-center">
@@ -82,10 +82,14 @@ export default function Trusted() {
                     100% { transform: translateX(-33.33%); } 
                 }
                 .animate-scroll {
-                    animation: scroll 60s linear infinite;
+                    animation: scroll 40s linear infinite;
+                }
+                .animate-scroll:hover {
+                    animation-play-state: paused;
                 }
                 .mask-linear-fade {
                     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+                    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
                 }
             `}</style>
         </section>

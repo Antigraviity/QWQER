@@ -352,7 +352,7 @@ export default function GlobeFleet() {
     gsap.set(".gf-title", { opacity: 0, y: 40 });
     gsap.set(".gf-desc", { opacity: 0, y: 25 });
     gsap.set(".gf-stat", { opacity: 0, y: 30 });
-    gsap.set(".gf-map", { opacity: 0, scale: 0.92 });
+    gsap.set(".gf-map", { opacity: 0 });
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -366,7 +366,7 @@ export default function GlobeFleet() {
       .to(".gf-title", { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, "-=0.3")
       .to(".gf-desc", { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, "-=0.4")
       .to(".gf-stat", { opacity: 1, y: 0, duration: 0.5, stagger: 0.12, ease: "power3.out" }, "-=0.3")
-      .to(".gf-map", { opacity: 1, scale: 1, duration: 1, ease: "power2.out" }, "-=0.6");
+      .to(".gf-map", { opacity: 1, duration: 0.8, ease: "power2.out" }, "-=0.6");
 
     // Counter animations for stats
     document.querySelectorAll(".gf-counter").forEach((el) => {
@@ -735,10 +735,10 @@ export default function GlobeFleet() {
         style={{ background: "radial-gradient(circle,rgba(255,255,255,0.03) 0%,transparent 60%)", filter: "blur(80px)" }}
       />
 
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-14 lg:px-20">
-        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-4 md:px-14 lg:px-20">
+        <div className="flex flex-col lg:flex-row items-center gap-0 md:gap-10 lg:gap-16">
           {/* Left */}
-          <div className="flex-1 max-w-xl">
+          <div className="flex-1 max-w-xl w-full text-center lg:text-left">
             <div className="gf-badge mb-5">
               <div
                 className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full"
@@ -754,12 +754,12 @@ export default function GlobeFleet() {
               </div>
             </div>
 
-            <h2 className="gf-title text-3xl md:text-5xl font-extrabold tracking-tight mb-6 leading-[1.1]">
+            <h2 className="gf-title text-2xl sm:text-3xl md:text-5xl font-extrabold tracking-tight mb-3 md:mb-6 leading-[1.1]">
               Connecting cities.<br />
               <span style={{ color: "#ee3425" }}>Powering commerce.</span>
             </h2>
 
-            <p className="gf-desc text-white/70 text-[15px] md:text-base leading-[1.8] mb-8">
+            <p className="gf-desc text-white/70 text-sm md:text-base leading-[1.8] mb-0 md:mb-8">
               QWQER Fleet and Express together cover every mile of your supply chain, from hyperlocal last mile to intercity full truckload, backed by real-time visibility and optimised routing.
             </p>
 
@@ -768,7 +768,7 @@ export default function GlobeFleet() {
 
           {/* Right: India Map */}
           <div className="flex-1 w-full lg:w-auto lg:flex-[1.3]">
-            <div className="gf-map relative w-full max-w-[700px] mx-auto" style={{ aspectRatio: "0.85" }}>
+            <div className="gf-map relative w-full max-w-[480px] sm:max-w-[520px] md:max-w-[600px] lg:max-w-[700px] mx-auto" style={{ aspectRatio: "0.82" }}>
               {/* Static India map image */}
               <Image 
                 src="/india-map.webp" 

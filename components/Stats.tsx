@@ -70,7 +70,7 @@ export default function Stats() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#ee3425]/5 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="max-w-[1400px] mx-auto px-6 relative z-10">
-                <div className="bg-[#1a1414] rounded-[3rem] p-10 md:p-14 relative overflow-hidden shadow-2xl border border-white/[0.08] shadow-[#ee3425]/10">
+                <div className="bg-[#1a1414] rounded-2xl md:rounded-[3rem] p-5 sm:p-8 md:p-10 lg:p-14 relative overflow-hidden shadow-2xl border border-white/[0.08] shadow-[#ee3425]/10">
 
                     {/* Subtle Blueprint Grid Pattern */}
                     <div className="absolute inset-0 opacity-[0.05]"
@@ -79,12 +79,12 @@ export default function Stats() {
 
                     <div className="relative z-10">
                         {/* Section Title */}
-                        <div className="text-center mb-16">
+                        <div className="text-center mb-8 md:mb-16">
                             <div className="inline-block px-4 py-1.5 bg-[#ee3425] text-white font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg shadow-xl mb-8">
                                 Designed for delivery. Driven by outcomes.
                             </div>
-                            <h2 className="text-3xl md:text-5xl font-semibold text-white mb-6 leading-tight tracking-tight">
-                                Trusted by businesses to <span className="text-[#ee3425]">deliver <br /> faster</span> with consistency.
+                            <h2 className="text-xl sm:text-3xl md:text-5xl font-semibold text-white mb-4 md:mb-6 leading-tight tracking-tight">
+                                Trusted by businesses to <span className="text-[#ee3425]">deliver faster</span> with consistency.
                             </h2>
                             <p className="max-w-2xl mx-auto text-base md:text-lg text-white/70 leading-relaxed">
                                 A transportation solution provider built for express delivery and fleet operations - designed to moove businesses faster, without complexity.
@@ -92,15 +92,15 @@ export default function Stats() {
                         </div>
 
                         {/* Grid Layout */}
-                        <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
                             {metrics.map((m, i) => (
                                 <div
                                     key={i}
                                     className="stat-item group relative aspect-square rounded-2xl bg-white/[0.03] border border-white/5 backdrop-blur-sm hover:bg-white/[0.08] hover:border-[#ee3425]/30 transition-all duration-500 hover:-translate-y-1"
                                 >
-                                    <div className="flex flex-col items-center justify-center text-center h-full p-4">
+                                    <div className="flex flex-col items-center justify-center text-center h-full p-3 md:p-4">
                                         <span
-                                            className="stat-counter text-3xl md:text-4xl font-black bg-clip-text text-transparent bg-gradient-to-b from-white to-white/40 group-hover:from-white group-hover:to-[#ee3425] transition-all duration-500 mb-2 block"
+                                            className="stat-counter text-2xl md:text-3xl lg:text-4xl font-black bg-clip-text text-transparent bg-gradient-to-b from-white to-white/40 group-hover:from-white group-hover:to-[#ee3425] transition-all duration-500 mb-1 md:mb-2 block"
                                             data-target={m.num}
                                             data-decimals={m.decimals}
                                             data-suffix={m.suffix}
@@ -108,7 +108,7 @@ export default function Stats() {
                                         >
                                             {m.static || `0${m.suffix}`}
                                         </span>
-                                        <span className="text-white/50 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.12em] leading-tight group-hover:text-white transition-colors duration-300">
+                                        <span className="text-white/50 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.08em] md:tracking-[0.12em] leading-tight group-hover:text-white transition-colors duration-300">
                                             {m.label}
                                         </span>
                                     </div>

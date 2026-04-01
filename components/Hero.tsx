@@ -134,7 +134,7 @@ export default function Hero() {
     }, []);
 
     return (
-        <section ref={containerRef} className="min-h-screen w-full flex items-center bg-black relative overflow-hidden pt-20 opacity-0">
+        <section ref={containerRef} className="min-h-screen w-full flex items-center bg-black relative overflow-hidden pt-16 md:pt-20 pb-28 md:pb-10 opacity-0">
             {/* Background Gradients - Adjusted for centered layout */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-full bg-gradient-to-b from-[#ee3425]/10 to-transparent opacity-30 blur-3xl"></div>
 
@@ -171,22 +171,22 @@ export default function Hero() {
                     <p className="animate-word inline-block text-[#ee3425] font-bold tracking-widest uppercase mb-6 text-sm md:text-base">
                         Logistics Reinvented
                     </p>
-                    <h1 className="text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tighter leading-[1.1] text-white mb-8">
-                        <span className="animate-word inline-block mr-3">Transportation</span>
-                        <span className="animate-word inline-block mr-3">solutions,</span>
-                        <br className="hidden md:block" />
-                        <span className="flex items-baseline justify-center">
-                            <span className="text-white whitespace-nowrap">built&nbsp;</span>
+                    <h1 className="text-[2rem] xs:text-[2.25rem] sm:text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tighter leading-[1.15] text-white mb-6 md:mb-8">
+                        <span className="animate-word inline-block mr-2 md:mr-3">Transportation</span>
+                        <span className="animate-word inline-block mr-2 md:mr-3">solutions,</span>
+                        <br />
+                        <span className="flex items-baseline justify-center flex-wrap gap-x-1">
+                            <span className="text-white">built&nbsp;</span>
                             <span className="inline-block text-left">
-                                <span className="bg-gradient-to-r from-[#ee3425] via-[#ff6b5a] to-[#ee3425] bg-clip-text text-transparent whitespace-nowrap"><TypewriterText /></span>
-                                {/* Invisible longest phrase to reserve width and prevent layout shift */}
-                                <span className="block h-0 overflow-hidden invisible" aria-hidden="true">
+                                <span className="bg-gradient-to-r from-[#ee3425] via-[#ff6b5a] to-[#ee3425] bg-clip-text text-transparent"><TypewriterText /></span>
+                                {/* Invisible longest phrase to reserve width — hidden on mobile to prevent overflow */}
+                                <span className="hidden sm:block h-0 overflow-hidden invisible" aria-hidden="true">
                                     for enterprise reliability.
                                 </span>
                             </span>
                         </span>
                     </h1>
-                    <p className="animate-word block text-white/70 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p className="animate-word block text-white/70 text-sm sm:text-base md:text-xl max-w-2xl mx-auto mb-8 md:mb-10 leading-relaxed px-2 md:px-0">
                         From intercity FTL operations to hyperlocal deliveries, QWQER helps businesses move goods across India with visibility, control, and consistency.
                     </p>
 

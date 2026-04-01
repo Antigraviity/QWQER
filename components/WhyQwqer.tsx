@@ -30,20 +30,27 @@ export default function WhyQwqer() {
                 }
             );
 
-            // Path Drawing Animation (Mobile)
-            gsap.fromTo(mobilePathRef.current,
-                { height: 0 },
-                {
-                    height: "calc(100% - 60px)",
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: ".list-container",
-                        start: "top 70%",
-                        end: "bottom 80%",
-                        scrub: 1
+            // Path Drawing Animation (Mobile) + vehicle tracking
+            const mobileVehicle = document.querySelector('[data-mobile-vehicle="true"]') as HTMLElement | null;
+            if (mobileVehicle) mobileVehicle.style.top = '0px';
+
+            ScrollTrigger.create({
+                trigger: ".list-container",
+                start: "top 70%",
+                end: "bottom 80%",
+                scrub: 1,
+                onUpdate: (self) => {
+                    if (!mobilePathRef.current) return;
+                    const parent = mobilePathRef.current.parentElement;
+                    if (!parent) return;
+                    const maxH = Math.max(0, parent.offsetHeight - 60);
+                    const currentH = self.progress * maxH;
+                    mobilePathRef.current.style.height = `${currentH}px`;
+                    if (mobileVehicle) {
+                        mobileVehicle.style.top = `${Math.max(0, currentH - 26)}px`;
                     }
                 }
-            );
+            });
 
             // Marker Fill Animations — purple for 1-5, blue for 6-10
             const markers = gsap.utils.toArray(".node-marker");
@@ -393,31 +400,51 @@ export default function WhyQwqer() {
                                 }}
                             ></div>
                             <div className="md:hidden absolute left-4 top-2 bottom-2 w-1">
-                                <div ref={mobilePathRef} className="why-road-line absolute inset-0 w-full h-0 shadow-[0_0_10px_#a78bfa] overflow-hidden"
+                                {/* Road line — no overflow-hidden so vehicle isn't clipped */}
+                                <div ref={mobilePathRef} className="why-road-line absolute inset-0 w-full h-0 shadow-[0_0_10px_#a78bfa]"
                                     style={{
                                         backgroundSize: "4px 24px",
                                         backgroundImage: "linear-gradient(to bottom, #a78bfa 60%, transparent 40%)",
                                     }}
-                                >
-                                    <div className="absolute bottom-[-24px] left-[-0.5px] -translate-x-1/2 scale-110">
-                                        {/* Mobile scooter */}
-                                        <svg className="wq-scooter" width="28" height="40" viewBox="0 0 44 64" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ opacity: 1 }}>
-                                            <ellipse cx="22" cy="6" rx="5" ry="3" fill="#8b6fdb" />
-                                            <rect x="14" y="12" width="16" height="32" rx="8" fill="#a78bfa" />
-                                            <circle cx="22" cy="30" r="4" fill="#7c3aed" />
-                                            <ellipse cx="22" cy="24" rx="6" ry="4" fill="#8b6fdb" />
-                                            <rect x="10" y="46" width="24" height="4" rx="2" fill="#a78bfa" />
-                                            <ellipse cx="22" cy="56" rx="6" ry="4" fill="#8b6fdb" />
-                                            <circle cx="22" cy="60" r="2" fill="white" fillOpacity="0.5" />
-                                        </svg>
-                                        {/* Mobile truck */}
-                                        <svg className="wq-truck absolute top-0 left-0" width="32" height="48" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ opacity: 0, transform: "scale(0.5)" }}>
-                                            <rect x="4" y="2" width="16" height="26" rx="2" fill="#3b82f6" />
-                                            <rect x="6" y="28" width="12" height="6" rx="1" fill="#3b82f6" />
-                                            <rect x="7" y="31" width="10" height="2" rx="0.5" fill="white" fillOpacity="0.3" />
-                                        </svg>
-                                    </div>
-                                </div>
+                                />
+                            </div>
+                            {/* Mobile vehicle — lives outside the 4px line column, sized properly */}
+                            <div
+                                data-mobile-vehicle="true"
+                                className="why-vehicle-vibrate md:hidden"
+                                style={{
+                                    position: 'absolute',
+                                    left: '0px',
+                                    top: '0px',
+                                    width: '36px',
+                                    zIndex: 30,
+                                    pointerEvents: 'none',
+                                }}
+                            >
+                                {/* Scooter — purple, top-view */}
+                                <svg className="wq-scooter block" width="36" height="52" viewBox="0 0 44 64" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ opacity: 1 }}>
+                                    <ellipse cx="22" cy="6" rx="5" ry="3" fill="#8b6fdb" stroke="#c4b0f0" strokeWidth="1" />
+                                    <rect x="14" y="12" width="16" height="32" rx="8" fill="#a78bfa" />
+                                    <circle cx="22" cy="30" r="4" fill="#7c3aed" />
+                                    <ellipse cx="22" cy="24" rx="6" ry="4" fill="#8b6fdb" />
+                                    <rect x="10" y="46" width="24" height="4" rx="2" fill="#a78bfa" />
+                                    <circle cx="10" cy="48" r="3" fill="#c4b0f0" />
+                                    <circle cx="34" cy="48" r="3" fill="#c4b0f0" />
+                                    <ellipse cx="22" cy="56" rx="6" ry="4" fill="#8b6fdb" stroke="#c4b0f0" strokeWidth="1" />
+                                    <circle cx="22" cy="60" r="2" fill="white" fillOpacity="0.5" />
+                                </svg>
+                                {/* Truck — blue, top-view */}
+                                <svg className="wq-truck" width="36" height="52" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                    style={{ opacity: 0, transform: 'scale(0.5)', position: 'absolute', top: 0, left: 0 }}>
+                                    <rect x="4" y="2" width="16" height="26" rx="2" fill="#3b82f6" />
+                                    <rect x="6" y="28" width="12" height="6" rx="1" fill="#3b82f6" />
+                                    <rect x="7" y="31" width="10" height="2" rx="0.5" fill="white" fillOpacity="0.3" />
+                                    <rect x="3" y="29" width="2" height="3" rx="0.5" fill="#3b82f6" />
+                                    <rect x="19" y="29" width="2" height="3" rx="0.5" fill="#3b82f6" />
+                                    <rect x="7" y="1" width="4" height="2" rx="1" fill="white" fillOpacity="0.4" />
+                                    <rect x="13" y="1" width="4" height="2" rx="1" fill="white" fillOpacity="0.4" />
+                                    <rect x="6" y="6" width="12" height="16" rx="1" fill="#2563eb" />
+                                </svg>
                             </div>
 
                             <div className="space-y-6 md:space-y-8">
