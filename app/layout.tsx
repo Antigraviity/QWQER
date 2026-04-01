@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 
-const outfit = Outfit({ subsets: ["latin"] });
+const outfit = Outfit({ subsets: ["latin"], weight: ['400', '500', '600', '700', '800', '900'], variable: '--font-outfit' });
+const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://qwqer.in"),
@@ -125,7 +126,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
       </head>
-      <body className={outfit.className}>
+      <body className={`${outfit.variable} ${inter.variable} ${outfit.className}`}>
         <SmoothScroll>
           {children}
         </SmoothScroll>
