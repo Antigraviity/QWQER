@@ -76,7 +76,7 @@ export default function FleetServicesTypes() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-                            className="text-white/70 mt-3 text-lg max-w-2xl"
+                            className="text-white/70 mt-4 text-sm md:text-base leading-relaxed max-w-2xl"
                         >
                             Comprehensive transportation solutions tailored to every freight need across India.
                         </motion.p>

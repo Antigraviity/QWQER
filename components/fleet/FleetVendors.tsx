@@ -78,7 +78,7 @@ export default function FleetVendors() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-                            className="text-white/70 mt-0 mb-10 text-lg max-w-lg"
+                            className="text-white/70 mt-4 mb-10 text-sm md:text-base leading-relaxed max-w-lg"
                         >
                             Building lasting partnerships through transparency, reliability, and mutual growth.
                         </motion.p>

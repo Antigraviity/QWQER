@@ -110,7 +110,7 @@ export default function FleetIndustries() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
-                            className="text-white/70 mt-3 text-lg max-w-xl"
+                            className="text-white/70 mt-4 text-sm md:text-base leading-relaxed max-w-xl"
                         >
                             Delivering reliable goods transportation across diverse sectors and supply chains.
                         </motion.p>

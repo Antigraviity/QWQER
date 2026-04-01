@@ -288,8 +288,8 @@ export default function Footer() {
                         <div className="inline-block">
                             <Image src="/footerlogo.webp" alt="QWQER Logo" width={120} height={40} className="h-10 w-auto object-contain" />
                         </div>
-                        <p className="text-white/40 text-lg leading-relaxed max-w-sm font-medium">
-                            A transportation solution provider built for express delivery and fleet operations.
+                        <p className="text-white/40 text-sm leading-relaxed max-w-xs font-medium">
+                            A transportation solution provider built for<br />express delivery and fleet operations.
                         </p>
                     </div>
 
@@ -475,7 +475,7 @@ export default function Footer() {
                             alt="QWQER Mascot - Thumbs Up"
                             width={280}
                             height={320}
-                            className="h-[300px] w-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:drop-shadow-[0_10px_40px_rgba(255,255,255,0.3)] hover:brightness-110 transition-all duration-300 relative"
+                            className="h-[280px] w-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:drop-shadow-[0_10px_40px_rgba(255,255,255,0.3)] hover:brightness-110 transition-all duration-300 relative"
                             style={{ transform: "scaleX(-1) rotate(-3deg)", transformOrigin: "bottom center", zIndex: 2 }}
                             draggable={false}
                             priority

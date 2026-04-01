@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { FaExclamationTriangle, FaCity, FaClipboardCheck, FaHandshake } from "react-icons/fa";
 import { IconType } from "react-icons";
 
@@ -155,7 +155,21 @@ export default function WhyQwqerFleet() {
         target: containerRef,
         offset: ["start 70%", "end 50%"],
     });
-    useMotionValueEvent(scrollYProgress, "change", (v) => setProgress(v));
+
+    // Smooth spring for buttery scroll-linked animation
+    const smoothProgress = useSpring(scrollYProgress, {
+        stiffness: 80,
+        damping: 30,
+        restDelta: 0.001,
+    });
+
+    // Transform smooth progress to stroke-dashoffset (1 → 0)
+    const strokeOffset = useTransform(smoothProgress, [0, 1], [1, 0]);
+
+    useEffect(() => {
+        const unsubscribe = smoothProgress.on("change", (v) => setProgress(v));
+        return () => unsubscribe();
+    }, [smoothProgress]);
 
     /* Measure icon positions and build path */
     const measureAndBuild = useCallback(() => {
@@ -202,7 +216,7 @@ export default function WhyQwqerFleet() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.7, ease: "easeOut" }}
-                        className="text-[48px] font-bold text-white font-outfit tracking-tighter leading-tight"
+                        className="text-[48px] font-bold text-white font-outfit tracking-tight leading-tight"
                     >
                         Why{" "}
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3b82f6] to-blue-400">
@@ -214,7 +228,7 @@ export default function WhyQwqerFleet() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-                        className="text-white/70 mt-6 max-w-2xl text-lg"
+                        className="text-white/70 mt-4 max-w-2xl text-sm md:text-base leading-relaxed"
                     >
                         Pioneering logistics through technological innovation, safety, and unwavering reliability.
                     </motion.p>
@@ -236,7 +250,17 @@ export default function WhyQwqerFleet() {
                                     <stop offset="100%" stopColor="#6366f1" stopOpacity="0.5" />
                                 </linearGradient>
                             </defs>
+                            {/* Background track line */}
                             <path
+                                d={pathD}
+                                stroke="rgba(59,130,246,0.08)"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                fill="none"
+                            />
+                            {/* Animated fill line */}
+                            <motion.path
                                 d={pathD}
                                 stroke="url(#snkG)"
                                 strokeWidth="3"
@@ -245,8 +269,7 @@ export default function WhyQwqerFleet() {
                                 fill="none"
                                 pathLength={1}
                                 strokeDasharray={1}
-                                strokeDashoffset={1 - progress}
-                                style={{ transition: "stroke-dashoffset 0.03s linear" }}
+                                style={{ strokeDashoffset: strokeOffset }}
                             />
                         </svg>
                     )}

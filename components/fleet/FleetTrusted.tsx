@@ -3,8 +3,8 @@
 import Image from "next/image";
 
 const logos = [
-    { name: "Flipkart", src: "/fleet-clients/flipkart.webp" },
-    { name: "Blue Dart DHL", src: "/fleet-clients/blue-dart.webp" },
+    { name: "Flipkart", src: "/fleet-clients/Flipkart.webp" },
+    { name: "Blue Dart DHL", src: "/fleet-clients/Blue-Dart.webp" },
     { name: "Epsilon", src: "/fleet-clients/epsilon.webp" },
     { name: "BigBasket", src: "/fleet-clients/bigbasket.webp" },
     { name: "Zomato", src: "/fleet-clients/zomato.webp" },
