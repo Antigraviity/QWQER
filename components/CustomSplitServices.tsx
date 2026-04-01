@@ -95,7 +95,7 @@ function ServiceCard({
 }: {
     card: CardData;
     reversed: boolean;
-    cardRef: React.RefObject<HTMLDivElement | null>;
+    cardRef: React.RefObject<HTMLDivElement>;
 }) {
     const [isHovered, setIsHovered] = useState(false);
 
