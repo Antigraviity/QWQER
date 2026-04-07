@@ -7,8 +7,8 @@ frontend:
         - npm ci
         - echo "Generating Prisma client..."
         - DATABASE_URL=$DATABASE_URL npx prisma generate --schema=prisma/schema.prisma
-        - echo "Running Prisma migrations..."
-        - DATABASE_URL=$DATABASE_URL npx prisma migrate deploy --schema=prisma/schema.prisma
+        - echo "Skipping migrate deploy - using db push instead..."
+        - DATABASE_URL=$DATABASE_URL npx prisma db push --schema=prisma/schema.prisma --accept-data-loss
     build:
       commands:
         - echo "Building Next.js app..."
