@@ -6,9 +6,9 @@ frontend:
         - echo "Installing dependencies..."
         - npm ci
         - echo "Generating Prisma client..."
-        - npx prisma generate
+        - DATABASE_URL=$DATABASE_URL npx prisma generate --schema=prisma/schema.prisma
         - echo "Running Prisma migrations..."
-        - npx prisma migrate deploy
+        - DATABASE_URL=$DATABASE_URL npx prisma migrate deploy --schema=prisma/schema.prisma
     build:
       commands:
         - echo "Building Next.js app..."
